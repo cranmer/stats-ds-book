@@ -1,6 +1,6 @@
 all: build
 
-defualt: build
+default: build
 
 build:
 	jupyter-book build book/

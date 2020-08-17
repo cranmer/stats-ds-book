@@ -1,3 +1,11 @@
 jupyter-book
-matplotlib
+pandas
 numpy
+datascience
+folium
+matplotlib
+nbinteract
+scipy
+jupyter-book
+jax 
+jaxlib

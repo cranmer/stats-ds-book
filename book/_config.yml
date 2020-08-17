@@ -3,15 +3,20 @@ title: Statistics and Data Science
 author: Kyle Cranmer
 logo: logo.png
 
+exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
+
 # Information about where the book exists on the web
 repository:
   url: https://github.com/cranmer/stats-ds-book
   path_to_book: book
   branch: master
 
+html:
+  use_edit_page_button: true
+
 # Launch button settings
 launch_buttons:
-  notebook_interface: jupyterlab
+  notebook_interface: classic #jupyterlab
   binderhub_url: https://mybinder.org
   colab_url: https://colab.research.google.com
 
