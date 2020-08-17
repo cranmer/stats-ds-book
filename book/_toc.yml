@@ -3,11 +3,10 @@
 - part: Statistics
   chapters:
   - file: error-propagation/investigating-propagation-of-errors
-    sections: 
-    - file: error_propagation_with_jax
-    - file: distributions/accept-reject
-    - file: distributions/change-of-variables
-    - file: distributions/Binomial_histograms-interactive
+  - file: error-propagation/error_propagation_with_jax
+  - file: distributions/accept-reject
+  - file: distributions/change-of-variables
+  - file: distributions/Binomial_histograms-interactive
   #- file: central-limit-theorem/Central-Limit-Theorem
 
 - part: Reference
