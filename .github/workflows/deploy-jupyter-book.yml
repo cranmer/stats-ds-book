@@ -1,0 +1,39 @@
+name: Deploy Jupyter Book
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  deploy-book:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --no-cache-dir -r requirements.txt
+        python -m pip install --no-cache-dir -r book/requirements.txt
+
+    - name: Build the book
+      run: |
+        jupyter-book build book/
+
+    - name: Deploy Jupyter book to GitHub pages
+      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: book/_build/html
+        force_orphan: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: Deploy to GitHub pages
