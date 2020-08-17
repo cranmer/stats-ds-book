@@ -1,7 +1,19 @@
 # Book settings
-title: My sample book
-author: The Jupyter Book Community
+title: Statistics and Data Science
+author: Kyle Cranmer
 logo: logo.png
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/cranmer/stats-ds-book
+  path_to_book: book
+  branch: master
+
+# Launch button settings
+launch_buttons:
+  notebook_interface: jupyterlab
+  binderhub_url: https://mybinder.org
+  colab_url: https://colab.research.google.com
 
 latex:
   latex_documents:
