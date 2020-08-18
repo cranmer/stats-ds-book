@@ -1,5 +1,7 @@
 # Data Science Topics
 
+1. [Veridical Data Science by Bin Yu and Karl Kumbier](https://www.stat.berkeley.edu/~binyu/ps/papers2020/VDS20-YuKumbier.pdf)
+1. [other good resources from Rebecca Barter](http://www.rebeccabarter.com/useful_resources/)
 1. Scientific Python
     1. [Basic Python](https://swcarpentry.github.io/python-novice-inflammation/)
     1. numpy
