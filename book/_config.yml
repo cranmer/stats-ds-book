@@ -14,6 +14,16 @@ repository:
 html:
   use_edit_page_button: true
 
+sphinx:
+  config:
+    mathjax_config:
+      TeX:
+        Macros:
+          "N": "\\mathbb{N}"
+          "floor": ["\\lfloor#1\\rfloor", 1]
+          "bmat": ["\\left[\\begin{array}"]
+          "emat": ["\\end{array}\\right]"]
+
 # Launch button settings
 launch_buttons:
   notebook_interface: classic #jupyterlab

@@ -1,10 +1,13 @@
 - file: intro
 
+- part: Probability
+  chapters:
+  - file: probability-topics
+
 - part: Statistics
   chapters:
-  - file: chapter
+  - file: statistics-topics
     sections: 
-    - file: statistics-topics
     - file: error-propagation/investigating-propagation-of-errors
       title: My alternate page title 1
     - file: error-propagation/error_propagation_with_jax

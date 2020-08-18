@@ -19,7 +19,7 @@
     * AWS
     * GKE
 * Environment management
-    * conda
+    * [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html)
     * virtual env
 * Scientific Python
     * [Basic Python](https://swcarpentry.github.io/python-novice-inflammation/)
