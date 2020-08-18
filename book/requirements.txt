@@ -6,6 +6,7 @@ folium
 matplotlib
 nbinteract
 scipy
+scikit-learn
 jupyter-book
 jax 
 jaxlib
@@ -15,3 +16,4 @@ altair
 sphinx-click
 sphinx_tabs
 sphinx-panels
+git+https://github.com/ctgk/PRML.git

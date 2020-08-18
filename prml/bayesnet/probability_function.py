@@ -1,2 +1,0 @@
-class ProbabilityFunction(object):
-    pass

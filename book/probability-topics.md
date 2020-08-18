@@ -32,8 +32,11 @@
         * Implicit probabity models
             * Simulators
             * Probabilistic Programming
+                * pyro
+                * pyprob
     * Likelihood function
-    * Axioms of probability
+    * [Axioms of probability](https://en.wikipedia.org/wiki/Probability_axioms)
+        * [Probability Space](https://en.wikipedia.org/wiki/Probability_space)
     * Transformation properties
         * Change of variables
             * Propagation of errors

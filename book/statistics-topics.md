@@ -1,4 +1,4 @@
-# Statistcs Topics
+# Statistics Topics
 
 
  * Estimators
@@ -10,7 +10,7 @@
     * Asymptotic Properties
     * Maximum likelihood
     * Bias-Variance Tradeoff
-    * James-Stein Paradox
+    * [James-Stein Paradox](https://en.wikipedia.org/wiki/James–Stein_estimator)
  * Goodness of fit
     * chi-square test
     * other tests
@@ -42,7 +42,9 @@
     * Variational Inference
         * LDA
 * Causal Inference
+    * [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
 * Statistical Decision Theory
+    * [Admissible decision rule](https://en.wikipedia.org/wiki/Admissible_decision_rule)
 
 
 Some references:
