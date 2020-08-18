@@ -9,3 +9,9 @@ scipy
 jupyter-book
 jax 
 jaxlib
+plotly
+bokeh
+altair
+sphinx-click
+sphinx_tabs
+sphinx-panels

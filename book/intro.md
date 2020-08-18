@@ -17,3 +17,4 @@ Some test about why software and computing is important
 
 {fa}`check,text-success mr-1` **Learn essential concepts of machine learning**<br />
 Some test about why machine learning is important
+

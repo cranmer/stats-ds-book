@@ -3,22 +3,17 @@
 - part: Probability
   chapters:
   - file: probability-topics
+    sections: 
+    - file: error-propagation/investigating-propagation-of-errors
+    - file: error-propagation/error_propagation_with_jax
+    - file: distributions/accept-reject
+    - file: distributions/change-of-variables
+    - file: distributions/Binomial_histograms-interactive
+    #- file: central-limit-theorem/Central-Limit-Theorem
   
 - part: Statistics
   chapters:
   - file: statistics-topics
-    sections: 
-    - file: error-propagation/investigating-propagation-of-errors
-      title: My alternate page title 1
-    - file: error-propagation/error_propagation_with_jax
-      title: My alternate page title 2
-    - file: distributions/accept-reject
-      title: My alternate page title 3
-    - file: distributions/change-of-variables
-      title: My alternate page title 4
-    - file: distributions/Binomial_histograms-interactive
-      title: My alternate page title 5
-  #- file: central-limit-theorem/Central-Limit-Theorem
 
 - part: Software and Computing
   chapters:
@@ -35,3 +30,4 @@
       - file: markdown
       - file: notebooks
       - file: test_embed_video
+      - file: interactive

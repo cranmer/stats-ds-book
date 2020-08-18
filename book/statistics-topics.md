@@ -1,53 +1,6 @@
 # Statistcs Topics
 
- * Basics of probability
-    * Probability models
-        * Probability denstiy functions
-        * Classic distributons
-            * Bernouli 
-            * Binomial
-            * Poisson
-            * Gaussian
-            * Chi-Square
-            * Exponential family
-        * Multivariate distributions
-            * Independence
-            * Covariance
-            * Conditional distributions
-            * Marginal distributions
-            * Graphical Models
-            * Copula
-        * Information theory
-            * Entropy
-            * Mutual information
-            * KL divergence
-            * cross entropy
-        * Divergences
-            * KL Divergence
-            * Fisher distance
-            * Optimal Transport
-            * Hellinger distance
-            * f-divergences
-            * Stein divergence
-        * Implicit probabity models
-            * Simulators
-            * Probabilistic Programming
-    * Likelihood function
-    * Axioms of probability
-    * Transformation properties
-        * Change of variables
-            * Propagation of errors
-        * Reparameterization
-    * Bayes Theorem
-        * Subjective priors
-        * Emperical Bayes
-        * Jeffreys' prior
-        * Unfiform priors
-        * Reference Priors
-        * Transformation Properties
-    * Convolutions and the Central Limit Theorem
-        * Binomial example
-        * Convolutions in Fourier domain
+
  * Estimators
     * Bias, Variance, MSE
     * Cramer-Rao bound

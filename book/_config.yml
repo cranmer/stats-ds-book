@@ -3,7 +3,9 @@ title: Statistics and Data Science
 author: Kyle Cranmer
 logo: logo.png
 
-exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
+execute:
+  exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
+  #jupyter_execute_notebooks : force
 
 # Information about where the book exists on the web
 repository:
