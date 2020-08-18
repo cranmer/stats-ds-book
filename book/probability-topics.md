@@ -1,56 +1,56 @@
 # Probability Topics
 
- * Basics of probability
-    * Probability models
-        * Probability denstiy functions
-        * Classic distributons
-            * Bernouli 
-            * Binomial
-            * Poisson
-            * Gaussian
-            * Chi-Square
-            * Exponential family
-        * Multivariate distributions
-            * Independence
-            * Covariance
-            * Conditional distributions
-            * Marginal distributions
-            * Graphical Models
-            * Copula
-        * Information theory
-            * Entropy
-            * Mutual information
-            * KL divergence
-            * cross entropy
-        * Divergences
-            * KL Divergence
-            * Fisher distance
-            * Optimal Transport
-            * Hellinger distance
-            * f-divergences
-            * Stein divergence
-        * Implicit probabity models
-            * Simulators
-            * Probabilistic Programming
-                * pyro
-                * pyprob
-    * Likelihood function
-    * [Axioms of probability](https://en.wikipedia.org/wiki/Probability_axioms)
-        * [Probability Space](https://en.wikipedia.org/wiki/Probability_space)
-    * Transformation properties
-        * Change of variables
-            * Propagation of errors
-        * Reparameterization
-    * Bayes Theorem
-        * Subjective priors
-        * Emperical Bayes
-        * Jeffreys' prior
-        * Unfiform priors
-        * Reference Priors
-        * Transformation Properties
-    * Convolutions and the Central Limit Theorem
-        * Binomial example
-        * Convolutions in Fourier domain
+1. Probability models
+    1. Probability denstiy functions
+    1. Classic distributons
+        1. Bernouli 
+        1. Binomial
+        1. Poisson
+        1. Gaussian
+        1. Chi-Square
+        1. Exponential family
+    1. Multivariate distributions
+        1. Independence
+        1. Covariance
+        1. Conditional distributions
+        1. Marginal distributions
+        1. Graphical Models
+        1. Copula
+    1. Information theory
+        1. Entropy
+        1. Mutual information
+        1. KL divergence
+        1. cross entropy
+    1. Divergences
+        1. KL Divergence
+        1. Fisher distance
+        1. Optimal Transport
+        1. Hellinger distance
+        1. f-divergences
+        1. Stein divergence
+    1. Implicit probabity models
+        1. Simulators
+        1. Probabilistic Programming
+            1. pyro
+            1. pyprob
+1. Likelihood function
+1. [Axioms of probability](https://en.wikipedia.org/wiki/Probability_axioms)
+    1. [Probability Space](https://en.wikipedia.org/wiki/Probability_space)
+1. Transformation properties
+    1. Change of variables
+        1. Propagation of errors
+    1. Reparameterization
+1. Bayes Theorem
+    1. Subjective priors
+    1. Emperical Bayes
+    1. Jeffreys' prior
+    1. Unfiform priors
+    1. Reference Priors
+    1. Transformation Properties
+1. Convolutions and the Central Limit Theorem
+    1. Binomial example
+    1. Convolutions in Fourier domain
+
 
 
 

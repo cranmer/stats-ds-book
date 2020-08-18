@@ -44,6 +44,10 @@
   - file: data-science-topics
   - file: interactive
 
+#- part: Bibliography
+#  chapters: 
+#  - file: bibliography
+
 
 - part: Reference
   chapters: 

@@ -2,9 +2,6 @@
 
 Below is a Video
 
-```{warning}
-This is a warning
-```
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/SOCuVS3z_2g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -12,3 +9,10 @@ This is a warning
 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/m6u_HgchuNk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+```{warning}
+This fa role doesn't seem to work.
+```
+
+{fa}`check,text-success mr-1`

@@ -6,6 +6,7 @@ folium
 matplotlib
 nbinteract
 scipy
+sympy
 scikit-learn
 jupyter-book
 jax 
@@ -13,6 +14,7 @@ jaxlib
 plotly
 bokeh
 altair
+jupytext[myst]
 sphinx-click
 sphinx_tabs
 sphinx-panels
