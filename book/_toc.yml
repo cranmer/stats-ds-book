@@ -15,6 +15,24 @@
   chapters:
   - file: statistics-topics
 
+- part: Machine Learning
+  chapters:
+  - file: prml_notebooks/attribution
+    sections: 
+    - file: prml_notebooks/ch01_Introduction.ipynb
+    - file: prml_notebooks/ch02_Probability_Distributions.ipynb
+    - file: prml_notebooks/ch03_Linear_Models_for_Regression.ipynb
+    - file: prml_notebooks/ch04_Linear_Models_for_Classfication.ipynb
+    - file: prml_notebooks/ch05_Neural_Networks.ipynb
+    - file: prml_notebooks/ch06_Kernel_Methods.ipynb
+    - file: prml_notebooks/ch07_Sparse_Kernel_Machines.ipynb
+    - file: prml_notebooks/ch08_Graphical_Models.ipynb
+    - file: prml_notebooks/ch09_Mixture_Models_and_EM.ipynb
+    - file: prml_notebooks/ch10_Approximate_Inference.ipynb
+    - file: prml_notebooks/ch11_Sampling_Methods.ipynb
+    - file: prml_notebooks/ch12_Continuous_Latent_Variables.ipynb
+    - file: prml_notebooks/ch13_Sequential_Data.ipynb
+
 - part: Software and Computing
   chapters:
   - file: computing-topics
@@ -22,12 +40,14 @@
 - part: Data Science
   chapters:
   - file: data-science-topics
+  - file: interactive
+
 
 - part: Reference
   chapters: 
   - file: content
     sections:
       - file: markdown
+      - file: cheatsheet
       - file: notebooks
       - file: test_embed_video
-      - file: interactive

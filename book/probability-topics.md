@@ -59,4 +59,9 @@ Some references:
      * [PRML](https://github.com/cranmer/PRML)
  * [Stanford Prob](http://cs229.stanford.edu/section/cs229-prob.pdf) 
 
+ ```{math}
+:label: autoregressive
+p(x_1, \dots, x_T) = \prod_{t=1}^T p(x_t \mid x_{<t})
+```
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The 10 most helpful *free* online machine learning courses, via <a href="https://twitter.com/chipro?ref_src=twsrc%5Etfw">@chipro</a><br><br>Full thread: <a href="https://t.co/RUcG2AL1uC">https://t.co/RUcG2AL1uC</a><a href="https://twitter.com/hashtag/MondayMotivation?src=hash&amp;ref_src=twsrc%5Etfw">#MondayMotivation</a> <a href="https://t.co/Fd3sN2u7UV">pic.twitter.com/Fd3sN2u7UV</a></p>&mdash; MIT CSAIL (@MIT_CSAIL) <a href="https://twitter.com/MIT_CSAIL/status/1295391687783718914?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

@@ -43,54 +43,6 @@
         * LDA
 * Causal Inference
 * Statistical Decision Theory
-* Regression
-    * linear regression
-    * logistic regression
-    * Gaussian Processes
-    * Neural Networks
-* Machine Learning
-    * Loss, Risk
-    * Emperical Risk
-    * Generalization
-    * Train / Test
-    * Loss functions
-        * classification
-        * density estimation
-        * regression
-    * Models
-        * Decision trees
-        * Support Vector Machines
-        * Neural Networks
-            * MLP
-            * conv nets
-            * RNN
-            * Graph Networks
-    * Paradigms
-        * supervised
-        * unsupervised
-        * reinforcement
-    * BackProp and AutoDiff
-        * Forward mode
-        * Reverse Mode
-        * Fixed point / implicit
-    * Learning Algorithms
-        * Gradient Descent
-        * SGD
-        * Adam etc.
-        * Natural Gradients
-    * Domain adaptation
-    * Transfer learning
-    * No free lunch
-    * Inductive Bias
-    * Differentiable Programming
-        * sorting
-        * Gumbel 
-    * Probabilistic ML
-        * VAE
-        * GAN
-        * Normalizing Flows
-        * 
-
 
 
 Some references:

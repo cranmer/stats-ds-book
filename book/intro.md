@@ -18,3 +18,4 @@ Some test about why software and computing is important
 {fa}`check,text-success mr-1` **Learn essential concepts of machine learning**<br />
 Some test about why machine learning is important
 
+In approaching this book I am torn between different styles. I like very much the atomic nature of [Quantum Field Theory by Mark Srednicki](https://www.amazon.com/Quantum-Field-Theory-Mark-Srednicki/dp/0521864496) as it is readible and a useful reference without too much narrative. On the other hand, I want to blend together the hands-on coding elements with fundamental concepts, and I am inspired by the book [Functional Differential Geometry by Gerald Jay Sussman and Jack Wisdom](https://mitpress.mit.edu/books/functional-differential-geometry). 

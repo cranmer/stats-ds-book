@@ -53,6 +53,10 @@ For more information on writing directives, see the
 [MyST documentation](https://myst-parser.readthedocs.io/).
 
 
+## Refering to equation
+
+By adding `` {eq}`my_label` `` {eq}`autoregressive`
+
 ### Using a role
 
 Roles are very similar to directives, but they are less-complex and written

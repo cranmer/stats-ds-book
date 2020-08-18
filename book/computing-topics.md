@@ -1,9 +1,9 @@
 # Software & Computing Topics
 
 * Basics
-    * [Shell POSIX](http://swcarpentry.github.io/shell-novice/)
+    * Shell / POSIX [Software Carpentries](http://swcarpentry.github.io/shell-novice/)
 * Version Control
-    * [Git](http://swcarpentry.github.io/git-novice/)
+    * Git [Software Carpentries](http://swcarpentry.github.io/git-novice/)
     * GitHub
         * Basic Model
         * Pull Requests
@@ -11,6 +11,7 @@
         * Licenses
         * Binder
         * Colab
+* Continuous Integration [HSF training](https://hsf-training.github.io/hsf-training-cicd/index.html)
 * Cloud computing
     * Containers
         * Docker
