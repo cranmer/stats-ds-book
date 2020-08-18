@@ -12,8 +12,8 @@ Some test about why probability is important
 {fa}`check,text-success mr-1` **Learn essential concepts of statistics**<br />
 Some test about why statistics is important
 
-{fa}`check,text-success mr-1` **Learn essential concepts of software and computing **<br />
+{fa}`check,text-success mr-1` **Learn essential concepts of software and computing**<br />
 Some test about why software and computing is important
 
-{fa}`check,text-success mr-1` **Learn essential concepts of machine learning **<br />
+{fa}`check,text-success mr-1` **Learn essential concepts of machine learning**<br />
 Some test about why machine learning is important

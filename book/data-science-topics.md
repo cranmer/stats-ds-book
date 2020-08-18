@@ -1,26 +1,5 @@
 # Data Science Topics
 
-* Basics
-    * [Shell POSIX](http://swcarpentry.github.io/shell-novice/)
-* Version Control
-    * [Git](http://swcarpentry.github.io/git-novice/)
-    * GitHub
-        * Basic Model
-        * Pull Requests
-        * Actions
-        * Licenses
-        * Binder
-        * Colab
-* Cloud computing
-    * Containers
-        * Docker
-        * Singularity
-    * Kubernetes
-    * AWS
-    * GKE
-* Environment management
-    * [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html)
-    * virtual env
 * Scientific Python
     * [Basic Python](https://swcarpentry.github.io/python-novice-inflammation/)
     * numpy
@@ -34,16 +13,3 @@
         * bokeh
     * Dask
     * [Image processing](https://datacarpentry.org/image-processing/)
-* jupyter
-    * Jupyter Lab
-    * Voila
-* Configuration
-    * JSON
-    * YAML
-    * XML
-* Testing
-* Documentation
-* DOIs
-    * GitHub
-    * Zenodo
-

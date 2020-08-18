@@ -3,7 +3,7 @@
 - part: Probability
   chapters:
   - file: probability-topics
-
+  
 - part: Statistics
   chapters:
   - file: statistics-topics
@@ -20,6 +20,10 @@
       title: My alternate page title 5
   #- file: central-limit-theorem/Central-Limit-Theorem
 
+- part: Software and Computing
+  chapters:
+  - file: computing-topics
+
 - part: Data Science
   chapters:
   - file: data-science-topics
@@ -30,3 +34,4 @@
     sections:
       - file: markdown
       - file: notebooks
+      - file: test_embed_video
