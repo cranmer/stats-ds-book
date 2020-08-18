@@ -11,6 +11,8 @@ scikit-learn
 jupyter-book
 jax 
 jaxlib
+pyprob
+pyhf
 plotly
 bokeh
 altair

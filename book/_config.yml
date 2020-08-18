@@ -5,7 +5,7 @@ logo: logo.png
 
 execute:
   exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
-  jupyter_execute_notebooks : auto # force, off, auto
+  execute_notebooks : off # force, off, auto
 
 # Information about where the book exists on the web
 repository:

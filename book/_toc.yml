@@ -15,6 +15,9 @@
 - part: Statistics
   chapters:
   - file: statistics-topics
+    expand_sections: true
+    sections:
+    - file: probprog/MarkovPath
 
 - part: Machine Learning
   chapters:
@@ -38,16 +41,12 @@
 - part: Software and Computing
   chapters:
   - file: computing-topics
+  - file: autodiff-tutorial
 
 - part: Data Science
   chapters:
   - file: data-science-topics
   - file: interactive
-
-#- part: Bibliography
-#  chapters: 
-#  - file: bibliography
-
 
 - part: Reference
   chapters: 
@@ -57,3 +56,7 @@
       - file: cheatsheet
       - file: notebooks
       - file: test_embed_video
+
+- part: Bibliography
+  chapters: 
+  - file: bibliography
