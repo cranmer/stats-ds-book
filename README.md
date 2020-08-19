@@ -1,7 +1,7 @@
 # Statistics and Data Science Jupyter Book
 
 [![Deploy Jupyter Book](https://github.com/cranmer/stats-ds-book/workflows/Deploy%20Jupyter%20Book/badge.svg?branch=master)](https://github.com/cranmer/stats-ds-book/actions?query=workflow%3A%22Deploy+Jupyter+Book%22+branch%3Amaster)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/cranmer/stats-ds-book/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/cranmer/stats-ds-book/master?urlpath=lab/tree/book)
 
 This is the start of a book for Statistics and Data Science course for Fall 2020 at NYU Physics.
 
