@@ -60,6 +60,7 @@
       - file: cheatsheet
       - file: notebooks
       - file: test_embed_video
+      - file: nbgrader
 
 - part: Bibliography
   chapters: 
