@@ -50,6 +50,10 @@
 1. Convolutions and the Central Limit Theorem
     1. Binomial example
     1. Convolutions in Fourier domain
+1. [Extreme Value Theory](https://en.wikipedia.org/wiki/Extreme_value_theory)
+    1. Weibull law
+    1. Gumbel law
+    1. Fréchet Law
 
 
 

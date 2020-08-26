@@ -22,6 +22,11 @@
     1. Test statistics
     1. Neyman-Pearson Lemma
     1. Connection to classification
+    1. multiple testing
+        1. look elsewhere effect
+        1. Family wise error rate 
+        1. False Discovery Rate
+        1. [Asymptotics, Daves, Gross and Vitells](https://arxiv.org/abs/1005.1891)
  1. Confidence Intervals
     1. Interpretation
     1. Coverage
