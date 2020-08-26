@@ -2,7 +2,7 @@
 
 
 1. Week 1
-    2. 9/2: Intro 
+    1. 9/2: Intro 
         1. syllabus
         1. juypter book
         1. philosophy
@@ -12,7 +12,7 @@
         1. engaging demo 
         1. questions
 2. Week 2
-    2. 9/9: Basic prob theory
+    1. 9/9: Basic prob theory
         1. Notation
         1. PMF, PDF, families
         1. Likelihood
