@@ -205,24 +205,33 @@
     1. 11/11 (Vetran's day) 
         1. SBI examples
 12. Week 12
+    1. 11/16: Supervised Learning
+        1. Statistical Learning Theory
+            1. Loss, Risk, Emperical Risk
+            1. VC dimension and Emperical risk minimization
+        1. Cross-validation test/train
+            1. The history and mystery of deep learning
+    1. 11/23: Regression
+        1. Least Squares
+        1. Regularized least squares
+        1. Bias-Variance tradeoff
+13. Week 13
+    1. 11/23: Kernel Machines and Gaussian Processes
+        1. Warm up with N-Dim Gaussian
+        1. Theory
+        1. Examples
+    1. 11/25 (day before T-day): Classification 
+        1. Binary vs. Multi-class classification
+        1. Loss functions
+        1. logistic regression
+        1. Neural Networks
+        1. Domain Adaptation and Algorithmic Fairness
     1. 11/16: Causal Inference
         1. ladder of causality
         1. simple examples
         1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
-    1. 11/18: Class
-        1. Topic
-        1. Topic
-13. Week 13
-    1. 11/23: Class
-        1. Topic
-        1. Topic
-    1. 11/25 (day before T-day): Class
-        1. Topic
-        1. Topic
 14. Week 14
-    1. 11/30: Class
-        1. Topic
-        1. Topic
+    1. 11/30: 
     1. 12/2 Class
         1. Topic
         1. Topic
@@ -230,7 +239,7 @@
     1. 12/7: Class
         1. Topic
         1. Topic
-    1. 12/9: Class
+    1. 12/9: Review
         1. Topic
         1. Topic
 

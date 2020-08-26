@@ -1,5 +1,8 @@
 - file: intro
-  chapters: schedule
+
+- part: Schedule
+  chapters:
+  - file: schedule
 
 - part: Probability
   chapters:
