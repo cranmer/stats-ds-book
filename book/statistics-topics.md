@@ -37,7 +37,6 @@
     1. Profile likelihood
     1. Profile construction
     1. Asymptotic Properties of Likelihood Ratio
-
 1. Bayesian Model Selection
     1. Bayes Factors
     1. BIC, etc.
@@ -50,6 +49,9 @@
     1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
 1. Statistical Decision Theory
     1. [Admissible decision rule](https://en.wikipedia.org/wiki/Admissible_decision_rule)
+    1. Experimental Design
+        1. Expected Information Gain
+        1. Bayesian Optimization
 
 
 Some references:

@@ -50,10 +50,10 @@
         1. Transformation Properties of likelihood
             1. Transformation properties of Fisher Information
             1. Information Geometry
-            1. partition function
             1. likelihood principle
+            1. partition function
             1. score
-    1. 9/23: Class
+    1. 9/23: Bayesian Statistics and Decision Theory
         1. Bayes Theorem
         1. Bayes vs. Frequentist & Axioms of probability
             1. Quantifying prior odds via betting
@@ -65,6 +65,7 @@
             1. Jeffreys' prior
                 1. Transformation properties
             1. Reference Prior
+            1. Sensitivity analysis
         1. Decision Theory
             1. James-Stein Demo
             1. Shrinkage
@@ -76,7 +77,6 @@
             1. Jeffreys for examples
             1. prior odds via betting example
             1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
-
 5. Week 5
     1. 9/28 (Yom Kippur): Random Numbers
         1. Generating Random numbers
@@ -95,7 +95,7 @@
         1. Proposal functions 
         1. Hamiltonian Monte Carlo
 6. Week 6
-    1. 10/5: Class
+    1. 10/5: Information Theory
         1. Information theory
             1. Entropy
             1. Mutual information
@@ -108,7 +108,6 @@
             1. Hellinger distance
             1. f-divergences
             1. Stein divergence
-
     1. 10/7: Implicit probabity models
         1. Latent Variable Models
         1. Simulators
@@ -123,7 +122,7 @@
         1. GANs
 7. Week 7
     1. 10/12 (Columbus Day) Density Estimation
-        1. parametric vs. non-parametric
+        1. Parametric vs. non-parametric
         1. Non-parametric
             1. Histograms
                 1. Binomial / Poisson statistical uncertainty
@@ -159,9 +158,9 @@
             1. Familywise error rate 
             1. False Discovery Rate
             1. [Asymptotics, Daves, Gross and Vitells](https://arxiv.org/abs/1005.1891)
-        1. 10/21 (J-Lab talk) Class
-            1. Topic
-            1. Topic
+        1. 10/21 (J-Lab talk) Buffer in schedule
+            1. Selected topics
+            1. Working with datasets
 9. Week 9
     1. 10/26: Confidence Intervals
         1. Interpretation
@@ -172,28 +171,31 @@
         1. Likelihood-Ratio tests
         1. Profile likelihood
         1. Profile construction
+        1. Pivotal quantity
         1. Asymptotic Properties of Likelihood Ratio
+            1. Wilks 
+            1. Wald
+        1. HW / Group Project: interactive Neyman-Construction Demo
     1. 10/28: Expected limits and sensitivty
         1. Bands
         1. CLs
         1. power-constrained limits
-
-
-
-
-
+        1. (Look-elsewhere if not already covered)
 10. Week 10
     1. 11/2 (day before election): Bayesian Model Selection
         1. Bayes Factors
         1. BIC, etc.
-    1. 11/4 (day after election / Mid Term Grades): Class
-    1. Bayesian Credible Intervals
+    1. 11/4 (day after election / Mid Term Grades): Bayesian Credible Intervals
         1. Interpretation
+        1. Markov Chain Monte Carlo
         1. Metropolis Hastings
         1. Variational Inference
             1. Connecton to statistical physics
             1. LDA
             1. BBVI 
+        1. HW: 
+            1. MCMC for path integral in QM
+
 11. Week 11
     1. 11/9: Simulation-based inference
         1. ABC
@@ -202,15 +204,19 @@
         1. likelihood
         1. posterior
         1. Mining Gold
-    1. 11/11 (Vetran's day) 
+    1. 11/11 (Veteran's day) 
         1. SBI examples
+        1. HW SBI problem
 12. Week 12
     1. 11/16: Supervised Learning
         1. Statistical Learning Theory
             1. Loss, Risk, Emperical Risk
+            1. Generalization
             1. VC dimension and Emperical risk minimization
+            1. No Free Lunch
         1. Cross-validation test/train
             1. The history and mystery of deep learning
+            1. Double Descent
     1. 11/23: Regression
         1. Least Squares
         1. Regularized least squares
@@ -224,22 +230,31 @@
         1. Binary vs. Multi-class classification
         1. Loss functions
         1. logistic regression
+        1. Softmax
         1. Neural Networks
         1. Domain Adaptation and Algorithmic Fairness
     1. 11/16: Causal Inference
         1. ladder of causality
         1. simple examples
+        1. Domain shift, inductive bias
+        1. Statistical Invariance, pivotal quantities, Causal invariance
         1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
 14. Week 14
-    1. 11/30: 
-    1. 12/2 Class
-        1. Topic
-        1. Topic
+    1. 11/30: Buffer for reorganization 
+        1. Selected topics
+    1. 12/2: Deep Learning Model Zoo
+        1. MLP
+        1. Convolutions
+        1. Sequence Models: RNN and Tree RNN
+        1. Graph Networks
+        1. Transformers
+        1. images, sets, sequences, graphs, hyper-graphs
+        1. DL and functional programming
+        1. Differentiable programming
 15. Week 15
-    1. 12/7: Class
-        1. Topic
-        1. Topic
+    1. 12/7 Buffer for reorganization 
+        1. Selected topics
     1. 12/9: Review
-        1. Topic
-        1. Topic
+        1. Review of first principles
+        1. Review of techniques
 

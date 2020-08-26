@@ -43,6 +43,10 @@
     1. VAE
     1. GAN
     1. Normalizing Flows
+1. Blackbox optimization
+    1. Multiarm bandits
+    1. Bayesian Optimization
+    1. Hyperparameter optimization
 
 
 Some references:
