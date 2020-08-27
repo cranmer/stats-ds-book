@@ -16,9 +16,7 @@ pyhf
 plotly
 bokeh
 altair
-jupytext[myst]
-myst-nb~=0.8.5
-myst-parser~=0.11.1  # Restrict range to satisfy myst-nb
+jupytext
 sphinx-click
 sphinx-tabs
 sphinx-panels
