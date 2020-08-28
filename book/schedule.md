@@ -42,7 +42,7 @@
 4. Week 4
     1. 9/21: Estimators
         1. Bias, Variance, and Mean Squared Error
-        1. Sufficiency and Asymptotics
+        1. Consistency, Sufficiency, and Asymptotics
         1. Simple Examples: Poisson and Gaussian
         1. Cramer-Rao bound
                     1. exponential family
@@ -73,6 +73,7 @@
             1. generalized decision rules ("for some prior")
         1. HW: 
             1. James Stein
+            1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
             1. some other shrinkage?
             1. Jeffreys for examples
             1. prior odds via betting example
@@ -180,7 +181,11 @@
         1. Bands
         1. CLs
         1. power-constrained limits
+        1. Combinations
         1. (Look-elsewhere if not already covered)
+        1. HW: 
+            1. Combining p-values
+            1. combining posteriors
 10. Week 10
     1. 11/2 (day before election): Bayesian Model Selection
         1. Bayes Factors
@@ -194,6 +199,8 @@
             1. LDA
             1. BBVI 
         1. HW: 
+            1. Combining p-values
+            1. combining posteriors
             1. MCMC for path integral in QM
 
 11. Week 11
