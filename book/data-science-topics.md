@@ -4,6 +4,7 @@
 1. [other good resources from Rebecca Barter](http://www.rebeccabarter.com/useful_resources/)
 1. Scientific Python
     1. [Basic Python](https://swcarpentry.github.io/python-novice-inflammation/)
+    1. [Plotting and Programming with Python](https://swcarpentry.github.io/python-novice-gapminder/)
     1. numpy
     1. pandas
     1. xarray

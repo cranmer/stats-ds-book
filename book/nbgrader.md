@@ -10,8 +10,8 @@ Please watch this video to become familiar with how assignments via the notebook
 ## JupyterHub for class
 
 JupyterHub environment for your class was deployed.
-https://physga-2059-fall.rcnyu.org
-https://physga-2059-fall-instructor.rcnyu.org
+ * [https://physga-2059-fall.rcnyu.org](https://physga-2059-fall.rcnyu.org) 
+ * [https://physga-2059-fall-instructor.rcnyu.org][(https://physga-2059-fall-instructor.rcnyu.org)
    
 Please give it a try and let us know how it works for you
    
@@ -26,7 +26,7 @@ SUPPORT
  
 
 
-## Checklist for things to do in this part
+## Test Checklist functionality
 
 Thanks to the code in the directory `_static/save_state.js`, a web storage object will be created on each browser locally so students can come back to the same page and update the checkboxes. 
 Note that this will NOT work across browsers, across devices, likely will not work in privacy/incognito browsing mode, and definitly will not work if you clear/reset your cache and temporary files.
@@ -48,4 +48,19 @@ Use at your own risk (and [open an issue here](https://github.com/firasm/jupyter
 
 ## Test color
 
-$${\color{#0271AE}{\int dx e^-x}}$$ and $$(x={\color{#DC2830}{c_1}} \cdot {\color{#0271AE}{x_1}} + {\color{#DC2830}{c_2}} \cdot {\color{#0271AE}{x_2}}\)$$
+Test 1: 
+
+$${\color{#0271AE}{\int dx e^-x}}$$ 
+
+Test 2: 
+
+$$(x={\color{#DC2830}{c_1}} \cdot {\color{#0271AE}{x_1}} + {\color{#DC2830}{c_2}} \cdot {\color{#0271AE}{x_2}})$$
+
+
+Test macro: 
+
+$$A = \bmat{} 1 & 1 \\ 2 & 1\\ 3 & 2 \emat{},\ b=\bmat{} 2\\ 3 \\ 4\emat{},\ \gamma = 0.5$$
+
+test sphinx shortcut for color 
+
+$$\bered{\int dx e^-x}$$

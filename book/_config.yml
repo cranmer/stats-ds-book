@@ -2,6 +2,8 @@
 title: Statistics and Data Science
 author: Kyle Cranmer
 logo: logo.png
+copyright: ""
+
 
 execute:
   exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
@@ -14,6 +16,9 @@ repository:
   branch: master
 
 html:
+  home_page_in_navbar : true
+  use_repository_button: true
+  use_issues_button: true
   use_edit_page_button: true
   extra_footer : |
     <div>
@@ -23,6 +28,7 @@ html:
 
 sphinx:
   config:
+    html_show_copyright: false
     mathjax_config:
       TeX:
         Macros:
@@ -30,6 +36,8 @@ sphinx:
           "floor": ["\\lfloor#1\\rfloor", 1]
           "bmat": ["\\left[\\begin{array}"]
           "emat": ["\\end{array}\\right]"]
+          "bered": ["\\color{#DC2830}{#1}",1]
+          "ecol": ["}}"]
 
 # Launch button settings
 launch_buttons:
