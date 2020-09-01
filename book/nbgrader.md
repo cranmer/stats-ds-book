@@ -44,3 +44,8 @@ Use at your own risk (and [open an issue here](https://github.com/firasm/jupyter
 <label><input type="checkbox" id="box-5" class="box"> Complete Test 2 </input></label>
 
 <label><input type="checkbox" id="box-6" class="box"> Complete Learning Log 2 </input></label>
+
+
+## Test color
+
+$${\color{#0271AE}{\int dx e^-x}}$$ and $$(x={\color{#DC2830}{c_1}} \cdot {\color{#0271AE}{x_1}} + {\color{#DC2830}{c_2}} \cdot {\color{#0271AE}{x_2}}\)$$

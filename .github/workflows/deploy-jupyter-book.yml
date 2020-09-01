@@ -27,6 +27,7 @@ jobs:
     - name: Build the book
       run: |
         jupyter-book build book/
+        cp book/_static/* book/_build/html/_static 
 
     - name: Deploy Jupyter book to GitHub pages
       if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
