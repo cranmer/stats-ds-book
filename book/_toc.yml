@@ -1,6 +1,6 @@
 - file: intro
 
-- part: Schedule
+- part: About the course
   chapters:
   - file: schedule
   - file: jupyterhub
