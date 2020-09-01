@@ -17,5 +17,11 @@ Some text about why software and computing is important
  *  **Learn essential concepts of machine learning**<br />
 Some text about why machine learning is important
 
+```{warning} Please note that the class website is under active development, and content will be added throughout the duration of the course.
+```
+
+
+```{tip} If you would like to audit this class, email Prof. Cranmer (kyle.cranmer at nyu ) with your NYU netID
+```
 
 In approaching this book I am torn between different styles. I like very much the atomic nature of [Quantum Field Theory by Mark Srednicki](https://www.amazon.com/Quantum-Field-Theory-Mark-Srednicki/dp/0521864496) as it is readible and a useful reference without too much narrative. On the other hand, I want to blend together the hands-on coding elements with fundamental concepts, and I am inspired by the book [Functional Differential Geometry by Gerald Jay Sussman and Jack Wisdom](https://mitpress.mit.edu/books/functional-differential-geometry). 

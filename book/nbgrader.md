@@ -64,3 +64,7 @@ $$A = \bmat{} 1 & 1 \\ 2 & 1\\ 3 & 2 \emat{},\ b=\bmat{} 2\\ 3 \\ 4\emat{},\ \ga
 test sphinx shortcut for color 
 
 $$\bered{\int dx e^-x}$$
+
+## another jupyterbook reference
+
+[Nice template here](https://firasm.github.io/jupyterbook_course_template/about/syllabus.html)

@@ -3,6 +3,8 @@
 - part: Schedule
   chapters:
   - file: schedule
+  - file: jupyterhub
+  - file: preliminaries
 
 - part: Probability
   chapters:
@@ -21,6 +23,7 @@
   - file: statistics-topics
     expand_sections: true
     sections:
+    - file: statistical_decision_theory
     - file: probprog/MarkovPath
 
 - part: Machine Learning
@@ -52,9 +55,10 @@
   - file: data-science-topics
   - file: interactive
 
-- part: Reference
+- part: Jupyter Book Reference
   chapters: 
   - file: content
+    expand_sections: true
     sections:
       - file: markdown
       - file: cheatsheet
