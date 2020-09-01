@@ -11,7 +11,7 @@ Please watch this video to become familiar with how assignments via the notebook
 
 JupyterHub environment for your class was deployed.
  * [https://physga-2059-fall.rcnyu.org](https://physga-2059-fall.rcnyu.org) 
- * [https://physga-2059-fall-instructor.rcnyu.org][(https://physga-2059-fall-instructor.rcnyu.org)
+ * [https://physga-2059-fall-instructor.rcnyu.org](https://physga-2059-fall-instructor.rcnyu.org)
    
 Please give it a try and let us know how it works for you
    
