@@ -8,6 +8,8 @@ Note that this will NOT work across browsers, across devices, likely will not wo
 
 <label><input type="checkbox" id="box-2" class="box"> Complete Student Survey [here](https://forms.gle/1FQtMbLAZDkRdmBfA) </input></label>
 
+<label><input type="checkbox" id="box-3" class="box"> Join piazza discussion forum [here](https://piazza.com/nyu/fall2020/physga2059/home)  </input></label>
+
 <label><input type="checkbox" id="box-3" class="box"> Create a GitHub account </input></label>
 
 <label><input type="checkbox" id="box-4" class="box"> Install conda on you machine [link](https://www.anaconda.com/products/individual) </input></label>

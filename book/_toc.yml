@@ -4,6 +4,7 @@
   chapters:
   - file: schedule
   - file: jupyterhub
+  - file: discussion_forum
   - file: preliminaries
 
 - part: Probability
