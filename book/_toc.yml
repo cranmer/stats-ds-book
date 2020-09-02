@@ -55,18 +55,17 @@
   - file: data-science-topics
   - file: interactive
 
-- part: Jupyter Book Reference
-  chapters: 
-  - file: content
-    expand_sections: true
-    sections:
-      - file: markdown
-      - file: cheatsheet
-      - file: notebooks
-      - file: test_embed_video
-      - file: nbgrader
 
-- part: Bibliography
+- part: References
   chapters: 
+  - file: other_resources
   - file: bibliography
   - file: built-on
+
+- part: Jupyter Book Reference
+  chapters: 
+  - file: markdown
+  - file: cheatsheet
+  - file: notebooks
+  - file: test_embed_video
+  - file: nbgrader

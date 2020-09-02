@@ -25,7 +25,7 @@ $\theta$.
 ## Bayes rules:
 
 Let $\pi (\theta )$ be a probability distribution on the states of nature. From a Bayesian point of view, we would regard it as a prior distribution. That is, it is our believed probability distribution on the states of nature, prior to observing data. For a frequentist, it is merely a function on 
-$$\Theta$ with no such special interpretation. The Bayes risk of the decision rule 
+$\Theta$ with no such special interpretation. The Bayes risk of the decision rule 
 $\delta$ with respect to $\pi (\theta )$ is the expectation
 \begin{equation}
 r(\pi ,\delta )=\operatorname {E}_{{\pi (\theta )}}[R(\theta ,\delta )].
