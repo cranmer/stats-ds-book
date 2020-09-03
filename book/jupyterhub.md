@@ -27,20 +27,50 @@ The server will shutdown after 15 min of inactivity or (3 hours hard time limit)
 The default environment (kernel) is `Python 3`, you will need to change it to `Python [conda env:course]` to pick up the right environment with the installed libraries.
  ```
 
+
+`````{tabs}
+````{tab} New Kernel
+
+```{figure} ./assets/change_kernel_new.png
+
+Selecting the kernel for a new notebook
+```
+
+````
+````{tab} Classic Notebook
+
 ```{figure} ./assets/change_kernel_classic.png
 
 Selecting the kernel for a the classic notebook
 ```
+
+````
+````{tab} Jupyter Lab
 
 ```{figure} ./assets/change_kernel_lab.png
 
 Selecting the kernel in Jupyter Lab
 ```
 
-```{figure} ./assets/change_kernel_new.png
+````
+`````
 
-Selecting the kernel for a new notebook
-```
+
+
+%```{figure} ./assets/change_kernel_classic.png
+%
+%Selecting the kernel for a the classic notebook
+%```
+%
+%```{figure} ./assets/change_kernel_lab.png
+%
+%Selecting the kernel in Jupyter Lab
+%```
+%
+%```{figure} ./assets/change_kernel_new.png
+%
+%Selecting the kernel for a new notebook
+%```
 
 ## Documentation
 

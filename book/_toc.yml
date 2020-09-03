@@ -24,6 +24,10 @@
   - file: statistics-topics
     expand_sections: true
     sections:
+    - file: neyman_pearson
+    - file: neyman_construction
+    - file: lhc_stats_thumbnail
+    - file: bayes_theorem
     - file: statistical_decision_theory
     - file: probprog/MarkovPath
 

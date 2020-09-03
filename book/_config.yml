@@ -6,7 +6,7 @@ copyright: ""
 
 parse:
   myst_extended_syntax: true
-  
+
 execute:
   exclude_patterns : ["*/Central-Limit-Theorem.ipynb","*/prop-error-plots.ipynb","*/track-example.ipynb"]
   execute_notebooks : off # force, off, auto
@@ -30,16 +30,18 @@ html:
 
 sphinx:
   config:
-    html_show_copyright: false
-    mathjax_config:
-      TeX:
-        Macros:
-          "N": "\\mathbb{N}"
-          "floor": ["\\lfloor#1\\rfloor", 1]
-          "bmat": ["\\left[\\begin{array}"]
-          "emat": ["\\end{array}\\right]"]
-          "bered": ["\\color{#DC2830}{#1}",1]
-          "ecol": ["}}"]
+  extra_extensions:
+  - sphinx_tabs.tabs
+  html_show_copyright: false
+  mathjax_config:
+    TeX:
+      Macros:
+        "N": "\\mathbb{N}"
+        "floor": ["\\lfloor#1\\rfloor", 1]
+        "bmat": ["\\left[\\begin{array}"]
+        "emat": ["\\end{array}\\right]"]
+        "bered": ["\\color{#DC2830}{#1}",1]
+        "ecol": ["}}"]
 
 # Launch button settings
 launch_buttons:
