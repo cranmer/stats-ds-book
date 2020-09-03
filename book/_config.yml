@@ -35,7 +35,7 @@ sphinx:
   html_show_copyright: false
   config:
     ogp_site_url: "https://cranmer.github.io/stats-ds-book/"
-    ogp_image: "https://cranmer.github.io/stats-ds-book/_static/logo.png"
+    ogp_image: "https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png"
     ogp_description_length: 200
     mathjax_config:
       TeX:
