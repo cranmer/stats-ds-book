@@ -29,23 +29,23 @@ html:
     </div>
 
 sphinx:
-  config:
   extra_extensions:
   - sphinx_tabs.tabs
   - sphinxext.opengraph
   html_show_copyright: false
-  ogp_site_url: "https://cranmer.github.io/stats-ds-book/"
-  ogp_image: "https://cranmer.github.io/stats-ds-book/_static/logo.png"
-  ogp_description_length: 200
-  mathjax_config:
-    TeX:
-      Macros:
-        "N": "\\mathbb{N}"
-        "floor": ["\\lfloor#1\\rfloor", 1]
-        "bmat": ["\\left[\\begin{array}"]
-        "emat": ["\\end{array}\\right]"]
-        "bered": ["\\color{#DC2830}{#1}",1]
-        "ecol": ["}}"]
+  config:
+    ogp_site_url: "https://cranmer.github.io/stats-ds-book/"
+    ogp_image: "https://cranmer.github.io/stats-ds-book/_static/logo.png"
+    ogp_description_length: 200
+    mathjax_config:
+      TeX:
+        Macros:
+          "N": "\\mathbb{N}"
+          "floor": ["\\lfloor#1\\rfloor", 1]
+          "bmat": ["\\left[\\begin{array}"]
+          "emat": ["\\end{array}\\right]"]
+          "bered": ["\\color{#DC2830}{#1}",1]
+          "ecol": ["}}"]
 
 # Launch button settings
 launch_buttons:
