@@ -32,7 +32,11 @@ sphinx:
   config:
   extra_extensions:
   - sphinx_tabs.tabs
+  - sphinxext.opengraph
   html_show_copyright: false
+  ogp_site_url: "https://cranmer.github.io/stats-ds-book/"
+  ogp_image: "https://cranmer.github.io/stats-ds-book/_static/logo.png"
+  ogp_description_length: 200
   mathjax_config:
     TeX:
       Macros:

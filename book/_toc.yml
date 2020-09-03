@@ -17,6 +17,7 @@
     - file: distributions/accept-reject
     - file: distributions/change-of-variables
     - file: distributions/Binomial_histograms-interactive
+    - file: pgm/daft
     #- file: central-limit-theorem/Central-Limit-Theorem
   
 - part: Statistics

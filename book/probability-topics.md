@@ -15,6 +15,9 @@
         1. Conditional distributions
         1. Marginal distributions
         1. Graphical Models
+            1. [https://github.com/pgmpy/pgmpy](https://github.com/pgmpy/pgmpy)
+            1. [https://github.com/jmschrei/pomegranate](https://github.com/jmschrei/pomegranate)
+            1. [Video](https://youtu.be/DEHqIxX1Kq4)
         1. Copula
     1. Information theory
         1. Entropy
@@ -31,6 +34,8 @@
     1. Implicit probabity models
         1. Simulators
         1. Probabilistic Programming
+            1. https://docs.pymc.io 
+            1. [ppymc3 vs. stan vs edward](https://statmodeling.stat.columbia.edu/2017/05/31/compare-stan-pymc3-edward-hello-world/)
             1. pyro
             1. pyprob
 1. Likelihood function

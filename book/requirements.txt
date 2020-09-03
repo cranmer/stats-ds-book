@@ -13,6 +13,7 @@ jax
 jaxlib
 pyprob
 pyhf
+daft
 plotly
 bokeh
 altair
@@ -20,4 +21,5 @@ jupytext
 sphinx-click
 sphinx-tabs
 sphinx-panels
+sphinxext-opengraph
 git+https://github.com/ctgk/PRML.git
