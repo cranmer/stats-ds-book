@@ -58,7 +58,6 @@
 - part: Data Science
   chapters:
   - file: data-science-topics
-  - file: interactive
 
 
 - part: References
@@ -72,5 +71,6 @@
   - file: markdown
   - file: cheatsheet
   - file: notebooks
+  - file: interactive
   - file: test_embed_video
   - file: nbgrader
