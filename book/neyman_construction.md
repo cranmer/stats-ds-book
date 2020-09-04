@@ -86,3 +86,22 @@
 ```
 
 
+
+## Connection to Wilks's theorem
+
+
+
+`````{tabs}
+````{tab} Step 1
+
+```{figure} ./assets/wilks-delta-log-likelihood/wilks-delta-log-likelihood-1.gif
+```
+
+````
+````{tab} Step 2
+
+```{figure} ./assets/wilks-delta-log-likelihood/wilks-delta-log-likelihood-2.gif
+```
+
+````
+`````
