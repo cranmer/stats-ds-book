@@ -13,7 +13,7 @@ http://robertgrantstats.co.uk/drawmydata.html
 
 ## Datasaurus
 
-[](https://www.autodeskresearch.com/publications/samestats)
+[data source](https://www.autodeskresearch.com/publications/samestats)
 
 Justin Matejka, George Fitzmaurice (2017)
 Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing
