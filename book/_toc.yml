@@ -12,6 +12,7 @@
   - file: probability-topics
     expand_sections: true
     sections: 
+    - file: random_variables
     - file: datasaurus-long
     - file: error-propagation/investigating-propagation-of-errors
     - file: error-propagation/error_propagation_with_jax
