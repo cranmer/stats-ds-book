@@ -1,4 +1,4 @@
-# Emperical Distribution
+# Empirical Distribution
 
 Often we are working directly with data and we don't know the parent distribution that generated the data. 
 
