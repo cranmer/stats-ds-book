@@ -13,6 +13,12 @@
     expand_sections: true
     sections: 
     - file: random_variables
+    - file: conditional
+    - file: bayes_theorem
+    - file: independence
+    - file: emperical_distribution
+    - file: expectation
+    - file: correlation
     - file: datasaurus-long
     - file: error-propagation/investigating-propagation-of-errors
     - file: error-propagation/error_propagation_with_jax
@@ -30,7 +36,6 @@
     - file: neyman_pearson
     - file: neyman_construction
     - file: lhc_stats_thumbnail
-    - file: bayes_theorem
     - file: statistical_decision_theory
     - file: probprog/MarkovPath
 
