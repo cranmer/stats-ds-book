@@ -88,6 +88,7 @@ p(X,Y,Z) = p(X|Y,Z) p(Y|Z) p(Z)
 $$
 
 And this type of decomposition for the joint for $N$ random variables $X_1, \dots, X_N$ is often written in this way:
+
 $$
 p_N(X_1, \dots, X_N) = \prod_{i=2}^N p_i(X_i|X_{i-1}, \dots X_{1}) p_1(X_{1})
 $$
@@ -114,20 +115,20 @@ Personally, I like to sort the terms like this $p(X,Y) = p(X|Y) p(Y)$ instead of
 
 Which of the following are valid (not necessarily general) decompositions of some probability distribution?
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W,X,Y|Z)P(Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-1" class="box"> $p(W,X,Y|Z)P(Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W,X,Y|Z)P(Y)$ </input></label>
+<label><input type="checkbox" id="box-conditional-2" class="box"> $p(W,X,Y|Z)P(Y)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W|X,Y,Z)P(X,Y,Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-3" class="box"> $p(W|X,Y,Z)P(X,Y,Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W|X,Y,Z)P(X)$ </input></label>
+<label><input type="checkbox" id="box-conditional-4" class="box"> $p(W|X,Y,Z)P(X)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W|X,Y,Z)P(W,Y,Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-5" class="box"> $p(W|X,Y,Z)P(W,Y,Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W,X)p(Y,Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-6" class="box"> $p(W,X)p(Y,Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W|X)p(Y,Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-7" class="box"> $p(W|X)p(Y,Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W,Y)p(X|Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-8" class="box"> $p(W,Y)p(X|Z)$ </input></label>
 
-<label><input type="checkbox" id="box-conditional" class="box"> $p(W|X,Y,Z)p(X,Y|Z)p(Z)$ </input></label>
+<label><input type="checkbox" id="box-conditional-9" class="box"> $p(W|X,Y,Z)p(X,Y|Z)p(Z)$ </input></label>
