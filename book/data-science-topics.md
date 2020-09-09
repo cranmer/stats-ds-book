@@ -13,6 +13,7 @@
     1. tensorflow, pytorch, mxnet, jax
     1. Visualization
         1. matplotlib
+            1. 3-d plotting [notes](https://jakevdp.github.io/PythonDataScienceHandbook/04.12-three-dimensional-plotting.html)
         1. seaborn
         1. bokeh
     1. Dask
