@@ -80,15 +80,17 @@ Here's a [link to the notebook](correlation_schematic.ipynb) I used to make thes
 
 ```
 
-## Marginal Distributons
+## Marginal Distributoons
 
 The normalization factors in the denominator of Equations {eq}`conditional_x_given_y` and {eq}`conditional_y_given_x` involve probability distributions over an individual variables $p_X(X)$ or $p_Y(Y)$ without conditioning on the other. These are called **marginal distributions** and they correspond to integrating out (or *marginalizing*) the other variable(s). Eg. 
 
 $$
-p_X(x) = \int  p(x,y) dy
+p_X(x) = \int  p_{XY}(x,y) dy
 $$(marginalization_over_y)
 
 In many ways, marginalization is the opposite of conditioning. 
+
+For high dimensional problems, marginalization is difficult as it involves high dimensional integrals. Naive numerical integration is often not tractable, which has motivated a number of different approaches to approximate the integrals, such as Monte Carlo integration. 
 
 
 ## Chain Rule of Probability

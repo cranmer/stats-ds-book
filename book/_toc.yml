@@ -20,10 +20,12 @@
     - file: expectation
     - file: correlation
     - file: datasaurus-long
+    - file: distributions/visualize_marginals
     - file: error-propagation/investigating-propagation-of-errors
     - file: error-propagation/error_propagation_with_jax
     - file: distributions/accept-reject
     - file: distributions/change-of-variables
+    - file: distributions/one-over-x-flow
     - file: distributions/Binomial_histograms-interactive
     - file: pgm/daft
     #- file: central-limit-theorem/Central-Limit-Theorem
