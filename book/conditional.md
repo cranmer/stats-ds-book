@@ -1,12 +1,16 @@
 # Conditonal Probability
 
-For now, a picture is worth a thousand words...
+Let us start with a graphical introduction to the notion of conditional probability [^footnote1]. 
+Imagine you are throwing darts, and the darts  uniformly hit the rectangular dartboard below.
 
 ```{figure} ./assets/prob_cousins.png
 :name: prob_cousins
+:width: 50%
 
 A visual representation of events $A$ and $B$ in a larger sample space $\Omega$ [^footnote1].
 ```
+
+The dark board has two oval shaped pieces of paper labeled $A$ and $B$. We can graphically convey the probability of hitting $A$ and the probability of hitting $B$ with the images below.
 
 ```{figure} ./assets/pA_and_pB.png
 :name: cousins_and
@@ -14,7 +18,7 @@ A visual representation of events $A$ and $B$ in a larger sample space $\Omega$ 
 A visual representation of $P(A)$ and $P(B)$ [^footnote1].
 ```
 
-And
+And we can also talk about the probability of hitting $A$ **and** $B$, which is often written as $A \cap B$, as the image below.
 
 ```{figure} ./assets/pAandB.png
 :name: cousins_and
@@ -22,7 +26,9 @@ And
 A visual representation of $P(A \cap B)$ [^footnote1].
 ```
 
-And
+In both cases the denominator is the full entire sample space $\Omega$ (the rectangle).
+
+Now let's consider the **conditional probability** $P(A \mid B)$, which is said "probability of $A$ **given** $B$". We know that the dart hit $B$, so the denominator is no longer the entire sample space $\Omega$ (the rectangle). Instead, it the denominator is $B$. Similarly, the numerator is no longer all of $A$, because some parts of $A$ aren't also in $B$. Instead, the numertor is the intersection $A \cap B$. We can visualize this as:
 
 ```{figure} ./assets/conditional.png
 :name: cousins_conditional
@@ -30,13 +36,9 @@ And
 A visual representation of $P(A \mid B)$ [^footnote1].
 ```
 
+We will extend this visual representation in the section on [Bayes' Theorem](./bayes_theorem).
 
 
-Thank you for coming to my TED talk.
-
-
-
-[^footnote1]: These images are adapted from lectures by Bob Cousins.
 
 
 ## Visualizing conditional distributions for continuous data
@@ -53,7 +55,7 @@ If we want to condition on the random varaible $Y$ taking on the value $y=-1.15$
 
 $$
 p_{X\mid Y}(X \mid Y=y) = \frac{p_{XY}(X,Y=y)}{\int p_{XY}(x,y) dx} =  \frac{p_{XY}(X,Y=y)}{p_Y(Y=y)}
-$$
+$$(conditional_x_given_y)
 
 ```{figure} ./assets/schematic_p_x_given_y.png
 :name: schematic_p_x_given_y
@@ -65,13 +67,29 @@ Similarly, if we want to condition on the random varaible $X$ taking on the valu
 
 $$
 p_{Y\mid X}(Y \mid X=x) = \frac{p_{XY}(X=x,Y)}{\int p_{XY}(x,y) dy} =  \frac{p_{XY}(X=x,Y)}{p_X(X=x)}
-$$
+$$(conditional_y_given_x)
 
 ```{figure} ./assets/schematic_p_y_given_x.png
 :name: schematic_p_y_given_x
 
 A schematic of the slice through the joint $p(X=x,Y)$ and the normalized conditional $p(Y|X)$.
 ```
+
+```{note}
+Here's a [link to the notebook](correlation_schematic.ipynb) I used to make these images in case it is useful.
+
+```
+
+## Marginal Distributons
+
+The normalization factors in the denominator of Equations {eq}`conditional_x_given_y` and {eq}`conditional_y_given_x` involve probability distributions over an individual variables $p_X(X)$ or $p_Y(Y)$ without conditioning on the other. These are called **marginal distributions** and they correspond to integrating out (or *marginalizing*) the other variable(s). Eg. 
+
+$$
+p_X(x) = \int  p(x,y) dy
+$$(marginalization_over_y)
+
+In many ways, marginalization is the opposite of conditioning. 
+
 
 ## Chain Rule of Probability
 
@@ -103,13 +121,19 @@ $$
 
 where the first term $p(X_{1})$ without any conditioning is implied.
 
+
+### A more general formulation
+
+The formulation of the chairn rule 
+See [Theorem 1.2.2 (Chain rule) in the NYU CDS lecture notes on Probability and Statistics](https://cims.nyu.edu/~cfgranda/pages/stuff/probability_stats_for_DS.pdf) for a more general formulation 
+
 ## A mnemonic on conditional distributions: Units
 
 We will see many different types of conditional distributions in this course, and manipulating them can be error prone and confusing. Manipulating conditional distributions takes some practice, it is not much different than learning to manipulate upper- and lower-indices in special realtivity and Einstein notation. As we will see later, some distributions have additional structure -- some variables may be (assmed to be) independent or conditionally independent -- and in these cases the decomposition isn't completely general, but it there are still some rules. 
 
 For example, I know that $p(X,Y|Z)p(X)$ is not a valid decomposition of any joint $p(X,Y,Z)$ or conditional $p(X,Y|Z)$. I know this immediately by inspection because the $X$ appears on the left of the $\mid$ more than once. If $X,Y,Z$ are continuous and have units, then the units of this expression would be $[Y]^{-1}[X]^{-2}$. Similarly, if I wanted to check that it was normalized I would want to integrate it. While I can assume $\int  p(x,y|z) dx dy= 1$ and $\int p(x) dx = 1$, there is no reason for $\int  p(x,y|z)p(x)$ will be 1, and it will still have units of $[X]^{-1}$.
 
-Personally, I like to sort the terms like this $p(X,Y) = p(X|Y) p(Y)$ instead of like this $p(X,Y) = p(X|Y) p(Y)$. Or like this $P(A \cap B) = P(A \mid B) p(B)$ instead of like this $P(A \cap B) = P(A \mid B) p(B)$. In both cases, what one can form a joint distribution by starting with a conditioanl and then multiplying by a distribution for what is being conditioned on. I find that putting the terms in this order helps me avoid mistakes and it's easier to connect to the chian rule of probability.
+Personally, I like to sort the terms like this $p(X,Y) = p(X|Y) p(Y)$ instead of like this $p(X,Y) = p(Y) p(X|Y)$. Or like this $P(A \cap B) = P(A \mid B) p(B)$ instead of like this $P(A \cap B) = p(B) P(A \mid B)$. In both cases, what one can form a joint distribution by starting with a conditioanl and then multiplying by a distribution for what is being conditioned on. I find that putting the terms in this order helps me avoid mistakes and it's easier to connect to the chian rule of probability.
 
 ### Exercise
 
@@ -132,3 +156,6 @@ Which of the following are valid (not necessarily general) decompositions of som
 <label><input type="checkbox" id="box-conditional-8" class="box"> $p(W,Y)p(X|Z)$ </input></label>
 
 <label><input type="checkbox" id="box-conditional-9" class="box"> $p(W|X,Y,Z)p(X,Y|Z)p(Z)$ </input></label>
+
+
+[^footnote1]: These images are adapted from lectures by Bob Cousins.
