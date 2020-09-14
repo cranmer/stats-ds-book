@@ -96,8 +96,28 @@ $X_{i}$ for $i=1,\dots ,n)$.
 
 ### Visualizing covariance as an ellipse
 
-To be added later, for now see [this page](https://cookierobotics.com/007/)
+Often an ellipse is used to visualize a covariance matrix, but why? This is only well-motivated if one expects the data to be normally distributed (aka Gaussian distributed). This is because the contours of a 2-d normal are ellipses, and in higher dimensions the contours are ellipsoids. 
 
+
+```{figure} ./assets/001_vanilla_ellipse.png
+width: 30%
+
+A scatter plot of two correlated, normally-distributed variables and the error ellipse from [*An Alternative Way to Plot the Covariance Ellipse* by Carsten Schelp](https://carstenschelp.github.io/2018/09/14/Plot_Confidence_Ellipse_001.html).
+```
+
+Consider a random variable $X$ that is distributed as a multivariate normal (aka multivariate Gaussian) distribution, e.g.  ${\displaystyle \mathbf {X} \ \sim \ {\mathcal {N}}({\boldsymbol {\mu }},\,{\boldsymbol {\Sigma }}})$, where $\boldsymbol{\mu}$ is the multivariate mean and $\Sigma$ is the covariane matrix. The probability density for the multivariate normal is given by
+
+$$
+\displaystyle p_{\mathbf {X} }(x_{1},\ldots ,x_{k} | \boldsymbol {\mu }, {\boldsymbol {\Sigma })=
+{\frac {\exp \left(-{\frac {1}{2}}({\mathbf {x} }-{\boldsymbol {\mu }})^{\mathrm {T} }{\boldsymbol {\Sigma }}^{-1}({\mathbf {x} }-{\boldsymbol {\mu }})\right)}{\sqrt {(2\pi )^{k}|{\boldsymbol {\Sigma }}|}}}}
+$$
+
+The contours correspond to values of $\mathbf{X}$ where $({\mathbf {x} }-{\boldsymbol {\mu }})^{\mathrm {T} }{\boldsymbol {\Sigma }}^{-1}({\mathbf {x} }-{\boldsymbol {\mu }}) = \textrm{Constant}$.
+
+
+Understanding the geometry of this ellipse requires the linear algebra of the covariance matrix, and it's a useful excercise to go through:
+ * [This notebook](./covariance_ellipse) is duplicated from the repository linked to in this article: [*An Alternative Way to Plot the Covariance Ellipse* by Carsten Schelp](https://carstenschelp.github.io/2018/09/14/Plot_Confidence_Ellipse_001.html), which has a GPL-3.0 License. 
+  * This is also a nice [page](https://cookierobotics.com/007/)
 
 
 ## With empirical data
