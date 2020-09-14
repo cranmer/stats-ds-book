@@ -35,7 +35,7 @@ $$
 
 ## Correlation coefficient
 
-The covariance $\operatorname{Cov}(X,Y)$ has units $([X][Y])^{-1}$, and thus depends on the units for $X$ and $Y$. It is desireable to have a unitless measure of how "correlated" the two variables are. One way to do this is through the [**Correlation coefficient**](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) ${\displaystyle \rho _{X,Y}$, which simply divides out the standard deviation of $X$ and $Y$ 
+The covariance $\operatorname{Cov}(X,Y)$ has units $([X][Y])^{-1}$, and thus depends on the units for $X$ and $Y$. It is desireable to have a unitless measure of how "correlated" the two variables are. One way to do this is through the [**Correlation coefficient**](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) $\displaystyle \rho _{X,Y}$, which simply divides out the standard deviation of $X$ and $Y$ 
 
 $$
 {\displaystyle \rho _{X,Y}={\frac {\textrm{cov} (X,Y)}{\sigma _{X}\sigma _{Y}}}},
