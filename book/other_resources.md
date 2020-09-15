@@ -8,6 +8,10 @@
  1. [NYU CDS: Inference and Representation](https://inf16nyu.github.io/home/)
  1. [NYU CDS: Big Data 2015](https://www.vistrails.org/index.php/Course:_Big_Data_2015)
  1. [NYU CDS: Machine Learning](https://davidrosenberg.github.io/ml2017/#resources)
+ 1. [Foundations of Graphical Models by David Blei](http://www.cs.columbia.edu/~blei/fogm/2016F/) -- see [Basics of Graphical Models](http://www.cs.columbia.edu/~blei/fogm/2016F/doc/graphical-models.pdf)    
+    1. see also [a video on d-separation by Pieter Abbeel](https://www.youtube.com/watch?v=yDs_q6jKHb0)
+    1. semantics of graphical models (here called "Boiler plate diagrams") and an extended visual language [Directed Factor Graph Notation for Generative Models
+Laura Dietz](https://github.com/jluttine/tikz-bayesnet/blob/master/dietz-techreport.pdf), which is the basis of the `tikz-bayesnet` package
  1. [Algorithms for Convex Optimization by Nisheeth K. Vishnoi](https://convex-optimization.github.io)
  1. [Introduction to Causal Inference by Brady Neal](https://www.bradyneal.com/causal-inference-course)
  1. [Michael Jordan's lecture notes on notes on Probabilistic Graphical Models](https://people.eecs.berkeley.edu/%7Ejordan/prelims/)

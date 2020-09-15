@@ -33,9 +33,10 @@ It is important to make the distinction between the discrete and continous cases
  This is analogous to thinking of point masses or point charges in space versus  mass-density or charge-density distributed along a line, surface, or volume. 
  Just as the mass or charge in a region is the integral of this mass-density or charge-density in that region, the probability that a continous $x$ falls in some region $W \in \mathbb{X}$ is $P(x\in W) = \int_W p_X(x) dx$.
 
- These distributions have a few intuitive properties:
+ These distributions have a few intuitive properties, which correspond to the [axioms of probability](axioms_of_prob):
   * $\sum_{x} p_X(x) = 1$ or in the continous case  $\int dx p_X(x) = 1$
   * $p_X(x) \ge 0$ for all $x$
+  * if $A$ and $B$ are mutually exclusive  (or disjoint so that their intersection is empy, $A \cap B = \emptyset$ ), then $p(A \cup B) = p(A)+p(B)$. For continuous variables, you could write $\int_{A \cup B} p_X(x) dx = \int_{A} p_X(x) dx + \int_{B} p_X(x) dx$
 
 ```{note}
 In the continous case it is totally fine for the probability density $p_X(x)>1$. Consider a Gaussian distribution with $\sigma = 0.01$. 
