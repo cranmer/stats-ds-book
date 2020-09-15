@@ -28,6 +28,12 @@
  1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
  1. [Trevor Hastie, Rob Tibshirani, and Jerry Friedman, Elements of Statistical Learning, Second Edition, Springer, 2009](https://web.stanford.edu/~hastie/ElemStatLearn//)
 
+## Influential texts
+
+ 1. [Knuth Calculus](https://micromath.wordpress.com/2008/04/14/donald-knuth-calculus-via-o-notation/)
+ 1. [Functional Differential Geometry by Gerald Jay Sussman and Jack Wisdom](https://mitpress.mit.edu/books/functional-differential-geometry)
+
+
 ## Meta
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The 10 most helpful *free1. online machine learning courses, via <a href="https://twitter.com/chipro?ref_src=twsrc%5Etfw">@chipro</a><br><br>Full thread: <a href="https://t.co/RUcG2AL1uC">https://t.co/RUcG2AL1uC</a><a href="https://twitter.com/hashtag/MondayMotivation?src=hash&amp;ref_src=twsrc%5Etfw">#MondayMotivation</a> <a href="https://t.co/Fd3sN2u7UV">pic.twitter.com/Fd3sN2u7UV</a></p>&mdash; MIT CSAIL (@MIT_CSAIL) <a href="https://twitter.com/MIT_CSAIL/status/1295391687783718914?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

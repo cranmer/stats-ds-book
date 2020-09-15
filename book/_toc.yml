@@ -21,6 +21,7 @@
     - file: correlation
     - file: datasaurus-long
     - file: distributions/visualize_marginals
+    - file: measures_of_dependence
     - file: error-propagation/investigating-propagation-of-errors
     - file: error-propagation/error_propagation_with_jax
     - file: distributions/accept-reject

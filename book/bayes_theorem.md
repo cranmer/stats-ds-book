@@ -39,6 +39,9 @@ In our examples this would turn into:
 ## Bayes' rule in pictures
 
 ```{figure} ./assets/Bayes-theorem-in-pictures.png
+
+These images are adapted from lectures by Bob Cousins.
+
 ```
 
 

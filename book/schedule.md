@@ -1,29 +1,45 @@
 # Draft Schedule
 
 
+Recording of lectures are accessible [here](https://applications.zoom.us/lti/rich?lti_scid=53e5b6ade1d092bbd38974bc31813aa0b9c9d37154d82fb28fd97562e49a6c2c&oauth_consumer_key=egAB3MeoRVG9kMt4z8eEXA). 
+
 1. Week 1
-    1. 9/2: Intro 
+    1. 9/2: Intro [Recording](https://nyu.zoom.us/rec/play/uA6Jy6FEsbZpQRfmeQ6jJV7ISs37lvdKMnwsJhuql9O445ANIB0TbmflpCqFPjqczKuhAr3k9voEv8Tc.K2AoCHSjTknMuoAA)
         1. syllabus
         1. juypter book
-        1. philosophy
-            1. [Knuth Calculus](https://micromath.wordpress.com/2008/04/14/donald-knuth-calculus-via-o-notation/)
-            1. Functional Differential Geometry by Gerald Jay Sussman and Jack Wisdom.
-            1. Simulations
-        1. engaging demo 
-        1. questions
-2. Week 2
-    1. 9/9: Basic prob theory
-        1. Notation
-        1. PMF, PDF, families
-        1. Likelihood
+        1. review survey 
+        1. about me and my research and a preview for the course
+2. Week 2 
+    1. 9/9: Basic prob theory [Recording](https://nyu.zoom.us/rec/play/Y6tMRTUxNDhU2n_pw9cPJr1kqmZDMcfCuqLGRqWuLIQ42M9AhGtuhjS-vi_XfaNzNr2i-nFlBPrSJdRa.eh480MdOBuleGYe2)
+        1. Random Variables
+            1. Probability space
+        1. Probability Mass and Density functions
+        1. Conditional Probability
+        1. Bayes Theorem
+            1. Quantifying prior odds via betting
+            1. Incoherent beliefs
+        1. Axioms of probability
         1. Examples
+3. Week 3 
+    1. 9/14: Class [Recording](https://nyu.zoom.us/rec/play/6Wvz4mMAK3qWkBLhOP98kLQMNcEc-H6rZg9zWUao-DTzme6TBAblX8Q7d_0Imyzjts9o48IAOG6reJst.KSmnHtGH6BTNiCvb)
+        1. Conditional probability for continuous variables
+            1. Chain rule of probability
+            1. Sneak peek at graphical models
+            1. The Drake equation
+            1. Phosphine on Venus and Bayes Theorem
+        1. Marginal Distributions
+        1. Independence
+        1. Emperical Distribution
+        1. Expectation
+        1. Variance, Covariance, Correlation
+        1. Mutual Information
+        1. Simple Data Exploration
+    1. 9/16: Class
+        1. Likelihood
         1. Change of variables
-3. Week 3
-    1. 9/14: Class
         1. Change of variables vs. Error propagation
         1. Demo Error propagation fails
         1. Demo change of variables with autodiff
-    1. 9/16: Class
         1. Error propagation and Marginalization 
         1. Demo Central Limit Theorem
             1. Experience from class and Exceptions
@@ -34,6 +50,7 @@
         1. Autoregressive Expansion
         1. Graphical Models
         1. HW: 
+            1. Conditional Distribuutions
             1. Bernouli to Binomial
             1. Binomial to Poisson
             1. Poisson to Gaussian
@@ -56,9 +73,6 @@
     1. 9/23: Bayesian Statistics and Decision Theory
         1. Bayes Theorem
         1. Bayes vs. Frequentist & Axioms of probability
-            1. Quantifying prior odds via betting
-            1. Incoherent beliefs
-            1. Probability space
         1. Priors
             1. Subjective
                 1. Transformation properties
