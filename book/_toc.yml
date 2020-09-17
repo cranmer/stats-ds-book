@@ -24,6 +24,7 @@
     - file: measures_of_dependence
     - file: distributions/change-of-variables
     - file: distributions/one-over-x-flow
+    - file: distributions/likelihood-change-obs
     - file: distributions/invariance-of-likelihood-to-reparameterizaton
     - file: error-propagation/investigating-propagation-of-errors
     - file: error-propagation/error_propagation_with_jax
