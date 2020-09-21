@@ -34,17 +34,10 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
         1. Variance, Covariance, Correlation
         1. Mutual Information
         1. Simple Data Exploration
-    1. 9/16: Class
+    1. 9/16: Class [Recording](https://nyu.zoom.us/rec/play/ryKzr2yN2nWSWtMzavZivnrJDZ7rQFoowx5Pk6mWdFKq5ESJFjk0zCGQEtk6G1qCDM2VvdDez6t5Tdzk.OSHZVTqbRrQ-i_wa)
         1. Likelihood
         1. Change of variables
-        1. Change of variables vs. Error propagation
-        1. Demo Error propagation fails
         1. Demo change of variables with autodiff
-        1. Error propagation and Marginalization 
-        1. Demo Central Limit Theorem
-            1. Experience from class and Exceptions
-        1. Error propagation with correlation
-            1. track example
         1. Independence and correlation
         1. Conditioning
         1. Autoregressive Expansion
@@ -57,32 +50,36 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Product of Poissons vs. Multinomial
             1. CLT to Extreme Value Theory
 4. Week 4
-    1. 9/21: Estimators
+    1. 9/21: [Recording](https://nyu.zoom.us/rec/play/uSMzP3UYoZBRnDjAQfdzDKC5_WHAmX_tenfl7jduYPoTRqAXfuBYyC-tALiVJEWNNNYChZ-BwDoxe2lz.JdLbnvKxO5vZmXDv)
+        1. Change of variables formula
+        1. Probability Integral Transform
+        1. Intro to automatic differentiation
+            1. Demo with automatic differentiation
+        1. Transformation properties of the likelihood
+        1. Transformation properties of the MLE
+        1. Transformation properties of the prior and posterior
+        1. Transformation properties of the MAP
+    1. 9/23: Estimators
+        1. Skipped material from last lecture
+            1. Lorentz-invariant phase space
+            1. Normalizing Flows
+            1. Copula
         1. Bias, Variance, and Mean Squared Error
         1. Consistency, Sufficiency, and Asymptotics
         1. Simple Examples: Poisson and Gaussian
-        1. Cramer-Rao bound
-                    1. exponential family
-        1. Bias-Variance tradeoff and sufficiency
-        1. Transformation Properties of likelihood
-            1. Transformation properties of Fisher Information
+        1. Cramer-Rao bound & Information Matrix
+            1. Transformation properties of Information Matrix
             1. Information Geometry
-            1. likelihood principle
-            1. partition function
-            1. score
-    1. 9/23: Bayesian Statistics and Decision Theory
-        1. Bayes Theorem
-        1. Bayes vs. Frequentist & Axioms of probability
-        1. Priors
-            1. Subjective
-                1. Transformation properties
+            1. score, partition function, and exponential family
             1. Jeffreys' prior
                 1. Transformation properties
             1. Reference Prior
             1. Sensitivity analysis
-        1. Decision Theory
+            1. likelihood principle
+        1. Bias-Variance tradeoff 
             1. James-Stein Demo
             1. Shrinkage
+        1. Decision Theory
             1. [Admissible decision rule](https://en.wikipedia.org/wiki/Admissible_decision_rule)
             1. generalized decision rules ("for some prior")
         1. HW: 
@@ -94,17 +91,21 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
 5. Week 5
     1. 9/28 (Yom Kippur): Random Numbers
+        1. Change of variables vs. Error propagation
+        1. Demo Error propagation fails
+        1. Error propagation and Marginalization 
+        1. Demo Central Limit Theorem
+            1. Experience from class and Exceptions
+        1. Error propagation with correlation
+            1. track example
         1. Generating Random numbers
             1. Scipy distributions
+        1. Probability Integral Transform
         1. Accept-Reject MC
             1. Acceptance and efficiency
             1. Importance Sampling & Unweighting
             1. Vegas
             1. native python loops vs. numpy broadcasting 
-        1. Probability Integral Transform
-            1. Lorentz-invariant phase space
-            1. Normalizing Flows
-            1. Copula
     1. 9/30: Sampling
         1. Metropolis Hastings MCMC
         1. Proposal functions 
