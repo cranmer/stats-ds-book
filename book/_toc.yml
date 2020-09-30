@@ -4,6 +4,7 @@
   chapters:
   - file: schedule
   - file: jupyterhub
+  - file: nbgrader
   - file: discussion_forum
   - file: preliminaries
 
@@ -86,4 +87,4 @@
   - file: notebooks
   - file: interactive
   - file: test_embed_video
-  - file: nbgrader
+  - file: color-in-equations

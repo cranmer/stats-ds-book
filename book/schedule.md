@@ -65,23 +65,11 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Normalizing Flows
             1. Copula
         1. Bias, Variance, and Mean Squared Error
-        1. Consistency, Sufficiency, and Asymptotics
         1. Simple Examples: Poisson and Gaussian
         1. Cramer-Rao bound & Information Matrix
-            1. Transformation properties of Information Matrix
-            1. Information Geometry
-            1. score, partition function, and exponential family
-            1. Jeffreys' prior
-                1. Transformation properties
-            1. Reference Prior
-            1. Sensitivity analysis
-            1. likelihood principle
         1. Bias-Variance tradeoff 
             1. James-Stein Demo
             1. Shrinkage
-        1. Decision Theory
-            1. [Admissible decision rule](https://en.wikipedia.org/wiki/Admissible_decision_rule)
-            1. generalized decision rules ("for some prior")
         1. HW: 
             1. James Stein
             1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
@@ -90,7 +78,23 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. prior odds via betting example
             1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
 5. Week 5
-    1. 9/28 (Yom Kippur): Random Numbers
+    1. 9/28 (Yom Kippur): Random Numbers [Recording](https://nyu.zoom.us/rec/play/L-BkDSdARQfotstBjZjW8WzTzF2g35bvftQIXWVe5MEmYDyJzscjqs3qrwDrAjKKV8lgHi04hw6EjyLZ.6DP4VVZA6_LvfkWE)
+        1. Decision Theory
+            1. [Admissible decision rule](https://en.wikipedia.org/wiki/Admissible_decision_rule)
+            1. generalized decision rules ("for some prior")
+        1. Consistency
+        1. Sufficiency
+        1. Exponential Family
+        1. Score Statistic
+        1. Information Matrix
+            1. Information Geometry
+            1. Transformation properties of Information Matrix
+            1. Jeffreys' prior
+                1. Transformation properties
+            1. Reference Prior
+            1. Sensitivity analysis
+            1. likelihood principle
+    1. 9/30: Sampling
         1. Change of variables vs. Error propagation
         1. Demo Error propagation fails
         1. Error propagation and Marginalization 
@@ -105,9 +109,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Acceptance and efficiency
             1. Importance Sampling & Unweighting
             1. Vegas
-            1. native python loops vs. numpy broadcasting 
-    1. 9/30: Sampling
-        1. Metropolis Hastings MCMC
+            1. native python loops vs. numpy broadcasting        1. Metropolis Hastings MCMC
         1. Proposal functions 
         1. Hamiltonian Monte Carlo
 6. Week 6
