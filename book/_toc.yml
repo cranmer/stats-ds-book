@@ -41,6 +41,7 @@
     sections:
     - file: statistics/estimators
     - file: statistics/bias-variance
+    - file: statistics/investigation-bessels-correction
     - file: statistics/cramer-rao-bound
     - file: statistics/consistency
     - file: statistics/Neyman-Scott-phenomena
