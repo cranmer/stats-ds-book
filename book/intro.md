@@ -1,6 +1,6 @@
 # Statistics and Data Science
 
-This is the start of a book for Statistics and Data Science course for Fall 2020 at NYU Physics.
+This is the start of a book for a graduate-level course at NYU Physics titled *Statistics and Data Science*.
 
 Here are some of the objectives of this course:
 
@@ -36,7 +36,10 @@ Here are some of the objectives of this course:
     * Become familiar with the interplay of model, data, and learning (optimization) algorithms
     * Touch on different learning settings: supervised learning, unsupervised learning, reinforcement learning
 
+ * **Learn essential concepts of data science**
 
+    * Understand how data science connects to the topics above
+    * Gain confidence in using scientific python and modern data science tools to analyze real data
 
 ```{warning} Please note that the class website is under active development, and content will be added throughout the duration of the course.
 ```

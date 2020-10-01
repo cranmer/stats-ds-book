@@ -57,7 +57,8 @@ This portion of the site is the least well developed, but for now here are some 
 
 1. [Veridical Data Science by Bin Yu and Karl Kumbier](https://www.stat.berkeley.edu/~binyu/ps/papers2020/VDS20-YuKumbier.pdf)
 1. [other good resources from Rebecca Barter](http://www.rebeccabarter.com/useful_resources/)
-1. Scientific Python
+1. Scientific Python & Tools
+    1. Wonderful jupyterbook by Ryan Abernathey covering many of the topics below [An Introduction to Earth and Environmental Data Science](https://earth-env-data-science.github.io./intro.html)
     1. [Basic Python](https://swcarpentry.github.io/python-novice-inflammation/)
     1. [Plotting and Programming with Python](https://swcarpentry.github.io/python-novice-gapminder/)
     1. numpy

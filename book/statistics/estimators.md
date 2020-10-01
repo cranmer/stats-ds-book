@@ -23,7 +23,7 @@ These closely related terms have slightly different meanings:
 
 We already introduced two estimators when studying [Transformation properties of the likelihood and posterior](.distributions/invariance-of-likelihood-to-reparameterizaton.html#equivariance-of-the-mle):
  * The maximum likelihood estimator: $\hat{\theta}_\textrm{MLE} := \textrm{argmax}_\theta p(X=x \mid \theta)$
- * The maximum a posteriori estimator: $\hat{\theta}_{MAP} := \textrm{argmax}_\theta p(\theta \mid x)$
+ * The maximum a posteriori estimator: $\hat{\theta}_{MAP} := \textrm{argmax}_\theta p(\theta \mid X=x)$
 
 Note both of these estimators are defined by procedures that you apply once you have specific data.
 

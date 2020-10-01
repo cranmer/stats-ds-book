@@ -7,13 +7,13 @@ Before we can discuss it, let's define a few concepts.
 
 ```{admonition} Bias of an estimator
 
-The bias of an estimator, denoted $b(\theta)$ is defined as:
+The bias of an estimator, denoted $\textrm{bias}(\hat{\theta}$, is defined as:
 
 $$
 \textrm{bias}(\hat{\theta} \mid \theta) = \mathbb{E}[\hat{\theta} \mid \theta ] - \theta = \mathbb{E}[\hat{\theta} - \theta \mid \theta ]  =\int (\hat{\theta}(x) - \theta) p(x | \theta) dx
 $$
 
-**Note** the bias isn't a single number, but a function of the true, unknown value of $\theta$.
+**Note** the bias isn't a single number, but a function of the true, unknown value of $\theta$. Sometimes the estimator is implicit and you may see the bias denoted $b(\theta)$, or the dependence on $\theta$ is left implicit and you may see it denoted $b(\hat{theta})$.
 ```
 
 If $\theta$ has several components, the expectations and bias are calculated per component.
