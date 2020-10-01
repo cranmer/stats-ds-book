@@ -1,3 +1,3 @@
 # Test Sphinxext-opengraph
 
-coming soon 
+fixed?
