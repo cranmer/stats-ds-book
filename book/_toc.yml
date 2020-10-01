@@ -39,10 +39,17 @@
   - file: statistics-topics
     expand_sections: true
     sections:
-    - file: neyman_pearson
-    - file: neyman_construction
-    - file: lhc_stats_thumbnail
-    - file: statistical_decision_theory
+    - file: statistics/estimators
+    - file: statistics/bias-variance
+    - file: statistics/cramer-rao-bound
+    - file: statistics/consistency
+    - file: statistics/Neyman-Scott-phenomena
+    - file: statistics/sufficiency
+    - file: statistics/information-geometry
+    - file: statistics/neyman_pearson
+    - file: statistics/neyman_construction
+    - file: statistics/lhc_stats_thumbnail
+    - file: statistics/statistical_decision_theory
     - file: probprog/MarkovPath
 
 - part: Machine Learning

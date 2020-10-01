@@ -23,6 +23,8 @@ html:
   use_issues_button: true
   use_edit_page_button: true
   google_analytics_id: UA-178330963-1
+  comments:
+    hypothesis: true
   extra_footer : |
     <div>
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>

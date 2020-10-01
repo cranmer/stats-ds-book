@@ -49,7 +49,11 @@ These images are adapted from lectures by Bob Cousins.
 
  ## Breaking down the terms
 
- Each of the terms in Bayes' rule has a name and interpretation. For this I think it is useful to think not of generic $A$ and $B$, but to think of some theory of the Universe with parameters $\theta$ (like the Higgs mass or the cosmological constant) and the predictions for what the data $X$ would look like given $\theta$. 
+ Each of the terms in Bayes' rule has a name and interpretation. For this I think it is useful to think not of generic $A$ and $B$, but to think of some theory of the Universe with parameters $\theta$ (like the Higgs mass or the cosmological constant) and the predictions for what the data $X$ would look like given $\theta$. Then Bayes Rule is
+
+ $$
+ p(\theta \mid X ) = \frac{p(X \mid \theta) p(\theta)}{p(X)}
+ $$
 
   * $p(X \mid \theta)$: the **likelihood**: the probability distributon of the data $X$ given the theoretical parameters $\theta$
   * $p(\theta)$: the **prior probability** for the parameter $\theta$ 

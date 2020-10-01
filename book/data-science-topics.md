@@ -1,4 +1,4 @@
-# What is it?
+# Data Science, what is it?
 
 The image below comes from [Drew Conway's original Venn Diagram blog post](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram). As he states, "I think the term "data science" is a bit of a misnomer," and then he muses on what what is unique about Data Sciene and how it is somewhat distinct from traditional statistics or machine learning. 
 
