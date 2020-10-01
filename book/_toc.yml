@@ -95,3 +95,4 @@
   - file: interactive
   - file: test_embed_video
   - file: color-in-equations
+  - file: test-sphinxext-opengraph
