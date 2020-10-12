@@ -94,52 +94,45 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Reference Prior
             1. Sensitivity analysis
             1. likelihood principle
-    1. 9/30: Sampling
+    1. 9/30: Lecture 8: Consistency and homework
+        1. [Neyman Scott phenomena](https://www.stat.berkeley.edu/~census/neyscpar.pdf) (an example of inconsistent MLE)
+            1. Note: [Elizabeth Scott](https://en.wikipedia.org/wiki/Elizabeth_Scott_(mathematician)) was an astronomer by background. In 1957 Scott noted a bias in the observation of galaxy clusters. She noticed that for an observer to find a very distant cluster, it must contain brighter-than-normal galaxies and must also contain a large number of galaxies. She proposed a correction formula to adjust for (what came to be known as) the Scott effect. 
+            1. Note: [Revisiting the Neyman-Scott model: an Inconsistent MLE or an Ill-defined Model?](https://arxiv.org/abs/1301.6278)
+        1. walk through of nbgrader and home work assignment
+6. Week 6
+    1. 10/5: Lecture 9: Propagaion of Errors
+        1. a simple example from physics 1: estimating $g$
         1. Change of variables vs. Error propagation
         1. Demo Error propagation fails
         1. Error propagation and Marginalization 
-        1. Demo Central Limit Theorem
-            1. Experience from class and Exceptions
+        1. Convolution
+        1. Central Limit Theorem
         1. Error propagation with correlation
             1. track example
+    1. 10/7: Lecture 10: Likelihood-based modeling 
+        1. Building a probabilistic model for simple physics 1 example
+        1. Connection of MLE to traditional algebraic estimator
+        1. Connection to least squares regression
+7. Week 7
+    1. 10/12 Lecture 11: Sampling
+        1. Motiving examples:
+            1. Estimating high dimensional integrals and expectations
+            1. Bayesian credible intervals
+            1. Marginals are trivial with samples
         1. Generating Random numbers
             1. Scipy distributions
         1. Probability Integral Transform
         1. Accept-Reject MC
             1. Acceptance and efficiency
-            1. Importance Sampling & Unweighting
-            1. Vegas
-            1. native python loops vs. numpy broadcasting        1. Metropolis Hastings MCMC
-        1. Proposal functions 
+            1. native python loops vs. numpy broadcasting        
+        1. Importance Sampling & Unweighting
+            1. [Vegas](https://en.wikipedia.org/wiki/VEGAS_algorithm)
+        1. Metropolis Hastings MCMC
+            1. Proposal functions 
         1. Hamiltonian Monte Carlo
-6. Week 6
-    1. 10/5: Information Theory
-        1. Information theory
-            1. Entropy
-            1. Mutual information
-            1. Relative Entropy
-            1. cross entropy
-        1. Divergences
-            1. KL Divergence
-            1. Fisher distance
-            1. Optimal Transport
-            1. Hellinger distance
-            1. f-divergences
-            1. Stein divergence
-    1. 10/7: Implicit probabity models
-        1. Latent Variable Models
-        1. Simulators
-        1. Probabilistic Programming
-            1. Stan
-            1. pyro
-            1. pyprob
-        1. Connections
-            1. graphical models
-            1. probability spaces
-            1. Change of variables
-        1. GANs
-7. Week 7
-    1. 10/12 (Columbus Day) Density Estimation
+            1. Excerpts from [A Conceptual Introduction to Hamiltonian Monte Carlo by Michael Betancourt](https://arxiv.org/abs/1701.02434)
+            1. Stan and PyMC3
+    1. 10/14: Lecture 12: Goodness of fit
         1. Parametric vs. non-parametric
         1. Non-parametric
             1. Histograms
@@ -156,13 +149,12 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Adversarial Training
                 1. GANs
                 1. WGAN        
-    1. 10/14: Goodness of fit
         1. chi-square test
         1. unbinned likelihood exponential example
         1. other GoF tests
-        1. anomaly detection
+        1. anomaly detection    
 8. Week 8
-    1. 10/19: Hypothesis Testing
+    1. 10/19: Lecture 13: Hypothesis Testing
         1. Simple vs. Compound hypotheses
         1. Nuisance Parameters
         1. TypeI and TypeII error
@@ -176,11 +168,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Familywise error rate 
             1. False Discovery Rate
             1. [Asymptotics, Daves, Gross and Vitells](https://arxiv.org/abs/1005.1891)
-        1. 10/21 (J-Lab talk) Buffer in schedule
-            1. Selected topics
-            1. Working with datasets
-9. Week 9
-    1. 10/26: Confidence Intervals
+    1. 10/21 Lecture 14 (Pre-recorded due to conflict) Confidence Intervals
         1. Interpretation
         1. Coverage
         1. Power
@@ -194,7 +182,22 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Wilks 
             1. Wald
         1. HW / Group Project: interactive Neyman-Construction Demo
-    1. 10/28: Expected limits and sensitivty
+    1. Topics to Reschedule    
+        1. Information theory etc.
+            1. Information theory
+                1. Entropy
+                1. Mutual information
+                1. Relative Entropy
+                1. cross entropy
+            1. Divergences
+                1. KL Divergence
+                1. Fisher distance
+                1. Optimal Transport
+                1. Hellinger distance
+                1. f-divergences
+                1. Stein divergence
+9. Week 9
+    1. 10/26: Expected limits and sensitivty
         1. Bands
         1. CLs
         1. power-constrained limits
@@ -203,6 +206,18 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
         1. HW: 
             1. Combining p-values
             1. combining posteriors
+    1. 10/28: Modelling
+        1. Latent Variable Models
+        1. Simulators
+        1. Probabilistic Programming
+            1. Stan
+            1. pyro
+            1. pyprob
+        1. Connections
+            1. graphical models
+            1. probability spaces
+            1. Change of variables
+        1. GANs
 10. Week 10
     1. 11/2 (day before election): Bayesian Model Selection
         1. Bayes Factors
@@ -219,7 +234,6 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Combining p-values
             1. combining posteriors
             1. MCMC for path integral in QM
-
 11. Week 11
     1. 11/9: Simulation-based inference
         1. ABC
