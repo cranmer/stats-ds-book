@@ -42,13 +42,6 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
         1. Conditioning
         1. Autoregressive Expansion
         1. Graphical Models
-        1. HW: 
-            1. Conditional Distribuutions
-            1. Bernouli to Binomial
-            1. Binomial to Poisson
-            1. Poisson to Gaussian
-            1. Product of Poissons vs. Multinomial
-            1. CLT to Extreme Value Theory
 4. Week 4
     1. 9/21: [Recording](https://nyu.zoom.us/rec/play/uSMzP3UYoZBRnDjAQfdzDKC5_WHAmX_tenfl7jduYPoTRqAXfuBYyC-tALiVJEWNNNYChZ-BwDoxe2lz.JdLbnvKxO5vZmXDv)
         1. Change of variables formula
@@ -72,11 +65,6 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Shrinkage
         1. HW: 
             1. James Stein
-            1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
-            1. some other shrinkage?
-            1. Jeffreys for examples
-            1. prior odds via betting example
-            1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
 5. Week 5
     1. 9/28 (Yom Kippur): Random Numbers [Recording](https://nyu.zoom.us/rec/play/L-BkDSdARQfotstBjZjW8WzTzF2g35bvftQIXWVe5MEmYDyJzscjqs3qrwDrAjKKV8lgHi04hw6EjyLZ.6DP4VVZA6_LvfkWE)
         1. Decision Theory
@@ -161,7 +149,6 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
     1. 10/21 Canceled
 9. Week 9
     1. 10/26: Lecture 14 
-#        1. HW / Group Project: interactive Neyman-Construction Demo
         1. Upper Limits, Lower Limits, Central Limits, Discovery
         1. Power, Expected Limits, Bands
         1. Sensitivity Problem for uppper limits
@@ -297,7 +284,21 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
 
 I need to move some of these topics that we discussed into the schedule.
 This is a place holder for now.
-    1. unbinned likelihood exponential example
+    1. examples
+        1. unbinned likelihood exponential example
+    1. HW ideas
+        1. Conditional Distribuutions
+        1. Bernouli to Binomial
+        1. Binomial to Poisson
+        1. Poisson to Gaussian
+        1. Product of Poissons vs. Multinomial
+        1. CLT to Extreme Value Theory
+        1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
+        1. some other shrinkage?
+        1. Jeffreys for examples
+        1. prior odds via betting example
+        1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
+        1. Group Project: interactive Neyman-Construction Demo
     1. Simulation-based inference
         1. ABC
         1. Diggle
