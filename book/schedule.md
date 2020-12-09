@@ -197,7 +197,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
         1. anomaly detection    
 
 11. Week 11
-    1. 11/9: Lecture 18 Intro to machhine learning
+    1. 11/9: Lecture 18 Intro to machine learning
         1. Supervised Learning
         1. Statistical Learning Theory
             1. Loss, Risk, Emperical Risk
@@ -230,9 +230,11 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
                 1. Hellinger distance
                 1. f-divergences
                 1. Stein divergence
-        1. Variational Inference
+        1. Maximum likelihood (Forward KL)
+            1. can approximate with samples, don't need target distribution
+        1. Variational Inference (Reverse KL)
             1. Connecton to statistical physics
-            1. LDA
+            1. LDA (Topic Modelling)
             1. BBVI 
         1. Deep Generative models
             1. Normalizing Flows intro
@@ -242,21 +244,21 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
     1. 11/18: Lecture 21 Deep Generative Models 
         1. Deep Generative models comparison
             1. Normalizing Flows
+            1. Autoregresive models
             1. Variational Auto-encoder
             1. GANs
-
 13. Week 13
     1. 11/23: Lecture 22 The data manifold
         1. what is it, why is it there
             1. in real data
-            1. ni GANs etc.
+            1. in GANs etc.
         1. How it complicates distances based on likelihood ratios
         1. Optimal transport
-    1. 11/25 Lecture 23 Otimization
+    1. 11/25 Lecture 23 Optimization
         1. Gradient descent
-        1. Momentum
+        1. Momentum, Adam
         1. Differences of likelihood fits in classical statistics and loss landscape of deep learning models
-        1. stochastic gradient descent intro
+        1. stochastic gradient descent and mini-batching intro
             1. what is it
 14. Week 14
     1. 11/30: Lecture 23 Stochastic gradient descent
@@ -265,25 +267,23 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
     1. 12/2: Lecture 24 Implicit bias and regularization in learning algorithms
         1. dynamics of gradient descent
         1. Double descent
-    
-    
 15. Week 15
     1. 12/7 Lecture 25 Deep Learning
         1. Loss landscape
             1. random matrix theory
             1. connection to statistical mechanics
         1. Deep Model Zoo
-                1. MLP
+            1. MLP
             1. Convolutions
             1. Sequence Models: RNN and Tree RNN
+                1. vanishing and exploding gradients
             1. Graph Networks
             1. Transformers
             1. images, sets, sequences, graphs, hyper-graphs
             1. DL and functional programming
             1. Differentiable programming
     1. 12/9: Review
-        1. Review of first principles
-        1. Review of techniques
+        1. Review 
 
 
 
