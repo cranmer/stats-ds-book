@@ -1,3 +1,4 @@
+pip<20.3
 jupyter-book
 pandas
 numpy
@@ -23,5 +24,4 @@ sphinx-click
 sphinx-tabs
 sphinx-panels
 sphinxext-opengraph
-MarkupSafe>=1.1
 git+https://github.com/ctgk/PRML.git
