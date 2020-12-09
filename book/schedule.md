@@ -284,6 +284,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
 
 I need to move some of these topics that we discussed into the schedule.
 This is a place holder for now.
+
     1. examples
         1. unbinned likelihood exponential example
     1. HW ideas
