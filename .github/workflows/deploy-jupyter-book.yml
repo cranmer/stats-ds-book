@@ -17,9 +17,10 @@ jobs:
       with:
         python-version: 3.8
 
+    # FIXME: Constrain book/requirements.txt to be able to use updated resolver
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --upgrade "pip<20.3" setuptools wheel
         python -m pip install --no-cache-dir -r requirements.txt
         python -m pip install --no-cache-dir -r book/requirements.txt
         python -m pip list
@@ -27,7 +28,7 @@ jobs:
     - name: Build the book
       run: |
         jupyter-book build book/
-        # cp book/_static/* book/_build/html/_static 
+        # cp book/_static/* book/_build/html/_static
 
     - name: Deploy Jupyter book to GitHub pages
       if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
