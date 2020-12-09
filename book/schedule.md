@@ -285,66 +285,66 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
 I need to move some of these topics that we discussed into the schedule.
 This is a place holder for now.
 
-    1. examples
-        1. unbinned likelihood exponential example
-    1. HW ideas
-        1. Conditional Distribuutions
-        1. Bernouli to Binomial
-        1. Binomial to Poisson
-        1. Poisson to Gaussian
-        1. Product of Poissons vs. Multinomial
-        1. CLT to Extreme Value Theory
-        1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
-        1. some other shrinkage?
-        1. Jeffreys for examples
-        1. prior odds via betting example
-        1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
-        1. Group Project: interactive Neyman-Construction Demo
-    1. Simulation-based inference
-        1. ABC
-        1. Diggle
-        1. likleihood ratio
-        1. likelihood
-        1. posterior
-        1. Mining Gold
-    1. Topics to Reschedule    
-        1. Parametric vs. non-parametric
-        1. Non-parametric
-            1. Histograms
-                1. Binomial / Poisson statistical uncertainty
-                1. weighted entries
-            1. Kernel Density Estimation
-                1. bandwidth and boundaries
-                1. K-D Trees
-        1. Parameterized
-            1. Unsupervised learning
-            1. Maximum likelihood
-                1. loss function
-                1. Neural Denstiy Estimation
-            1. Adversarial Training
-                1. GANs
-                1. WGAN        
-        1. Latent Variable Models
-        1. Simulators
-        1. Connections
-            1. graphical models
-            1. probability spaces
-            1. Change of variables
-        1. GANs
-    1. Classification 
-        1. Binary vs. Multi-class classification
-        1. Loss functions
-        1. logistic regression
-        1. Softmax
-        1. Neural Networks
-        1. Domain Adaptation and Algorithmic Fairness
-    1. Kernel Machines and Gaussian Processes
-        1. Warm up with N-Dim Gaussian
-        1. Theory
-        1. Examples
-    1. Causal Inference
-        1. ladder of causality
-        1. simple examples
-        1. Domain shift, inductive bias
-        1. Statistical Invariance, pivotal quantities, Causal invariance
-        1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
+1. examples
+    1. unbinned likelihood exponential example
+1. HW ideas
+    1. Conditional Distribuutions
+    1. Bernouli to Binomial
+    1. Binomial to Poisson
+    1. Poisson to Gaussian
+    1. Product of Poissons vs. Multinomial
+    1. CLT to Extreme Value Theory
+    1. [Neyman Scott Phenomena](https://blog.richmond.edu/physicsbunn/2016/11/28/the-neyman-scott-paradox/)
+    1. some other shrinkage?
+    1. Jeffreys for examples
+    1. prior odds via betting example
+    1. [Negatively biased relevant subsets](https://arxiv.org/abs/1109.2023)
+    1. Group Project: interactive Neyman-Construction Demo
+1. Simulation-based inference
+    1. ABC
+    1. Diggle
+    1. likleihood ratio
+    1. likelihood
+    1. posterior
+    1. Mining Gold
+1. Topics to Reschedule    
+    1. Parametric vs. non-parametric
+    1. Non-parametric
+        1. Histograms
+            1. Binomial / Poisson statistical uncertainty
+            1. weighted entries
+        1. Kernel Density Estimation
+            1. bandwidth and boundaries
+            1. K-D Trees
+    1. Parameterized
+        1. Unsupervised learning
+        1. Maximum likelihood
+            1. loss function
+            1. Neural Denstiy Estimation
+        1. Adversarial Training
+            1. GANs
+            1. WGAN        
+    1. Latent Variable Models
+    1. Simulators
+    1. Connections
+        1. graphical models
+        1. probability spaces
+        1. Change of variables
+    1. GANs
+1. Classification 
+    1. Binary vs. Multi-class classification
+    1. Loss functions
+    1. logistic regression
+    1. Softmax
+    1. Neural Networks
+    1. Domain Adaptation and Algorithmic Fairness
+1. Kernel Machines and Gaussian Processes
+    1. Warm up with N-Dim Gaussian
+    1. Theory
+    1. Examples
+1. Causal Inference
+    1. ladder of causality
+    1. simple examples
+    1. Domain shift, inductive bias
+    1. Statistical Invariance, pivotal quantities, Causal invariance
+    1. [Elements of Causal Inference by  Jonas Peters, Dominik Janzing and Bernhard Schölkopf](https://mitpress.mit.edu/books/elements-causal-inference) [free PDF](https://www.dropbox.com/s/dl/gkmsow492w3oolt/11283.pdf)
