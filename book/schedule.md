@@ -184,6 +184,13 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. likelihood publishing
         1. probabilistic modelling languages
             1. computational graphs
+        1. Probabilistic Programming
+            1. First order PPLs
+                1. Stan
+            1. Universal Probabilistic Programming
+                1. pyro
+                1. pyprob and ppx
+                1. Inference compilation
     1. 11/4 Lecture 17: Goodness of fit
         1. conceptual framing
         1. difference to hypothesis testing
@@ -191,11 +198,9 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
         1. Kolmogorov-Smirnov
         1. Anderson-Darling
         1. Zhang's tests
-        #        1. unbinned likelihood exponential example
         1. Bayesian Information Criteria
         1. software
         1. anomaly detection    
-
 11. Week 11
     1. 11/9: Lecture 18 Intro to machine learning
         1. Supervised Learning
@@ -292,7 +297,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
 
 I need to move some of these topics that we discussed into the schedule.
 This is a place holder for now.
-
+    1. unbinned likelihood exponential example
     1. Simulation-based inference
         1. ABC
         1. Diggle
@@ -317,13 +322,8 @@ This is a place holder for now.
             1. Adversarial Training
                 1. GANs
                 1. WGAN        
-
         1. Latent Variable Models
         1. Simulators
-        1. Probabilistic Programming
-            1. Stan
-            1. pyro
-            1. pyprob
         1. Connections
             1. graphical models
             1. probability spaces
