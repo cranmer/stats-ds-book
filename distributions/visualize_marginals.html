@@ -1,0 +1,1193 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Visualizing joint and marginal distributions" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/distributions/visualize_marginals.html" />
+  <meta property="og:description" content="Let’s explore a dataset that has 4 continuous random variables and one discrete random variable. We will visualize various 1-D and 2-D marginal distributions. The 2-d distributions are joint distri..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="Visualizing joint and marginal distributions" />
+  
+    <title>Visualizing joint and marginal distributions &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quantifying statistical dependence" href="../measures_of_dependence.html" />
+    <link rel="prev" title="Simple data exploration" href="../datasaurus-long.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="../probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../conditional.html">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../correlation.html">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../prml_notebooks/attribution.html">
+   PRML Examples
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch10_Approximate_Inference.html">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../autodiff-tutorial.html">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/distributions/visualize_marginals.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fdistributions/visualize_marginals.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/distributions/visualize_marginals.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/cranmer/stats-ds-book/master?urlpath=tree/book/distributions/visualize_marginals.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/cranmer/stats-ds-book/blob/master/book/distributions/visualize_marginals.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grouping-by-class">
+   Grouping by class
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-multivariate-data">
+   Visualizing multivariate data
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="visualizing-joint-and-marginal-distributions">
+<h1>Visualizing joint and marginal distributions<a class="headerlink" href="#visualizing-joint-and-marginal-distributions" title="Permalink to this headline">¶</a></h1>
+<p>Let’s explore a dataset that has 4 continuous random variables and one discrete random variable.
+We will visualize various 1-D and 2-D marginal distributions.
+The 2-d distributions are joint distributions in the context of the two random variables being plotted, but are marginal distributions in the context of the full dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">__version__</span> <span class="c1"># check version, need 0.11.0 or greater</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;0.11.0&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;penguins&quot;</span><span class="p">)</span>
+<span class="n">penguins</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>Male</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>339</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>340</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>46.8</td>
+      <td>14.3</td>
+      <td>215.0</td>
+      <td>4850.0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>341</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>50.4</td>
+      <td>15.7</td>
+      <td>222.0</td>
+      <td>5750.0</td>
+      <td>Male</td>
+    </tr>
+    <tr>
+      <th>342</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>45.2</td>
+      <td>14.8</td>
+      <td>212.0</td>
+      <td>5200.0</td>
+      <td>Female</td>
+    </tr>
+    <tr>
+      <th>343</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>49.9</td>
+      <td>16.1</td>
+      <td>213.0</td>
+      <td>5400.0</td>
+      <td>Male</td>
+    </tr>
+  </tbody>
+</table>
+<p>344 rows × 7 columns</p>
+</div></div></div>
+</div>
+<p>First we can visualize the raw data both as a scatter plot of xy-pairs as well as a “rug plot” showing ticks for x and y individually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use JointGrid directly to draw a custom plot</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">JointGrid</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">plot_joint</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">plot_marginals</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">rugplot</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.JointGrid at 0x7fe81081f6a0&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_4_1.png" src="../_images/visualize_marginals_4_1.png" />
+</div>
+</div>
+<p>We can make a similar kind of plot, where instead of visualizing the raw data, we use a histogram to approximate the parent distribution both for the joint and for the marginals</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.JointGrid at 0x7fe8320b53a0&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_6_1.png" src="../_images/visualize_marginals_6_1.png" />
+</div>
+</div>
+<p>Note the marginal distribution displayed on the top is the same as just a simple histogram of <code class="docutils literal notranslate"><span class="pre">bill_length_mm</span></code>. When we histogram a variable <span class="math notranslate nohighlight">\(X_i\)</span>, we implicitly are marginalizing over all the other variables in the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x7fe810874be0&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_8_1.png" src="../_images/visualize_marginals_8_1.png" />
+</div>
+</div>
+<p>Or we can use a kernel density estimation (kde) technique to get a smoother estimate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.JointGrid at 0x7fe83243f460&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_10_1.png" src="../_images/visualize_marginals_10_1.png" />
+</div>
+</div>
+<div class="section" id="grouping-by-class">
+<h2>Grouping by class<a class="headerlink" href="#grouping-by-class" title="Permalink to this headline">¶</a></h2>
+<p>We can also look at <code class="docutils literal notranslate"><span class="pre">bill_length_mm</span></code> vs. <code class="docutils literal notranslate"><span class="pre">bill_depth_mm</span></code> grouped by <code class="docutils literal notranslate"><span class="pre">species</span></code>. Before we plot, let’s look at the <strong>correlation matrix</strong> for these classes. Note that the two variables are positivley correlated in each case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins</span><span class="p">[[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span><span class="s2">&quot;species&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;species&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+    </tr>
+    <tr>
+      <th>species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Adelie</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.391492</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.391492</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Chinstrap</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.653536</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.653536</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Gentoo</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.643384</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.643384</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.JointGrid at 0x7fe8325bea60&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_13_1.png" src="../_images/visualize_marginals_13_1.png" />
+</div>
+</div>
+<p>The plot above clearly reveals the origin of the multi-modal structure of the underlying data. Well it doesn’t indicate that it causes it, but <code class="docutils literal notranslate"><span class="pre">species</span></code> does seem to naturally map onto the different modes.</p>
+</div>
+<div class="section" id="visualizing-multivariate-data">
+<h2>Visualizing multivariate data<a class="headerlink" href="#visualizing-multivariate-data" title="Permalink to this headline">¶</a></h2>
+<p>Often we are working with higher dimensional data that is not so easy to visualize. In this penguin dataset, there are four continuous random variables in addition to the categorical species label. We can print the 4x4 correlation matrix grouped by species again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;species&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+    </tr>
+    <tr>
+      <th>species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Adelie</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.391492</td>
+      <td>0.325785</td>
+      <td>0.548866</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.391492</td>
+      <td>1.000000</td>
+      <td>0.307620</td>
+      <td>0.576138</td>
+    </tr>
+    <tr>
+      <th>flipper_length_mm</th>
+      <td>0.325785</td>
+      <td>0.307620</td>
+      <td>1.000000</td>
+      <td>0.468202</td>
+    </tr>
+    <tr>
+      <th>body_mass_g</th>
+      <td>0.548866</td>
+      <td>0.576138</td>
+      <td>0.468202</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">Chinstrap</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.653536</td>
+      <td>0.471607</td>
+      <td>0.513638</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.653536</td>
+      <td>1.000000</td>
+      <td>0.580143</td>
+      <td>0.604498</td>
+    </tr>
+    <tr>
+      <th>flipper_length_mm</th>
+      <td>0.471607</td>
+      <td>0.580143</td>
+      <td>1.000000</td>
+      <td>0.641559</td>
+    </tr>
+    <tr>
+      <th>body_mass_g</th>
+      <td>0.513638</td>
+      <td>0.604498</td>
+      <td>0.641559</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">Gentoo</th>
+      <th>bill_length_mm</th>
+      <td>1.000000</td>
+      <td>0.643384</td>
+      <td>0.661162</td>
+      <td>0.669166</td>
+    </tr>
+    <tr>
+      <th>bill_depth_mm</th>
+      <td>0.643384</td>
+      <td>1.000000</td>
+      <td>0.706563</td>
+      <td>0.719085</td>
+    </tr>
+    <tr>
+      <th>flipper_length_mm</th>
+      <td>0.661162</td>
+      <td>0.706563</td>
+      <td>1.000000</td>
+      <td>0.702667</td>
+    </tr>
+    <tr>
+      <th>body_mass_g</th>
+      <td>0.669166</td>
+      <td>0.719085</td>
+      <td>0.702667</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>But we can also make what is called a <strong>pairplot</strong> that makes a grid of plots. On the off-diagonal one either plots a scatter plot of <span class="math notranslate nohighlight">\(X_i\)</span> vs. <span class="math notranslate nohighlight">\(X_j\)</span> or an estimate of <span class="math notranslate nohighlight">\(p(X_i,X_j)\)</span> – note <span class="math notranslate nohighlight">\(p(X_i,X_j)\)</span> is 2-d, but it is actually marginalizing over all the other random variables. Along the diagonal <span class="math notranslate nohighlight">\(X_i=X_j\)</span>, trying to visualize a 2-D distribution doesn’t make much sense. Instead, along the diagonal one usually plots the univariate marginal <span class="math notranslate nohighlight">\(p(X_i)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">penguins</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x7fe8603e2490&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualize_marginals_18_1.png" src="../_images/visualize_marginals_18_1.png" />
+</div>
+</div>
+<p>And we can do both a pairplot grouped by species, which reveals a lot about this dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">penguins</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/visualize_marginals_20_0.png" src="../_images/visualize_marginals_20_0.png" />
+</div>
+</div>
+<p>Note there were problems with seaborn 0.10.1</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/mwaskom/seaborn/issues/2194">GitHub Issue #2194</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/63443583/seaborn-valueerror-zero-size-array-to-reduction-operation-minimum-which-has-no">stackoverflow</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./distributions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../datasaurus-long.html" title="previous page">Simple data exploration</a>
+    <a class='right-next' id="next-link" href="../measures_of_dependence.html" title="next page">Quantifying statistical dependence</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Conditonal Probability" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/conditional.html" />
+  <meta property="og:description" content="Let us start with a graphical introduction to the notion of conditional probability 1. Imagine you are throwing darts, and the darts uniformly hit the rectangular dartboard below. A visual represen..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="Conditonal Probability" />
+  
+    <title>Conditonal Probability &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bayes’ Theorem" href="bayes_theorem.html" />
+    <link rel="prev" title="Random Variables" href="random_variables.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correlation.html">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/visualize_marginals.html">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="prml_notebooks/attribution.html">
+   PRML Examples
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch10_Approximate_Inference.html">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="autodiff-tutorial.html">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/conditional.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fconditional.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/conditional.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizing-conditional-distributions-for-continuous-data">
+   Visualizing conditional distributions for continuous data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#marginal-distributions">
+   Marginal Distributions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chain-rule-of-probability">
+   Chain Rule of Probability
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-more-general-formulation">
+     A more general formulation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-mnemonic-on-conditional-distributions-units">
+   A mnemonic on conditional distributions: Units
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#exercise">
+     Exercise
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="conditonal-probability">
+<h1>Conditonal Probability<a class="headerlink" href="#conditonal-probability" title="Permalink to this headline">¶</a></h1>
+<p>Let us start with a graphical introduction to the notion of conditional probability <a class="footnote-reference brackets" href="#footnote1" id="id1">1</a>.
+Imagine you are throwing darts, and the darts  uniformly hit the rectangular dartboard below.</p>
+<div class="figure align-default" id="prob-cousins">
+<a class="reference internal image-reference" href="_images/prob_cousins.png"><img alt="_images/prob_cousins.png" src="_images/prob_cousins.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">A visual representation of events <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> in a larger sample space <span class="math notranslate nohighlight">\(\Omega\)</span> <a class="footnote-reference brackets" href="#footnote1" id="id2">1</a>.</span><a class="headerlink" href="#prob-cousins" title="Permalink to this image">¶</a></p>
+</div>
+<p>The dark board has two oval shaped pieces of paper labeled <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>. We can graphically convey the probability of hitting <span class="math notranslate nohighlight">\(A\)</span> and the probability of hitting <span class="math notranslate nohighlight">\(B\)</span> with the images below.</p>
+<div class="figure align-default" id="cousins-and">
+<img alt="_images/pA_and_pB.png" src="_images/pA_and_pB.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">A visual representation of <span class="math notranslate nohighlight">\(P(A)\)</span> and <span class="math notranslate nohighlight">\(P(B)\)</span> <a class="footnote-reference brackets" href="#footnote1" id="id3">1</a>.</span><a class="headerlink" href="#cousins-and" title="Permalink to this image">¶</a></p>
+</div>
+<p>And we can also talk about the probability of hitting <span class="math notranslate nohighlight">\(A\)</span> <strong>and</strong> <span class="math notranslate nohighlight">\(B\)</span>, which is often written as <span class="math notranslate nohighlight">\(A \cap B\)</span>, as the image below.</p>
+<div class="figure align-default" id="id5">
+<img alt="_images/pAandB.png" src="_images/pAandB.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">A visual representation of <span class="math notranslate nohighlight">\(P(A \cap B)\)</span> <a class="footnote-reference brackets" href="#footnote1" id="id4">1</a>.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<p>In both cases the denominator is the full entire sample space <span class="math notranslate nohighlight">\(\Omega\)</span> (the rectangle).</p>
+<p>Now let’s consider the <strong>conditional probability</strong> <span class="math notranslate nohighlight">\(P(A \mid B)\)</span>, which is said “probability of <span class="math notranslate nohighlight">\(A\)</span> <strong>given</strong> <span class="math notranslate nohighlight">\(B\)</span>”. We know that the dart hit <span class="math notranslate nohighlight">\(B\)</span>, so the denominator is no longer the entire sample space <span class="math notranslate nohighlight">\(\Omega\)</span> (the rectangle). Instead, it the denominator is <span class="math notranslate nohighlight">\(B\)</span>. Similarly, the numerator is no longer all of <span class="math notranslate nohighlight">\(A\)</span>, because some parts of <span class="math notranslate nohighlight">\(A\)</span> aren’t also in <span class="math notranslate nohighlight">\(B\)</span>. Instead, the numertor is the intersection <span class="math notranslate nohighlight">\(A \cap B\)</span>. We can visualize this as:</p>
+<div class="figure align-default" id="cousins-conditional">
+<img alt="_images/conditional.png" src="_images/conditional.png" />
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">A visual representation of <span class="math notranslate nohighlight">\(P(A \mid B)\)</span> <a class="footnote-reference brackets" href="#footnote1" id="id6">1</a>.</span><a class="headerlink" href="#cousins-conditional" title="Permalink to this image">¶</a></p>
+</div>
+<p>We will extend this visual representation in the section on <a class="reference internal" href="bayes_theorem.html"><span class="doc std std-doc">Bayes’ Theorem</span></a>.</p>
+<div class="section" id="visualizing-conditional-distributions-for-continuous-data">
+<h2>Visualizing conditional distributions for continuous data<a class="headerlink" href="#visualizing-conditional-distributions-for-continuous-data" title="Permalink to this headline">¶</a></h2>
+<p>Consider the arbitrary joint distribution <span class="math notranslate nohighlight">\(p_{XY}(X,Y)\)</span> shown below</p>
+<div class="figure align-default" id="schematic-p-x-given-y">
+<img alt="_images/schematic_p_xy.png" src="_images/schematic_p_xy.png" />
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">A schematic of the joint <span class="math notranslate nohighlight">\(p(X,Y)\)</span></span><a class="headerlink" href="#schematic-p-x-given-y" title="Permalink to this image">¶</a></p>
+</div>
+<p>If we want to condition on the random varaible <span class="math notranslate nohighlight">\(Y\)</span> taking on the value <span class="math notranslate nohighlight">\(y=-1.15\)</span>, then the conditional distribution <span class="math notranslate nohighlight">\(p_{X\mid Y}(X|Y)\)</span> is just a normalized version of a slice through the joint:</p>
+<div class="math notranslate nohighlight" id="equation-conditional-x-given-y">
+<span class="eqno">(1)<a class="headerlink" href="#equation-conditional-x-given-y" title="Permalink to this equation">¶</a></span>\[
+p_{X\mid Y}(X \mid Y=y) = \frac{p_{XY}(X,Y=y)}{\int p_{XY}(x,y) dx} =  \frac{p_{XY}(X,Y=y)}{p_Y(Y=y)}
+\]</div>
+<div class="figure align-default" id="id7">
+<img alt="_images/schematic_p_x_given_y.png" src="_images/schematic_p_x_given_y.png" />
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">A schematic of the slice through the joint <span class="math notranslate nohighlight">\(p(X,Y=y)\)</span> and the normalized conditional <span class="math notranslate nohighlight">\(p(X|Y)\)</span>.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>Similarly, if we want to condition on the random varaible <span class="math notranslate nohighlight">\(X\)</span> taking on the value <span class="math notranslate nohighlight">\(x=1.75\)</span>, then the conditional distribution <span class="math notranslate nohighlight">\(p_{Y\mid X}(Y|X)\)</span> is just a normalized version of a slice through the joint:</p>
+<div class="math notranslate nohighlight" id="equation-conditional-y-given-x">
+<span class="eqno">(2)<a class="headerlink" href="#equation-conditional-y-given-x" title="Permalink to this equation">¶</a></span>\[
+p_{Y\mid X}(Y \mid X=x) = \frac{p_{XY}(X=x,Y)}{\int p_{XY}(x,y) dy} =  \frac{p_{XY}(X=x,Y)}{p_X(X=x)}
+\]</div>
+<div class="figure align-default" id="schematic-p-y-given-x">
+<img alt="_images/schematic_p_y_given_x.png" src="_images/schematic_p_y_given_x.png" />
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">A schematic of the slice through the joint <span class="math notranslate nohighlight">\(p(X=x,Y)\)</span> and the normalized conditional <span class="math notranslate nohighlight">\(p(Y|X)\)</span>.</span><a class="headerlink" href="#schematic-p-y-given-x" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here’s a <a class="reference internal" href="correlation_schematic.html"><span class="doc std std-doc">link to the notebook</span></a> I used to make these images in case it is useful.</p>
+</div>
+</div>
+<div class="section" id="marginal-distributions">
+<h2>Marginal Distributions<a class="headerlink" href="#marginal-distributions" title="Permalink to this headline">¶</a></h2>
+<p>The normalization factors in the denominator of Equations <a class="reference internal" href="#equation-conditional-x-given-y">(1)</a> and <a class="reference internal" href="#equation-conditional-y-given-x">(2)</a> involve probability distributions over an individual variables <span class="math notranslate nohighlight">\(p_X(X)\)</span> or <span class="math notranslate nohighlight">\(p_Y(Y)\)</span> without conditioning on the other. These are called <strong>marginal distributions</strong> and they correspond to integrating out (or <em>marginalizing</em>) the other variable(s). Eg.</p>
+<div class="math notranslate nohighlight" id="equation-marginalization-over-y">
+<span class="eqno">(3)<a class="headerlink" href="#equation-marginalization-over-y" title="Permalink to this equation">¶</a></span>\[
+p_X(x) = \int  p_{XY}(x,y) dy
+\]</div>
+<p>In many ways, marginalization is the opposite of conditioning.</p>
+<p>For high dimensional problems, marginalization is difficult as it involves high dimensional integrals. Naive numerical integration is often not tractable, which has motivated a number of different approaches to approximate the integrals, such as Monte Carlo integration.</p>
+</div>
+<div class="section" id="chain-rule-of-probability">
+<h2>Chain Rule of Probability<a class="headerlink" href="#chain-rule-of-probability" title="Permalink to this headline">¶</a></h2>
+<p>One very powerful and useful result is that, without loss of generality, one can decompose a joint distribution into the appropriate product of conditionals. For example, one can always write the joint distribution for <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+p(X,Y) = p(X|Y) p(Y)
+\]</div>
+<p>Similarly, one can always decompose the the joint for three variables as</p>
+<div class="math notranslate nohighlight">
+\[
+p(X,Y,Z) = p(X|Y,Z) p(Y|Z) p(Z)
+\]</div>
+<p>And this type of decomposition for the joint for <span class="math notranslate nohighlight">\(N\)</span> random variables <span class="math notranslate nohighlight">\(X_1, \dots, X_N\)</span> is often written in this way:</p>
+<div class="math notranslate nohighlight">
+\[
+p_N(X_1, \dots, X_N) = \prod_{i=2}^N p_i(X_i|X_{i-1}, \dots X_{1}) p_1(X_{1})
+\]</div>
+<p>Note that here I’ve added subscripts to the distributions as they are all different in general. In some cases, one uses this same kind of decomposition and additionally assumes that there is some structure across the different distributions (eg. in a Markov process or an autoregressive model).</p>
+<p>An alternative notation that is often found is:</p>
+<div class="math notranslate nohighlight">
+\[
+p(X_1, \dots, X_N) = \prod_{i=1}^N p(X_i|X_{&lt; i})
+\]</div>
+<p>where the first term <span class="math notranslate nohighlight">\(p(X_{1})\)</span> without any conditioning is implied.</p>
+<div class="section" id="a-more-general-formulation">
+<h3>A more general formulation<a class="headerlink" href="#a-more-general-formulation" title="Permalink to this headline">¶</a></h3>
+<p>The formulation of the chairn rule
+See <a class="reference external" href="https://cims.nyu.edu/~cfgranda/pages/stuff/probability_stats_for_DS.pdf">Theorem 1.2.2 (Chain rule) in the NYU CDS lecture notes on Probability and Statistics</a> for a more general formulation</p>
+</div>
+</div>
+<div class="section" id="a-mnemonic-on-conditional-distributions-units">
+<h2>A mnemonic on conditional distributions: Units<a class="headerlink" href="#a-mnemonic-on-conditional-distributions-units" title="Permalink to this headline">¶</a></h2>
+<p>We will see many different types of conditional distributions in this course, and manipulating them can be error prone and confusing. Manipulating conditional distributions takes some practice, it is not much different than learning to manipulate upper- and lower-indices in special realtivity and Einstein notation. As we will see later, some distributions have additional structure – some variables may be (assmed to be) independent or conditionally independent – and in these cases the decomposition isn’t completely general, but it there are still some rules.</p>
+<p>For example, I know that <span class="math notranslate nohighlight">\(p(X,Y|Z)p(X)\)</span> is not a valid decomposition of any joint <span class="math notranslate nohighlight">\(p(X,Y,Z)\)</span> or conditional <span class="math notranslate nohighlight">\(p(X,Y|Z)\)</span>. I know this immediately by inspection because the <span class="math notranslate nohighlight">\(X\)</span> appears on the left of the <span class="math notranslate nohighlight">\(\mid\)</span> more than once. If <span class="math notranslate nohighlight">\(X,Y,Z\)</span> are continuous and have units, then the units of this expression would be <span class="math notranslate nohighlight">\([Y]^{-1}[X]^{-2}\)</span>. Similarly, if I wanted to check that it was normalized I would want to integrate it. While I can assume <span class="math notranslate nohighlight">\(\int  p(x,y|z) dx dy= 1\)</span> and <span class="math notranslate nohighlight">\(\int p(x) dx = 1\)</span>, there is no reason for <span class="math notranslate nohighlight">\(\int  p(x,y|z)p(x)\)</span> will be 1, and it will still have units of <span class="math notranslate nohighlight">\([X]^{-1}\)</span>.</p>
+<p>Personally, I like to sort the terms like this <span class="math notranslate nohighlight">\(p(X,Y) = p(X|Y) p(Y)\)</span> instead of like this <span class="math notranslate nohighlight">\(p(X,Y) = p(Y) p(X|Y)\)</span>. Or like this <span class="math notranslate nohighlight">\(P(A \cap B) = P(A \mid B) p(B)\)</span> instead of like this <span class="math notranslate nohighlight">\(P(A \cap B) = p(B) P(A \mid B)\)</span>. In both cases, what one can form a joint distribution by starting with a conditioanl and then multiplying by a distribution for what is being conditioned on. I find that putting the terms in this order helps me avoid mistakes and it’s easier to connect to the chian rule of probability.</p>
+<div class="section" id="exercise">
+<h3>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h3>
+<p>Which of the following are valid (not necessarily general) decompositions of some probability distribution?</p>
+<p><label><input type="checkbox" id="box-conditional-1" class="box"> <span class="math notranslate nohighlight">\(p(W,X,Y|Z)P(Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-2" class="box"> <span class="math notranslate nohighlight">\(p(W,X,Y|Z)P(Y)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-3" class="box"> <span class="math notranslate nohighlight">\(p(W|X,Y,Z)P(X,Y,Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-4" class="box"> <span class="math notranslate nohighlight">\(p(W|X,Y,Z)P(X)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-5" class="box"> <span class="math notranslate nohighlight">\(p(W|X,Y,Z)P(W,Y,Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-6" class="box"> <span class="math notranslate nohighlight">\(p(W,X)p(Y,Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-7" class="box"> <span class="math notranslate nohighlight">\(p(W|X)p(Y,Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-8" class="box"> <span class="math notranslate nohighlight">\(p(W,Y)p(X|Z)\)</span> </input></label></p>
+<p><label><input type="checkbox" id="box-conditional-9" class="box"> <span class="math notranslate nohighlight">\(p(W|X,Y,Z)p(X,Y|Z)p(Z)\)</span> </input></label></p>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="footnote1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>,<a href="#id4">4</a>,<a href="#id6">5</a>)</span></dt>
+<dd><p>These images are adapted from lectures by Bob Cousins.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="random_variables.html" title="previous page">Random Variables</a>
+    <a class='right-next' id="next-link" href="bayes_theorem.html" title="next page">Bayes’ Theorem</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

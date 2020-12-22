@@ -1,0 +1,1163 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="10. Approximate Inference" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/prml_notebooks/ch10_Approximate_Inference.html" />
+  <meta property="og:description" content="import matplotlib.animation as animation import matplotlib.pyplot as plt import numpy as np %matplotlib inline from prml.rv import VariationalGaussianMixture from prml.preprocess import PolynomialF..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="10. Approximate Inference" />
+  
+    <title>10. Approximate Inference &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="11. Sampling Methods" href="ch11_Sampling_Methods.html" />
+    <link rel="prev" title="9. Mixture Models and EM" href="ch09_Mixture_Models_and_EM.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../conditional.html">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../correlation.html">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/visualize_marginals.html">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="attribution.html">
+   PRML Examples
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../autodiff-tutorial.html">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/prml_notebooks/ch10_Approximate_Inference.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fprml_notebooks/ch10_Approximate_Inference.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/prml_notebooks/ch10_Approximate_Inference.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/cranmer/stats-ds-book/master?urlpath=tree/book/prml_notebooks/ch10_Approximate_Inference.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/cranmer/stats-ds-book/blob/master/book/prml_notebooks/ch10_Approximate_Inference.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#illustration-variational-mixture-of-gaussians">
+   10.2 Illustration: Variational Mixture of Gaussians
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-linear-regression">
+   10.3 Variational Linear Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-logistic-regression">
+   10.6 Variational Logistic Regression
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="approximate-inference">
+<h1>10. Approximate Inference<a class="headerlink" href="#approximate-inference" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.animation</span> <span class="k">as</span> <span class="nn">animation</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">from</span> <span class="nn">prml.rv</span> <span class="kn">import</span> <span class="n">VariationalGaussianMixture</span>
+<span class="kn">from</span> <span class="nn">prml.preprocess</span> <span class="kn">import</span> <span class="n">PolynomialFeature</span>
+<span class="kn">from</span> <span class="nn">prml.linear</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VariationalLinearRegression</span><span class="p">,</span>
+    <span class="n">VariationalLogisticRegression</span>
+<span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="illustration-variational-mixture-of-gaussians">
+<h2>10.2 Illustration: Variational Mixture of Gaussians<a class="headerlink" href="#illustration-variational-mixture-of-gaussians" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">x1</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">x2</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">x3</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">))</span>
+
+<span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vgmm</span> <span class="o">=</span> <span class="n">VariationalGaussianMixture</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">vgmm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">vgmm</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ch10_Approximate_Inference_4_0.png" src="../_images/ch10_Approximate_Inference_4_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vgmm</span> <span class="o">=</span> <span class="n">VariationalGaussianMixture</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">vgmm</span><span class="o">.</span><span class="n">_init_params</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">param</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">get_params</span><span class="p">()])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">])</span>
+<span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">_variational_expectation</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vgmm</span><span class="o">.</span><span class="n">n_components</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">component_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">imgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">vgmm</span><span class="o">.</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">))</span>
+    <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+    <span class="n">vgmm</span><span class="o">.</span><span class="n">_variational_maximization</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">new_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">param</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">vgmm</span><span class="o">.</span><span class="n">get_params</span><span class="p">()])</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">new_params</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_params</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;animation.html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;html5&#39;</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">ArtistAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
+<span class="n">anim</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><video width="432" height="288" controls autoplay loop>
+  <source type="video/mp4" src="data:video/mp4;base64,AAAAHGZ0eXBNNFYgAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAAA48W1kYXQAAAKtBgX//6ncRem9
+5tlIt5Ys2CDZI+7veDI2NCAtIGNvcmUgMTUyIHIyODU0IGU5YTU5MDMgLSBILjI2NC9NUEVHLTQg
+QVZDIGNvZGVjIC0gQ29weWxlZnQgMjAwMy0yMDE3IC0gaHR0cDovL3d3dy52aWRlb2xhbi5vcmcv
+eDI2NC5odG1sIC0gb3B0aW9uczogY2FiYWM9MSByZWY9MyBkZWJsb2NrPTE6MDowIGFuYWx5c2U9
+MHgzOjB4MTEzIG1lPWhleCBzdWJtZT03IHBzeT0xIHBzeV9yZD0xLjAwOjAuMDAgbWl4ZWRfcmVm
+PTEgbWVfcmFuZ2U9MTYgY2hyb21hX21lPTEgdHJlbGxpcz0xIDh4OGRjdD0xIGNxbT0wIGRlYWR6
+b25lPTIxLDExIGZhc3RfcHNraXA9MSBjaHJvbWFfcXBfb2Zmc2V0PS0yIHRocmVhZHM9NiBsb29r
+YWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBkZWNpbWF0ZT0xIGludGVybGFj
+ZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJh
+bWlkPTIgYl9hZGFwdD0xIGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdl
+aWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49NSBzY2VuZWN1dD00MCBpbnRyYV9yZWZyZXNo
+PTAgcmNfbG9va2FoZWFkPTQwIHJjPWNyZiBtYnRyZWU9MSBjcmY9MjMuMCBxY29tcD0wLjYwIHFw
+bWluPTAgcXBtYXg9NjkgcXBzdGVwPTQgaXBfcmF0aW89MS40MCBhcT0xOjEuMDAAgAAAHHVliIQA
+E//+97GPgU3IAA2XOop6H+EVsfSQUXqx2aBk6gAAAwAAiYGOFk1v/CH1/gAT8NL6b4COhp23maaj
+r325G0cLkwb9TxoyjCX1zGMN22VFsUS2UtOQ+PPrzAUI1ZdK8o+8FzxfKD2UXdrJKq9WAAHuA4Do
+JaSDH5vGdR5+mYhAyVPR+AMo+BdXbnI8A3Evbnk086Uw/VCFtPh8AEizDt5+ofc9gWbhnCryd4Hv
+4aYyuE7VY02zdq70arT4Uk/TDHzm4t5OmjL9lB9SpET9DqQ1HLrx+JHZoJsxS7b/Qht/NdCf0oqx
+zwuXTIEkRSRy3d4CX/EeW2yss05QmbGr1Xu6c2bY7W7sbNdDIxcRxATjiV04pQSBmIz5CfvFn988
+l6px2QjRleJ9JRFJ5VMQXGF/AoHrdCIALtyCg9sVlhZ0AskVB+vUgEJkI0UzKRg3t1t3CTbHVPRL
+sSQqdjtJuOHAhon7NmqqUOG2R/pKCC5uwVWj/alE+FLprsbwXrrlaXdvN6TZhGeQ7scsNVi3BdmC
+QzLhqMK5UkV5G6ceX7sV4BtCJLcTNf3f3UNYZfFYRCaEuPkj3d9id0V+t/znVe/mtEExsgTQPFIL
+6aGBNIwl57+TP/7b2e+HzYmA9FK6vW462LhQjoAltlIKMFvq3LhatqafdZBGUJLBS+XNB+2ziOpN
+xRsxzcQ5rj9WvtpgqleN9Jw3vUO/0o99Q5fMrisTP4lHvwEbshV54Sj+jQRdnkyrJx5Vwgt5crti
+nDNl7PnZIEnUZQ4mhL7LPk5tN8EgGbyf6PcHZP/Ygtjfi+gCr1sN6B81LoaRDxhg58VVxAY2HMak
+37p65ArQ6jyopk+rEQOPtYXtORYMX+UtO8+Vh9vUuqhMdfEVuRVAgy7NNl+oo2X45WRG/mBjWRzv
+32ix6PPLC780ifEF+iR90cYHxSJCgs2kjwTeO3heu3nbTK/EqsMLJz6hgdpcgrPKklc04zmAgvQR
+3rNJu39W1tzSVuGx/1T4+GENSyC+yU06oSUTE5kS+ySfVhPxifgGZSs34FfduuwmzaYsUTY/n1Or
+H1dfekjfUhm/A7NT5//oSGmn4677TfLlcDails/OHCHjlXDogyNzzgkVNKQy/1CMeC5VZQB5tMXT
++jN7tfb9PMm7TgSxnZmxREW2vPKm9WLQwEJjvOqLdoK2Bxby9C2j+ZkVrh68jqBmOJtZ8NNx4p7j
+W5tM08kBeT2I5te78eJjjGWSQeZ1x0Me+1wUBCtHk6/2EaE86pBirPHqyspB9wTx7hlSeA+ZvxGC
+d0HOgESk3AXgASiAVBB1W7eOnVSlJEt7SIaqMLkEbtlpgL8L8vynJgNt/VLjRHByaQGnzxMFbAEs
+KsuVteE8ggrS1s9ruxy/PW/MZBbEUvd7wGU49kn+7yraDUVsZzl0JSh62EW0CpYxzq4LRLxA5QD/
+AcSODeMjkVGY+Ww1EO7KNx+ODdlHflNKbkAR87Sgt9QBxzIQu3gd0WiaCt8+NINzO8kD8IQ4JmGm
+aNuEsfjogyVBhjA4rlvFQsp3M/Gj6gjSYg62jrfDcj5HUleAPTvEguNEiXxKkKo7M921qn4w9lYa
+s0vU2t3F6cd3eAgJQX23+1/Shq6CfYb3aQRvWp2h8y4oNm8tO7b7Zh9NHpEUn8sWy3XSN7m/Bd6F
+n266OYsb908demAYt7R5trGwwRp015MsnGFljcwvkIY0BKvJrMHub3k2PXUDK7NTUpVzD2a3bO8w
+0DauiJx0RG+fJSdoeVtaFkfEoFvA68zV6sXTdLexmSBub7onZXbl3Ka25LPINwijzsTUKyhRZxXx
+ExZ+78M5nLYRKMyf4d8dCpI3gF0NG6IWdkg7LssLOdd77sQHUJwVSFJh0qqar7hoM1E7Hhj2mIHv
+G3M9es6rJUHbi951BXF8O7XdI/91X2xQ7UehDxEyRAFbTshicolf1qBQLEK7+3ZcN2JbM/bijMuq
+aUHzcE52AzIBfmtgFglze1izrUhZ4a94Rj5A0oBfWIlZXNhCqsXXQQ0BpX2NBhaWoftG52pCtsTj
+Q9VhvtgxZilOQjxD0V+uNeK9E5+ozMO4FVSSY/DB2KwZdDMZArh/4PXaEKCapUmgXCIQ36pA4fj5
+D1vWRsvWQ0sPcdieXZYtCs6DN37ILVSlTjyccQNdRbqy9pwU+DAA8rym7FAYvxl0p8/8GghEvyjT
+1H1Xkt4ZCrCrKQ8sd1SmCI7idDk8XROkWOtISz0QGw0yFzjRRIr1oBaxOm4k2eV2xRpLPFC41tZF
+TuEQb2Ov2ZbkTgECHJZvhW0OzYjq8065o399RZSPQqa4AZhCmlAfTtqFkxWv3kHe/eY7pLTapxFG
+taOMWAekjS/7AJboIJbms5Mh2XoAEIoHjdWAqNJPYRsoodOVe5gz1vKfEGnqtDGyBJWlpH1cvdZ+
+A/urfj4bHJIU/V5SUv29M8J5SW7h1hwEN1nXwRFmhVPkQjzpqR8GnfsyqYc2dSmBhvoDGpESyB9j
+VyHdUrH0Vrvmgg1AKUEiAuzMqCTAygoIK4Mlc7+Tq5nfQ4ciXGGbN+m8dJuM39FQsyHJNbzhOz1a
+qdwGOvYF6jy5wpMHWzELJuUXUGuGb51XFpo+QzZYM8CtaV9L9xsZkqBugjzBoyI4avagx8HXovmY
+tNXxwzMUbTWdCs/URgaimjwfOGhD/XwvHnMtTZ7RrJAW/QyG6JIAyqJHuMcUti48gQ/Y8UdvIAC6
+/ti8XMsLpST1rKKN+iyPSe2FwfTpv84bYb8KiZF/ooCHi9iY5JHIweEPWMD2dTz8n/dhnmRLm44s
+urmib18ewSuSBh5nC+akbo1z/w/6MNnUL1Ta+Pf60N2Lhzjb30fikw/BuRLRrF0GeFuB5Kzh0SdT
+sDauD2UMVeSx7/LBzg9WxMWcJm6xbgivflo63t6LVpRr4ZKaI3hTXL02Ua8fH7KOeBusWEd9ja1l
+ZeAVipqeQ422AsbyYoNxdQ6pUmSzwJld++Dt64iexdZqInqjf28czU+Lu6MKjcpcKA9A08Nwf52W
+z9oS8aCmHjzFnsCW7rbwuzAIv654KWYC8mnK+SS3cJWjDnH4QoGE4dkBfSyaEyGCr8AzGc8xefKB
+yPlU/i77X1AY7OWvbOOBvyKtsoNdenAxLXbcRHptQAbnVE4trkr/ryhNGgiO2jt5iLs08CORAxg/
+00nuI1cu50+kipO8IF0I7JXiDC6LZrmqZO9iZ3vRWNcuFLSqbXaiAoAf/rgKKUm3NPBjWuCh9I1f
+XSsRuweIS8ORWWlEkEEstbtWcpvYFR+IetQeoA5LTOucKkpBvjuQ0lIzowsVa9YwxGWa4RaFwa0a
+4Es76PfydYpjfOy2iu/CHfx3JwLzMGpO3jPEq/aHYrcUy+Jxll8EYqbrUJ7kMGT+QysOvtPPF3gu
+LD2pGlJFrsrdfKVKqHmZj1rS/kw0aySa0aLHNwhjjCpsNKg5tGeqysI6EbtwNr/Lf9xuinUagCVa
+ljEBKKYV+SywaQXcUNu7yOJfhcBiOqlghUXQcxNXT2b6ZEUiBHYaFjJSDFnuiQ5O8TjARQCMyg8G
+rjYosoE/ex61lUqd1+dFqmhkLjDMXB61VSuJ3T8U9M7An8JbU8PdmOYPPP6VRlyYSlTm/cDQAXEW
+3eEWKgLsMmFbd1bW9FBNQWMXdT/j92W80+Wcgyv5U2V8jgE8wC9dFf8avBdCPQUiFpWNTQXoPKkN
+VY8QEL+QdHYSIlVHnLHdRFySaYYTnPY7By9PP4q+gLoqTm6GwVzqf5Ewr9nqYPEhlVoYxCL/XL5N
+Rx97PHn2tdZPGCS3jhezAkzDaO9M9fk5kSL6/kn7FT0rIj8aZOvfrPoYeYf7ecT+GYj9fsV3mVYJ
+MLnznQtQ0EnP4JuiVgkjNd34KuDVrlrC+F7S0tjLwZtrtdiyz5Kx7OeTNj2FqPXIbd/soxje72tS
+CIUkrPX2iSdoegD4xKSCJ09FUz+rI6vwFSQp+HFM0B2aIRYmTA/MwaSA7n5W4oMgFNYvi27z7jay
+E14rIus74BWIShCrGGetIcyn50rwIj1ut0zCpASNPvA8ptiqbTHeYrVI72gSJ4+TplUiCfkklrTX
+Dm02Q1Xm9Vw2OlKytF1w1EZgwxBv/ul8cApny1yCNfwPi1mCw2HH0UjUsmDtRkFzfoS4vfNxeui/
+t5QnGDhWunlYtoAd6ukCP2iRIVzzYBVBm1OjEdrCk7cb/DZ6mY4rt/usxoi0Wwt8kYuCdpm1NkHx
+MzNfyZmel9FmUbvXKcWY0DACW4nn1tQG4TAavvM/Zk91GkC3KQMqIJeytZN0w2DEAfst18CF5h2I
+39I7Bv5j7bmVWtp9D/T8xRKkLPXf9PGw0ePBf2hoBvm7ejvQRL794tR48Dfi+qgIF9uuwl7q4dv3
+KkbpJM0bO3Gl3CEnorLyur7CmSy8+0OYn84LuggSJHsjplQO4TsuKtpHvVNnBK4SKWL8k7QKGpfk
+kWi3ewPHXjboQo4GltjDdiHdw8LVFe7txUBik2Y2gqCsNeOG8C4HdiP1V1qK+BDF/wVJaKxp+A6s
+Lzp28PXcyJwfa6NSwfRR9RxpXSVHZOu+RFMGVOdbjtqWvzT4ObDG96MXfPjn6S5ohHtgRI7mmOXY
+s1tcslbl/GV/3PwcEiE0Xgq7rVAj2JVFhbOQN3y5V5bwUsgRzzf8T4/5iBLR7dfV2dtp9RC+/wcA
+7lsaoHh9wTZ4ro92EyZMb4Y/aYJdXkpbPEvrPjGQ4kVJBcjHmJCXHAm60ar0xFH5AWi/fjRj5xaR
+UuXp+a3GJ/RJ3LjJV3bCc74pIGFsQ+xBPdTOz1QSFVrIYQXFeM03/Krmv3DFKF+Ks3GHiZXIRT7I
+bmqXwyd4S72aFKoPpNydB/VhL0A3y+OufFTRyXeV3PzcxVWjFpof10k+OjgNu0Q2KGPIzUI2tKE6
+JRNOmSxA1a1V8AILR+dtGYbWs7cANIFh55Z7M3cHbqy16WL5aGnV4DxMwhVdQsWU2BO9UwOKmWZu
+zyuCV1X30cLVaRgNb/uRhiE3oYtthXrisimpgGHRaK++EiuWxoti5HbbBuabrztkGkyTp5IPRDqw
+tFMbdoA+g7W9OWOsVqWOGPkk+mstK3CvgaoIBhZUmwL7RqhOUjwXDP+spngELi1u6BABl1GnsFTS
+K2bbrkggJlHkR7ZGcnR04MDuexWCzdickhryz1SrvFz0zUBHfPSy3x/Tj5EhpRzElFWIerI2F1Y0
+ad+EErsRfkN56T9kHNOWTyZTnI2I6Jm+pCMSfdm+xlY6QChDaB5FJujbD84X0fgjONyy62E0LLeO
+SqYgBA5MAGtgeqgG+Hx38z75223fy7AP151x/bBEcdyBjRMLXmzrRVnu3gb1hpl8a4SGT8m89aqv
+QWLwrFWpYagWMKRBwGK9RLa2XhVFEQ3wAAIraNle5hXXeG7hQhDl/X04YvX8yT0/+SHIVHYRicwH
+SAWlwh+tmlUO7RwHJ7k22oSCEVHdFzW1eS/MAMKwC//4nS1QjOUzITTmGwVIpKGJOyOa7Udvx3zI
+XEfzh4NKfY8ybvFstVP4ShApL1bgFWAVAxkdMLV9qOWvwTnAT81nVlJmH+lAnk+pEYg63GssNvuv
+/eWtjBFJ4n5HQWR2LRdethpnGWzuVlWZZgDZI6nbaAAmYDzW1zvxzNi2bXtsnKOOWhyJ3fOniH+Z
+ftyZA13QVgzIlyGQ+0jflCcMwbt2uKoTJ3xtq5EqryQw1U+5pr134fuok0DCEMBOteNhX7pd7wx7
+BEvViZAf7xs8iPDiaXsFEz+DOc3MkfmEiWz8H0jwE9pNTMT5WysR2jP1Al9hP8HGwmXNOaFBIbJP
+f8ogMJnwgarrQ53WQZC4uwx4FzZ43eVX7ot0BJ9qB6clU4xCcaxACs2GV7Yvmc17+UdeE5hj6RRn
+jvx4Kh9oaO7IIRaWih3pQSaFI9dbo9PcjFJCufPXtn8X9vzQoecIqrAC5QQoTkfXNNLpWQ0I8bkA
+nEF2vQSe9ufegN9d9x4pfgBled4cO94ra8yarikEWKh9NIuLsYPEl1wZJNU6gx22A1EEJicZyhXg
+kEKzmsOTVtX4rorw1NYXc7DC8ACJ0d1HML/hsXLgFhfl8g0bQP4QwoHa4JIZpjM0e/2QDEk/pl+M
+H/DyyhxVAsvg4OI6InWvM2nB0u5Rh1NI5Hufwq0pAdK5afZwbiFfoED5oV0n8vwwaOFQxmerEpNP
+PMYEIuLD4RDtmTmuQl2rnusHhHbB/lxyRxnkWfSJ90ftBSSSTSWhOVVv4dKzRk7F0O748LQq86Lt
+qccfCJ9uu6uuMXelf2auVtcUyt/2ZX0EHBPBeW+FwpXxDyNe58TC3KGweV1QmzHI++SCegH7tLBZ
+IFt7VYY/Wy5CQHRq0lJQZOs3nW4NXCYOB9J4XKSVaHk+V277KcycPyck5nioXmKR8/hM6f/YCA+k
+pIWA04/Ju9tBLdGdrwslh3o99A2JH119ma01++9G2PMNnrFQV/zUhr333ykpSwLMqQiBIQL4CevE
+4f684hkXCMz0SHJnUBCcbkj0gHwUQ+A58/tIEW+rrniQ2nKuex/xnUmEMYEtymRXOL3QH8iP6bIa
+FgIkBF0fZkYyxt4XlMnm4pXnj8kTmWsOIPp7dMBA6u7XGjLY0Z+C8JXQuFIgJxDkU95HQdu4uHqR
+UR/HLdIUgz/wTZNVyb8Z3MpIDOH9wXxv6svuJqpTTZ767bir4Zyc1p3cZwYw/nqsvcG1xuclShbe
+CKd1+//vrZzNIDXcZq8OKPELxwfJ81AOSs0We1NtoILFvG8AFDwivUxleXlFnffCnKrwwwDpH1Wu
+Wugzefzgpq9TuS8GijtpTLG7lvQ934pJNHXfJU/M0/yv/2i+poP3R8bEK99ODOubPGaIt/CcgFpm
+h6t4GQ7L5vjLZDJLvR0xXr1yXuSVm6uZWhQBON/GyaxYHHy3sttyZznh9R4hKnPSGW3cZJB0JOyI
+qJRn7onJ7rvuIQMD3B5Mp9W1cI22mcWInwj7Rq84GsrZnSRuDvihMClKVOtIYuY288fx+18v3Bts
+y6ZcZKXr1J8OLpOtQPAW2oP6LNwIdQ/jWMnd+ZQd7kkN/h01rDMCJtMMCBliRams1pKk1ualdZhz
+8pbDUlZYfI+NVUEmDnkP1A92yTGb0pnJWIbfbRGe0Eb8gW3totx27tNCPcH2JrXSizTvMGQgcWDn
+2gF8d5ILWS2BN2/Saoqr4iN8ZvX+xEgRZz97METMIjr8HWiQwAolZ5ZUg9Vp7aJDsnqhH65NlZ3C
+qTntVWyu1xs1zOAIoUr3jZXg3NvDS6n0CguINuYvCCsXY+tflr0a4uBGMdHidaj0US5xVIOvvHg7
+QikiwkRWD8HZnmqxV/mY6Y6Vbz+7QwZAzWmGtszFHK8y4uNaudpkL9PnjGjtxaXH+VnBgcWPmiOQ
+NMs39Z3jJvt9+LmpITx2IaO3dbEqpdt7iMCLUSSZZgvqhb5uYeIRxI19VCVo5JfzLEFqKSCAGN0M
+nSshOcV/BClnlJFMBYHs+/+TEOjYokyzufj27XePNUu4AW4/wtDpq47LytvV+zBHJM4IdqE7x1Gi
+Wn5VUPUuNaUUkN2G59eTH/TTialahjOCDrz5w7vqE0qf+ix3h+OZtGfAC4qFGfH/1Tyzmu4fEuFw
+5jgA1dZAZ7RD/pHdHV2dcAHb8vIGHK56/DPRHSLPJarf65MXySpPmjRchKnoiIyltIljKlo9TwR7
+9cFYOOtnCg5uUIG5QhAP01fK/o4oiQ/CYRqBOYjfnXSwdkB2MLmRM7saBsEgtJttvC8kSm4Mbr43
+zrPlxg4RszzXiXLS2S1nHyl9HavfjDHnYLC+GSzFmZkKtOd9wfD3EYsrMo92ZGkGCtz5coalv9+T
+nuPeV0/CMcjOcaeyc714F4igSCxQdLBOJgxVRcZTmP8gY93GO7LWXU2KEgFWV/sod3cvpt5vTZPN
+A9gFllIQpawPmDVC9Wweb4NLhHmXzzl/jmzGMS/tCbTvrFNyILVoHGL4xZ0qgkuIvphhaMc5AN2m
+qT1goymV+r0BYT+Gxg8fnvky56Re6bPDAN4h9M3AbSuPSveGoHszK1KpNJBvoG6sXBtMo4GRdaNc
+RRyk5cNMa17A1cE6LFKsuREFZAEBWCtQvJet+E7xyGm4kZeESzxsDCyS4gG+e7wzhQRrE3PIuDhn
+56uuPqODvpO6qLuhZ6XYptKquf6B7IfmXtapDhH7jbdSFFmE3HftvdvN+R20iWPVKY6EcYW/MlNo
++kfxn0ZPrLQy2HLyopemSnhwENlqrd7rUTqcJIJUDkS/2GZRY++tvMk1K6ggF98/0Y0nEXY0qYpB
+nUcSvHuKKZxNccsxPDaWqzwPhoaX39OPvzZYnxbCUSry7eDugRp2ZzR6pQMLdVHV+897k+qi6e5L
+7aibW80eRLe66wkQsvo+RLSYdBoUtI0u7Wfp9kk3NfIdijjhXv/50N9/+IL1ZDgwfPi/GZcyYjpp
+FKtRHnkugDWDI10SYuxIGkQuDTwP+ecQM8sFdle+RJDhYzFgFzPBsNRIyRhCXc9hSS30ZH5PRwE4
+b/B88k5x6YK6IqV+i93CEGzUm1b5p2yV3TPfeIL6oJNKA5AipwDKczSc6GEqjaNT/gKYR56Ky8SZ
+kvSf5dXgFAvU7VYhjHlxxjf5syTeUW4Cx7x9JELdPkN4d2ZcR5D1bDu4e8fNW4t9p6+DPxmm+ZLS
+LXkF2vluhdB47l+w+AkPdt++7/a56YXajTcE+thDR0RLsVPZWgdKWgtNRu9nwanM8nzmxQj4rkrG
+1iNTk9rde+vc0b6bv6GFgniVD+wMoe73S30J7Ul/UMJDiJwD344gCdIZBP2751woRWyKE16FcU4i
+Xfpk2uvU3V4hjcZ7SWlJCnIVgMHeDRpijhLJ28NJw4dpVyqq+9PdgOt9Xa4h3eZ1njKJmQqw5j0p
+muvULtNZtfSWXEWhwTfiil+pUg2yhMo12+wnkDSrZSgeRKS9WzBfMDxT4H2fTbStl1eMxMDGQRZo
+cwuavNvgTsZb7ldjhsN75oDNySebKKb6XnXJUaJCEr2bcjpjD9Kt9gq5Uk0If1if4MAYtFPJhhbJ
+7p+U/Aqe0INH17pNHvw9q9tJEz7gRmRA0H41Q2mlYR4Fm+cbYbdXRl4B3pTieybHAPbQ9s3Y9d4A
+f9XH03kYUUFcOeSAvIpgHG8qn1HdW/bUTi0WeMQM0jYqMNAfYcFZjrwq8YytOTI9Cm6tdNj317ac
+5kSNV/Q7OB9uE8kasLCX8H+nRTgwwEmBrL031G+8Ac5ifSAfZmIjkKZ1L8TZP5g7Wd74VX+XSyNa
+8UN99E1bdj5Y6WFe5S3uxD8DfMYarSTRZo6pQ3P/N+pxrbZs8FMCQCJ8G8xteKcq9xqlj+1xLCgQ
+PqV7VZYnXvtn9oKw849ljO7zE7O5iGLrYAYuyvDXXok2tneYApCkp/DrycX8vk1YNn+CBrxAKlVM
+yREcOozb61S+3FeQRBvHZzlqDUjkyP8dWOwJBgPeBfbz/yGC5Sa2hiqiQYjuLLdWhJciVq2xw9Cr
+ftJTwSMdvnonLFNV8P2Gaa6NI7wKQu2/16GE9stuTo/zM0yCNNlSRCajBrADzPdSpCdP3P/rBm2J
+vZgaw8IHKDdIpXu4yb5tyZec2hWBABfLj+Bd56/RIkK6RAAAAwAgAAbNAAAJCUGaJGxBP/61KoFt
+2oZxDUXRXSXlj/xw25zr0EoV3kARwOAAEx9lJVEp6j4SosEkVU7Qz+921O8es/Ugi07oGXZDy730
+pZ5lWaOvSMsx85QISyKOknK7WOiS/KXqleFKViXM3BUHGQir+yFOSkSFulav/w6bVp9hcRP6eH1q
+s9J/DUs+pjLJ1ISLdI+AytsIv/yBh46xa3XcXfyM0lE/soQVMP9eTiQ2g4D57dPUdXTWn1ycjwPQ
+C5UCgXAubJ7bfzV1lNeiUB1BVxDwUxytShgA0LVPFvmKqe4shb27quUwDG4FfGahr4iEszjYozxJ
+qJKLTrph7McdWkQKD80VR5g5NLGi6PMe1eXhYHltmFrBf+TAcVzmf9zkoMhB0Jup5BCmXl1yjPV0
+4H4euklJ8pCTMI3kpJ2lKC4YhlIcxkyViAYNq9AQVJVUgkqU6JZgk9iroY/GMtfB4P5dkeureoX8
+kMKaYJ6QUrtfIwqFHLki+Fzp3vrsKRJWlgy2MSP6ykgn5Y+AuFTqARhiEu0/8B3/9vlQfZmZV+o2
+ZgELbOELNeLO+jAqemvHp46KR0KP4wdMzMYLQwUE06i/Hq5FU7N/xIwuny/1vguUi7YsYvsk2cZc
+JHDwr5ZwIPlFn7bKjoMNMnKYfSD5kY60jrGbpQhloWeu/TAkrbPMi8M+DUyg9P9ELkqVEkUjm+Kh
+ElVXev3is7FrLxaS5czaI8vtTR7aIw6XA4wMsn/F7fe1UQljt5Y68zkSgID7LpuFGw8K/85R9qL+
+EEGJWDtF0SFOUbqeHHeOvN+kSAmC4ZwweJiIh5MKCErcZ/WU2eiqLKrgo2tEHR5nyloEDDrxkJ7i
+L47+jUmtMMEhVgxLMFkh7XiVBdhOC3BFLLaLJfmb2L7FZ9oNgRXWfrfjUsWm7Qx0hKlaxjeQPWZH
+uJjsCaQ7+15UnhDg94nZcENxC8HOj+JMTljv+dMfT4n9lnjdgmEyhjunIL+pOQ6mj2Kas9i0m81C
+I/1FiqZnLltatGt89osua43Lif5djs38Xr2My1p0seurL+cjqcOyuzJbTNp1MGWQCBxCrx4mv9SR
+BnFFWyV0xwAxAUrnwl7GWsLQT4KgvFzQ5jyIKLkSh559zn7PkDl/uWm/Og1D/4u+DVAztpKiLB+Q
+vLYNEpbb36cIjx0OYOHUqbtcCol1Krpv+31J8V4k3KduQ1vvpLpSoo9WFpBTHOzsMKysYKHIHRa8
+LLyGu9VMemuy3jQ0ap81o1/ecS9wfNsoEEgbcZA6J/7dBM/7rHt9A+TyzJS+mVaeCA7Z28VGCByT
+QuF53U+w1gCiMKIOyExYEbdYPE53829SCKraSHhplMPvicrlRw/ANqJxK0LRAK0vyyC5GxF1KmKs
+WdQC1+TBAgcAOGRASSbZR9Dghy6fRTbtyRv4JxvshEGcBHyPjKcH579HmGUY7pTlTvlvtG4wSn74
++ACrMuYu5eLbWyCRx6BHmo0RKqXu37jAXtTYtqZCrZRpcOmVLCw2GinVOYKYHjlXVWm7adT1M5ti
+r/CF//XQ2g+RLT4iayXtUBXJXGv0nB27UDyPQ5gqo4i2d9eME/jiVjwnCXib4VYsU0Qhs4gxbCbZ
++FJ9GXrzneJW3HVbhgAFVANqWjdmUCV4Bw54ObkS921gSGyxLuQ1TkPR72ItMGuUCdSGsAMFW5rD
+ocBdoOFIGCzcGJSEjyAdjmo4WfaPvsz7LRnh/wffHZK2apxI1XdHH2//e2yrM/aiSl7ssre9pdY3
+72cKatL2D6VzR/yzOEi6zHsIzV1mBzVV3fiDvAtpXqcRXlp5pCHSvvms00tjFceX+5cw6jcDpDND
+iDD3A2MwkfsyG0i79dPSMfVVdIe8U0v1bjulyDsGVygC68AEiF4xsKN2Cjc9yCTXHCGC3SLYJkul
+5SqDxFimURiqOta0NZRJPptEvtVbZHzFLSYuba7KaumDQOZ+pqy0WeVX9eKPT4uzmvIzoe75glrJ
+SmKtL+NMMwhzsmUNcW8RNA0XItrR4K2/ak5BJuTIEO2f8mSEaOyT8r4oZqdRt1Qow7htfWtjeD82
+mQnLcd3aGMgWl16jv+AyOukDVHeVKu4g/kQT4rtFFE5rOpjqP+k8B4IOROKjukoPMeeGMYjldezj
+e1Zpy07g47ZAte2XxUj//pqjYwAVtepuluga2opxgbctcR53qTDZzYdxMtc4kSrTEOBk3yCPYjBa
+OcnfExveGgeTHX5bTqnjGH1XFI3zu0hLL3Mh5iCpRoD3l2BvBNX2BpOxguCHibrtrcrd2julRx8s
+2TMdxjd4+oJ4J76M4eZ3qMZ/Uaw89YT6BJsvSbMjd5kyA4RLLkFdb/D5RHWC07zye1XLdiEhwtih
+5VKux+GmdsDHKLF6TV5cX4C3qgCcb5r9k7SpiHjoHQ3Qe79TfdLF9nG+p9U5oEb/lWnWYrQAfOsS
+mTvT2/XOv3q2mZd0yOo4kexBTVp2lvZdTDX/527/cc5Q3GtudOXB6hPBQ1cJgruOfff+15P9tDul
+dv74KSLTie1pMBmzypiWpWYAIdxu+wHFPmwEfKaa5BGn1QxleUylQxeCA2/5XQglmX7X2PLN7MHE
+cX2f/55M/gfjgJt9sDP5FMpD3uZVAXON/UjMXzeHWTcmkKZAL7lPcg7aku2ioeeqNu2/0kLeCGlM
+uIRDxWxAuQFyHIGorKSDaCHVSZA2wG4A8qGwp2ZErWAYUekZ3O8Urm0MZiC0QzAW/A+yDUv0Epeq
+kP+012UfBEKzQlVihpxWYXPjs/aAcChYUhr4T8ItdvWq7AcZOkld4/8bKbPql7Wzn+c9WhsvO6Wg
+ujvmAtUcJNUIRmDISvIBqZZeJuHg4aZUml5vKd8xI1uun3f6r9hAlEKGDZgF4NT5b8sYkq0HwRVk
+tv7MV8Kds6AbfQcL+Haxj/VGkDXST7jk6H/8ApMdNsxgBtXMY/PT3rTX3NXEO1stPz1hElLVVrCV
+7nBwQHz6/mPk4Y9E+6cy9/T8+zL8UwwotuW/qbFP4j+q7+kuuepcINOVDmRhV6Zh8yLkjoQkn5sS
+aXyQDYrRbUrxlVuzwu807AUoBBBHwAAAAs9BnkJ4gh8AL/D4zUhJRBiH1bkFnAAvG3i/Xlwk7aAJ
+U+d/YemfxTeFUmoONyCZunCSM0jKHWIWuH9zV+xTyrlhbSDMGZIxPdBjJBhs8nF0iFFEErj77HSD
+u82MZdTisM1j2HtOJjU39ZK8yBjWH5NEMHrqVY4qtSXH8qS35IfB7uk8w2zkbYerth8iPG59nnB7
+1YLRP8FfDgetfrzJPvuiOjZmxXuGsdNrcX21eP4VBqN4WV8nSrS7XxkS5jzVe6wy/I7wPV3DVRhV
+x1B6WXZ8STHTR0Za/r9vxU5fbA9ucZSI480d/gmz5UMvyopcrCmj7UcskEhkFUK9bGcriYqjjvj8
+cWWqAGiPbcQz62524jKk8iGwDEaY+IoBf0p3m7JEW1ozuYubKV1v8wsUhts76r4WTVv6/Y9aLfNg
+1SQCJGh05V+3tylXr+arCbqHrxmRy6rvjqn+klMR9Nc8scxylM3ajeAqvJLBlVxLpVQ7Y9scMnkh
+nQuixjAL7Db2HiCyH3U4HoLLfr5VwV5OPcTAWnxCNXuHQT+i5NR/9NxEI+0+HUtUwVEidQrVnPP7
+IKvkifFlPo8yJDwgIl1ag4BGUXKff2nLc4rFbzXllPfQEPN5nq0YOXeGOYYjF7WBAqa2EQjUyIsx
+Q6kyuNYAQV9jCHZCDjJAyQ8LL0eXG8OdJh+FLueN06WZhcAC/btTnzVJsmCJYS5QQpo8HXEWlJD+
+jJyMzktjEtOXq6J7zQQ9akD1mV7bWKot+fTATUo/IUH2UZDZoOvG1kx9RumPTYHg/rAcA0wRbHEr
+nIpqVews1dC4o3WUUPkSW5RQobiKhHMN3/Os4P9EB8OUyCPk6Wrm7dFHrOQCD5LKk5h5M8Zn+/do
+AthYUBVxuYFk6B6MUXQG39fofbv6i6iTHLuhP9PtZuNTHvWDyrZ/uWRmtooq0KC28qTpjt++DmzH
+iCiUzQAAAj4BnmF0Q/8AaEpXU/1psKl7BcAGgzy3d2YHonyIyKl75qbOwmX9GhtbwSVeXQKL7z6s
+e5rfOvlxqpgBFmOmMnXffZ2DKfQcNNoTRjvSxqV5V7RYFBNI03UuFZ/fhSrYqcINXvvzQL+TYbu4
++sWx08j0hO9UZgkTNUgsILHifQcNOqFvh+G4adSeGL3fVhdA9DcqkPwloonNF/V0kJ9MlpXeK8tA
+e+N4ALQ8e8f5BlkNgkIRI7GpOhLHtc6hcTpTvXGJSH8BzWWCYl/YHOJYytghl+8vv4jq+aXeAO8G
+DVHTqpq26PPk36z0vMDF/vOI+JvxF0i/dicuHdS9g1/mjjYyhIQ53ymS61gbJ/zg1VyKtq94ziPp
+Fx/BBsZZpXg5OCaeopezCfZu+paEkfo6IuY1w2odXb9xbigXTUSd6bnLKO34gmXpcJmELZ3UuEXv
+p7gepzk9BqJxR/anOqjxRuMJj+Xze49udzTgB8+4WX8Mp54wAWY4U3OGs+UJ/OS6Ug19atW1cfJK
+1KYH8pxlnYUSGMBSTcOVNDfMSavcS9CtBJpoWDB8CmyqpLx+w7vnhZnbBUJz/ZMjHL7BAAg29CNk
+XstJYOO1zyREAAlcru/+ACpZSVJA9wBtGJHcGsUBU8JFRhpoD0PyPs9Qv8ltkSJuTkXnCOdvM9XM
+YsxptzwbUvgXuCZddKZptr9esrqRg2QFJERVzPK1edQni7MSInTqqbTZa3AiK+LKMEh9KP22xNdv
+rqTxUhk6hg2XIM2AAAAA9QGeY2pD/wAO1hL1nG9AB+s2RzNOcS5FHqrT9ANHYOf5gpyQCLjQcdVC
+ZdG61GpJ3MWjHg9w1Wfn1ld7hnRhmd+Mucl45Zeteio7/8qOnL8DXacY0JhD7pyJ2S3sBmm5F+6V
+NfW1xbO3e199NAKWhgrDsHGRULI0+LFuVoynZMX2Cx791wKMcshUYXnEiPawdTeGfZu4JQIJ3J+W
+0ZjdsenRQsPobXK7yxheU5I3PyIY/JAXZ+y1GYdEsWYHJxRJpUIVXP5aR5nSjIGfTykiWSi3fMLy
+ZIV6cV/JsO4CdLLnDBPQ19moG9F1sK7S/I2ikOQooUiZAAACxUGaaEmoQWiZTAgn//61KoAFd2Pw
+jL7ajbeMAF1TbPeb/skbmyDxmP4cA9IyuF08UoRUG6nQvIBX5f49/cdaf2BsjtR3fEPbfPEkUMYj
+ViUGushKWaJ31l6/UuifTUdqUl+muFkw3ihqFCST8B44HAxyTJXHCkME8eXkGiHaATJpoksjsVJS
+RZ19QJvNYVVJ5yjQFR/Ubt8EN+fD3VISXMGwsVJZ+gAmGLdSAmpuJAhaCP9pLpfR1Q9zbtPlAi4l
+zOMW2RcMA2Vke6ZTHMNnGLSD6UOvEylNvkTZVzVA2qhtZY9M9PSK4LbZ97wuIMLGXt4IIEEKYoYw
+8o+eD48TvqMtqRyaixJQbrQZI73codVQsbN2suzQ/sELKoheCVwMguM04cOPKiKHtIDM5LGASo7t
+OTonWjFxS1k/McBnBGTkP2dDGKShnT5Mo4/4b3jSSrmUXuP1agOaP9TCiaUN80xHKkeNWaEozRuN
+IBC76866bocUqckTMFWHJ1I2TZYMoINDiILvE1QR6FHa7qfq56RufmrSulyrqRNXMvaSKEca919u
+CxX/YQneh0IEqpc/6wCjaqbgH/v66LuK1cdlMgOB8gtJqqJP5WGMvn9gFwUr3ULj99/ZP/hOJpK8
+T50okf2AEw3RUXpFl5SrxfDXnqxktyVpFYV+Xp5Nkl+FhNROi5tNHbOQnKzdGqHXA1S62ulW8zru
+YA39rkTDXdzSxwajL6PMAvM0WU+0Z9u0NxCl8UlXphJbtj5W1Dks434DENA8FSU+w8TdWUQWVwGz
+kPJqBkWLU+LM3/t+BnIgqIO6dD8NDc3CNM2AQvlOgIhrR+C49AoKVMk9bDvEH+Qex372vM4sjiKp
+tRGGOY77xXb0GRrqlEv4EZeEoEC2sCsgEUyXcDNbBtX5aiQ9fyPgyGLZJ7tAJ9e3JH85VyEvN96j
+mHlRvjEAAAFUQZ6GRREsEP8ABqudXfPb4AJIr49suKoLdk2FEGWmKWkJ9vJi2TP6p6mMGSd9VxSa
+hWnILjEz9NhP3zHT+Fq4zU77KuDx/NUFIzDKQYkF/eWsgAPB5tGhXlBGGiqLq00Qbwjz5k9zIIbZ
+3eZq+Lh1mrlL4gpDMqJDLSjuH9rJXchS0ZnKbm4PTbLODdR4BsTWkQDdUZ1ARyDSvG47+TxzlQQ0
+rIk5ezkOAKoUMq+PKUCtzSo51QeGuBmDi0LMBbEdgv3SdZCbhyZXddW8MUX1PavX/1mVz00bBDk3
+T/8RSDHKt0X7SItrc2utOs8QfGtRiQOB6G/d5P3pxN874byh/xGZSapZ7gTrVwp8Um9AKwFCKpGh
++hnejsBEkTw7QMjb1x+LcvJjzOPxF7jZRueiSfNb5smCc7M722klk1yCuPI1YZ6om9E9HN1fB5qn
+IkuC04SDcQAAAT4BnqV0Q/8ADtfoRLwclNPTVACdEz/VCkD0dC6FFcve5np/v0jO/Z7jahBfAugD
+62a+KFdlc7Iy8B94C5bmp5JRvyDaFMih8j4zs5mMBnjBvpf02AMIVejgu9g+LA6Tx+wK1l4bIFuW
+zMyf/GmniMGBslYOAlM43x4eVHy2dqDWONEwVEiSM92M148hr81BvRAIdYq7/ZQb+krkunyhQYQn
+h+jOUOa42vBHI1QucuBptbk5IbEmyHYffhl99eg2vv9QfoggraBhBzrCnV6E51syTiBJuM7ETqnK
+YnURXqGUbkjsWUkTFHiHoztGqqahMHPqin/jFQiji8eiI6rPEqs2HevlaOsMmewBRiQXWO4NeI1N
+yAkfkNfwSwXEFeMz2ctnJ+82F4ZwC/U0PXA0ZuWgwY4v0OUUvw742VnUmdEAAAByAZ6nakP/AA7X
+ZCJ6gFNBf8EMM2zosAHjEvfizoHsC56nzuUyITdIJr1JlWxyL7inX2eO61hLWlXNWcKTlRbJ7EGC
+6L0nn1MwLxEaF6/9G1QVSt16Z9BPH6VZBD/a8k8LaiyBWT8YSKzpMmNzJdMT4eqAAAACF0GarEmo
+QWyZTAgl//61KoAFb5/Id+Y/MgA4wxTMviQPKyPwiPB+sHq6c7IqEdGwNUB0PGZusKcaRfxUPE+6
+d2q/3npuNfuuulTcnIbEc4Y5jZbMCDlZwaI3jTo1Q1BiAqJ+gNhnP0aYHv/JtCqxCdmcdGYaflnX
+zPGGx/N8ucesKpVIVjmMmBJ7KVk0A95hv68vEaWvGe7h9ihE/xb4hqru+dak4c9QmeP68LJWu4gz
+TCabxeYkbUK+IgoAS8Gj70Hxylc9/8K7rOWXrRSpCb+JAxhZBpPdv9BdX6NJyAN0dnsWFXopaC4e
+bfnfnR5CVI3xpC+Q8XkEi6AlHYQYu1hOji49FoWSulBzW+7Qn0BTx+ZA35jBr2g3dtETARGZJgUH
+WvoMEEfoNGFuBdowvAUAOOLsdAAkMPUPQiHREiDMetq4b38TiYviNFUOonGygcLjApbdntscnr+r
+tmMuFo1S/Spxht/0Rj96Lw9h58UJG6kavbeh2/gUqreN/U5LSEBx/83vbAb6QtqRZoX/dxlDMscK
+XmKxVa5hOuGQlA2zAN/ajwftIhWa3Tc8FiGEEEb0x5CQ9TwFBM5POVSr216pyzwrBnYNowNDJ0T6
+ClebdJvHhH/5yvs5h1V+xQ1DFx5EGiOGyvcVASU3MFwwtcoGWe4LHBE4J5VQCF3pqX0CTxCwJe0u
+fGBifdj/9n8a1XlFfj8CJMAAAADqQZ7KRRUsEP8ABr6HTOsEKsEllsmFYADdyp68M+WleBzhl+8x
+sgag2TtBBtubYnHSwmMiNAwMAD5pVkRZTtsYuj7npRFVDeEeXCkwGp4fUzQ+BD+Y6Eci5l8FDfzO
+63Eo4EwrZYMZcWHAWN0SHs/bJTiWcK2nzx2EiLYjvPZAr9W/Iq5c/cM3cbfU/mD+zOC+oovRlaXt
+/GhjlFlgx6YPhtwJ+ZS/9J2Rkj6sR/9T9kOaQXREkXkLunXG/rcTEbYAN2rP1O3gnCVFfcgnrXoP
+Rz6egH3r8IwDPvuVmbvpmaykF3UH4sgoJCZhAAAAwAGe6XRD/wAO1Xwme8ALXwRGx6oqdtT7Y2g9
+BpApe+vnDl1KRiEJEfSA0Sxp7z8+P/p0IR+ToG5fme2p62KXv1NPhA/CdzwmZ/818m8Y9OReg36p
+WlOw/3OdnysDQRKsoFuPkcudOeDgoT6/Nf2DvwagHB2dc/eCITW3o6mnNVRNhniTpS3VEjoV5Bej
+/BhJcEXJruhRKUz78lx0Vx5RNlMPYnsR5zpzX68d40Ff/5fxXYkgwS+Z0U03YQTcFCnSZgAAAJoB
+nutqQ/8AB5exQZDfGl3RrxsbgA/OWsifZ0fmefOInIi3NLq+oT9TssBNHULVlTE/PfmbM0LzHNKC
+BRPhiXhfwcOqChhjATBS1AcNiMz1GKAEqoHn7zd3fa3v+rOoeHUkJg4UUoyttpRaI97J1aj4DR54
+AAMVzsLu5x1asERA0FWjfwWe/1SCZF3E4j+0Z0n+Mhsxto2xsnHAAAAAI0Ga70moQWyZTAh///6p
+lgAFTFxSkI99Y5vpB7rZsYrDr3YRAAAAH0GfDUUVLBD/AADX0PxVnB+oFMuDbZOEtBb91QVHpH0A
+AAASAZ8uakP/AAAlsG3h8IZ5CCzNAAAD5m1vb3YAAABsbXZoZAAAAAAAAAAAAAAAAAAAA+gAAAyA
+AAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAMQdHJhawAAAFx0a2hkAAAAAwAAAAAAAAAAAAAAAQAA
+AAAAAAyAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAA
+AAGwAAABIAAAAAAAJGVkdHMAAAAcZWxzdAAAAAAAAAABAAAMgAAAEAAAAQAAAAACiG1kaWEAAAAg
+bWRoZAAAAAAAAAAAAAAAAAAAKAAAAIAAVcQAAAAAAC1oZGxyAAAAAAAAAAB2aWRlAAAAAAAAAAAA
+AAAAVmlkZW9IYW5kbGVyAAAAAjNtaW5mAAAAFHZtaGQAAAABAAAAAAAAAAAAAAAkZGluZgAAABxk
+cmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAHzc3RibAAAALNzdHNkAAAAAAAAAAEAAACjYXZjMQAA
+AAAAAAABAAAAAAAAAAAAAAAAAAAAAAGwASAASAAAAEgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAABj//wAAADFhdmNDAWQAFf/hABhnZAAVrNlBsJaEAAADAAQAAAMAKDxY
+tlgBAAZo6+PLIsAAAAAcdXVpZGtoQPJfJE/FujmlG88DI/MAAAAAAAAAGHN0dHMAAAAAAAAAAQAA
+ABAAAAgAAAAAFHN0c3MAAAAAAAAAAQAAAAEAAACIY3R0cwAAAAAAAAAPAAAAAQAAEAAAAAABAAAo
+AAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgA
+AAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAgAAAAAAIAAAgAAAAAHHN0c2MA
+AAAAAAAAAQAAAAEAAAAQAAAAAQAAAFRzdHN6AAAAAAAAAAAAAAAQAAAfKgAACQ0AAALTAAACQgAA
+APkAAALJAAABWAAAAUIAAAB2AAACGwAAAO4AAADEAAAAngAAACcAAAAjAAAAFgAAABRzdGNvAAAA
+AAAAAAEAAAAsAAAAYnVkdGEAAABabWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAA
+AAAAAAAAAAAtaWxzdAAAACWpdG9vAAAAHWRhdGEAAAABAAAAAExhdmY1Ny44My4xMDA=
+">
+  Your browser does not support the video tag.
+</video></div></div>
+</div>
+</div>
+<div class="section" id="variational-linear-regression">
+<h2>10.3 Variational Linear Regression<a class="headerlink" href="#variational-linear-regression" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_toy_data</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sample_size</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">std</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span>
+
+<span class="k">def</span> <span class="nf">cubic</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">create_toy_data</span><span class="p">(</span><span class="n">cubic</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">cubic</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">feature</span> <span class="o">=</span> <span class="n">PolynomialFeature</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vlr</span> <span class="o">=</span> <span class="n">VariationalLinearRegression</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">vlr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_mean</span><span class="p">,</span> <span class="n">y_std</span> <span class="o">=</span> <span class="n">vlr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\sin(2\pi x)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_mean</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_mean</span> <span class="o">-</span> <span class="n">y_std</span><span class="p">,</span> <span class="n">y_mean</span> <span class="o">+</span> <span class="n">y_std</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;pink&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ch10_Approximate_Inference_8_0.png" src="../_images/ch10_Approximate_Inference_8_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="variational-logistic-regression">
+<h2>10.6 Variational Logistic Regression<a class="headerlink" href="#variational-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_toy_data</span><span class="p">(</span><span class="n">add_outliers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_class</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">3.</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">25</span><span class="p">)])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">create_toy_data</span><span class="p">()</span>
+<span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">feature</span> <span class="o">=</span> <span class="n">PolynomialFeature</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vlr</span> <span class="o">=</span> <span class="n">VariationalLogisticRegression</span><span class="p">()</span>
+<span class="n">vlr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">vlr</span><span class="o">.</span><span class="n">proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ch10_Approximate_Inference_11_0.png" src="../_images/ch10_Approximate_Inference_11_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./prml_notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="ch09_Mixture_Models_and_EM.html" title="previous page">9. Mixture Models and EM</a>
+    <a class='right-next' id="next-link" href="ch11_Sampling_Methods.html" title="next page">11. Sampling Methods</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

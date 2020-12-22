@@ -1,0 +1,1293 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Central Limit Theorem" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/central-limit-theorem/Central-Limit-Theorem.html" />
+  <meta property="og:description" content="The central limit theorem is a key result in probability theory that helps explain why normal, or Gaussian, distributions are so omnipresent. The setup is that you have distributions for N random v..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="Central Limit Theorem" />
+  
+    <title>Central Limit Theorem &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../conditional.html">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../correlation.html">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/visualize_marginals.html">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../distributions/Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../prml_notebooks/attribution.html">
+   PRML Examples
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch10_Approximate_Inference.html">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../prml_notebooks/ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../autodiff-tutorial.html">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/central-limit-theorem/Central-Limit-Theorem.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fcentral-limit-theorem/Central-Limit-Theorem.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/central-limit-theorem/Central-Limit-Theorem.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/cranmer/stats-ds-book/master?urlpath=tree/book/central-limit-theorem/Central-Limit-Theorem.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/cranmer/stats-ds-book/blob/master/book/central-limit-theorem/Central-Limit-Theorem.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Central Limit Theorem
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#this-is-a-collaborative-project">
+     This is a collaborative project
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-usage-of-the-distributions">
+     Example usage of the distributions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#let-s-inspect-all-the-distributions-we-have">
+     Let’s inspect all the distributions we have
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#demonstration-of-the-central-limit-theorem">
+     Demonstration of the Central Limit Theorem
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#now-let-s-do-the-same-thing-randomly-using-different-distributions">
+     Now let’s do the same thing randomly using different distributions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#part-2-of-project">
+   Part 2 of project
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-preliminaries">
+     a) preliminaries
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#b-execute-the-notebook-above">
+     b) execute the notebook above
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#c-make-a-chi-2-function">
+     c) Make a
+     <span class="math notranslate nohighlight">
+      \(\chi^2\)
+     </span>
+     function
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#d-make-a-plot">
+     d) Make a plot
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#e-push-a-new-version-of-this-notebook-to-github">
+     e) push a new version of this notebook to GitHub
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="central-limit-theorem">
+<h1>Central Limit Theorem<a class="headerlink" href="#central-limit-theorem" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a> is a key result in probability theory that helps explain why normal, or Gaussian, distributions are so omnipresent. The setup is that you have distributions for <span class="math notranslate nohighlight">\(N\)</span> random variables <span class="math notranslate nohighlight">\(x_i\)</span> and you want to know the distribution of <span class="math notranslate nohighlight">\(q = \sum_{i=1}^{N} x_i\)</span>. Think of each <span class="math notranslate nohighlight">\(x_i\)</span> as coming from it’s own distribution like in the figure below. For instance, <span class="math notranslate nohighlight">\(x_1\)</span> might be the weight of spoons, <span class="math notranslate nohighlight">\(x_2\)</span> the weight of forks, <span class="math notranslate nohighlight">\(x_3\)</span> the weight of bowls, …, and <span class="math notranslate nohighlight">\(x_N\)</span> of plates in your kitchen. Then <span class="math notranslate nohighlight">\(q\)</span> would represent the total weight when you have one of each of those objects. The distribution of weights for each object might be weird because you have some mix-and-match set of silverware from your parents, grandparents, IKEA, and the thrift shop. The <em>central limit theorem</em> says that if you have enough objects (i.e. <span class="math notranslate nohighlight">\(N\)</span> is large), then <span class="math notranslate nohighlight">\(q\)</span> has a normal (Gaussian) distribution.</p>
+<p><img alt="" src="central-limit-theorem/Central_limit_theorem.png" /></p>
+<p>Moreover, the central limit theorem states that the mean value of <span class="math notranslate nohighlight">\(q\)</span> is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-55bd0af5-98b8-43ce-8334-f35868abd14f">
+<span class="eqno">()<a class="headerlink" href="#equation-55bd0af5-98b8-43ce-8334-f35868abd14f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mu_{q} = \sum_{i=1}^{N} \mu_{x_i} 
+\end{equation}\]</div>
+<p>and the variance (standard deviation squared) is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-474cfa74-66d2-4df5-a40e-ee2c73fbd66d">
+<span class="eqno">()<a class="headerlink" href="#equation-474cfa74-66d2-4df5-a40e-ee2c73fbd66d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\sigma_{q}^{2} = \sum_{i=1}^{N} \sigma^2_{x_i} 
+\end{equation}\]</div>
+<p><em>if you are having problems with the math displaing, click <a class="reference external" href="http://nbviewer.jupyter.org/github/cranmer/intro-exp-phys-II/blob/master/Central-Limit-Theorem.ipynb?flush_cache=true">here</a></em></p>
+<p>The mean probably isn’t surprising because <span class="math notranslate nohighlight">\(q\)</span> is just a sum and the integral the defines the mean just distributes across each term. Also, the equation for the variance is the same as the propagation of errors formula we use when we add different measurements together. However, that propoagation of errors formula is derived from the Central Limit Theorem, not vice versa.</p>
+<div class="section" id="this-is-a-collaborative-project">
+<h2>This is a collaborative project<a class="headerlink" href="#this-is-a-collaborative-project" title="Permalink to this headline">¶</a></h2>
+<p>In this repository there is a folder called <code class="docutils literal notranslate"><span class="pre">distributions</span></code> with several python files. The idea is that each student will create one of these python files and we will use GitHub to collect them. Each of these files has a python class that describes a probability distribution.  Each of these classes will define:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x_min,</span> <span class="pre">x_max,</span> <span class="pre">f_max</span></code> - used for the accept/reject Monte Carlo sampling algorithm</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pdf()</span></code> - the probability density function</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mean()</span></code> - the mean of the pdf</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std()</span></code> - the standard deviation of the pdf</p></li>
+</ul>
+<p>In addition, each of these python classes inherits from <code class="docutils literal notranslate"><span class="pre">BaseDistribution</span></code> which knows how to run the accept/reject algorithm using the information above (<span class="xref myst">see inside</span> ). In order to generate <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> from the pdf, you simply call <code class="docutils literal notranslate"><span class="pre">dist.rvs(n_samples)</span></code>, where <code class="docutils literal notranslate"><span class="pre">dist</span></code> is an instance of one of these python classes.</p>
+<p><strong>Naming Convention</strong>: Name your file <code class="docutils literal notranslate"><span class="pre">Dist_&lt;netid&gt;.py</span></code> and your distribution the same way (without the <code class="docutils literal notranslate"><span class="pre">.py</span></code>). If you want to contribute more than one distribution, you can can add <code class="docutils literal notranslate"><span class="pre">Dist_&lt;netid&gt;_&lt;index&gt;.py</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;index&gt;</span></code> is 1,2,3,…</p>
+<p>Here’s an example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat distributions/Dist_kc90.py
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from .base_distribution import BaseDistribution
+
+class Dist_kc90(BaseDistribution):
+	def __init__(self):
+		self.f_max = 1
+		self.x_min = -1
+		self.x_max = 1
+
+
+	def pdf(self, x):
+		&quot;&quot;&quot;This is your PDF&quot;&quot;&quot;
+		return np.abs(x)
+
+	def mean(self):
+		&quot;&quot;&quot;This is the mean of the PDF&quot;&quot;&quot;
+		return 0.
+
+	def std(self):
+		&quot;&quot;&quot;This is the standard deviation of the pdf&quot;&quot;&quot;
+		return np.sqrt(0.5)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="example-usage-of-the-distributions">
+<h2>Example usage of the distributions<a class="headerlink" href="#example-usage-of-the-distributions" title="Permalink to this headline">¶</a></h2>
+<p>Ok, now let’s use them. So far there are only two distributions, but there will be more soon.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pylab</span> inline --no-import-all
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span> <span class="c1">#will use this for plotting</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Populating the interactive namespace from numpy and matplotlib
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import all our distributions</span>
+<span class="kn">import</span> <span class="nn">distributions</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># some funny python to make a list of all the distributions for convenience</span>
+<span class="n">all_distributions_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">distributions</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">type</span><span class="p">)])</span>
+<span class="n">all_distributions_list</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">cls</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">distributions</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">type</span><span class="p">)]</span>
+<span class="c1"># print out their names</span>
+<span class="n">all_distributions_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;Dist_rdm445&#39;, &#39;Dist_pr1392&#39;, &#39;Dist_pw1091&#39;, &#39;Dist_omr234&#39;, &#39;Dist_ap5312&#39;, &#39;Dist_os852&#39;, &#39;Dist_phh250&#39;, &#39;Dist_kc90&#39;, &#39;Dist_fh828&#39;, &#39;Dist_pme240&#39;, &#39;Dist_knd286&#39;, &#39;Dist_yz4244&#39;, &#39;Dist_mm7253&#39;, &#39;Dist_cas955&#39;, &#39;Dist_lwp226&#39;, &#39;Dist_lac683&#39;, &#39;Dist_fay221&#39;, &#39;Dist_jnt299&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">all_distributions_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Do tests</span>
+<span class="n">ok_distributions_list</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">problems</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_distributions_list</span><span class="p">):</span>
+    <span class="c1">#print(cls)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">N_test</span> <span class="o">=</span> <span class="mi">100000</span>
+        <span class="c1">#print(&#39;will try to generate for %s&#39; %(cls.__name__))</span>
+        <span class="k">if</span> <span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">x_min</span> <span class="o">+</span> <span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">x_max</span><span class="o">-</span><span class="n">dist</span><span class="o">.</span><span class="n">x_min</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1E-3</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;may have a problem&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+            
+        <span class="n">rvs</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">N_test</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rvs</span><span class="p">)</span> <span class="o">-</span> <span class="n">dist</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N_test</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;means don&#39;t match for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2"> vs. </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> 
+                                                          <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rvs</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+            <span class="k">continue</span>
+            
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">)</span> <span class="o">-</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span><span class="o">*</span><span class="n">N_test</span><span class="p">)):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;std devs. don&#39;t match for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2"> vs. </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> 
+                                                          <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">)</span> <span class="o">-</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> <span class="o">/</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;std devs. don&#39;t match for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2"> vs. </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> 
+                                                          <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rvs</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span>
+            <span class="k">continue</span>
+        
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">x_min</span><span class="p">,</span><span class="n">dist</span><span class="o">.</span><span class="n">x_max</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pdf was negative in some places&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>                    
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> passes tests, adding it&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="n">ok_distributions_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> has errors, does&#39;t work&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+        <span class="k">continue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list of ok distributions:&quot;</span><span class="p">,[</span><span class="n">i</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ok_distributions_list</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_os852 passes tests, adding it
+means don&#39;t match for Dist_pr1392: 0.732852 vs. 0.000000
+Dist_pw1091 passes tests, adding it
+means don&#39;t match for Dist_ap5312: 0.721174 vs. 0.800000
+Dist_kc90 passes tests, adding it
+std devs. don&#39;t match for Dist_fh828: 0.217878 vs. 0.181690
+means don&#39;t match for Dist_yz4244: 0.833356 vs. 0.166667
+means don&#39;t match for Dist_mm7253: 0.097384 vs. 0.119000
+std devs. don&#39;t match for Dist_jnt299: 0.040570 vs. 0.001646
+Dist_rdm445 passes tests, adding it
+Dist_phh250 passes tests, adding it
+std devs. don&#39;t match for Dist_pme240: 0.095205 vs. 0.040377
+Dist_knd286 passes tests, adding it
+means don&#39;t match for Dist_omr234: 0.665732 vs. 1.000000
+means don&#39;t match for Dist_cas955: 0.621786 vs. 0.000000
+means don&#39;t match for Dist_lwp226: 0.332858 vs. 2.500000
+Dist_lac683 passes tests, adding it
+means don&#39;t match for Dist_fay221: 0.499351 vs. 1.500000
+list of ok distributions: [&#39;Dist_os852&#39;, &#39;Dist_pw1091&#39;, &#39;Dist_kc90&#39;, &#39;Dist_rdm445&#39;, &#39;Dist_phh250&#39;, &#39;Dist_knd286&#39;, &#39;Dist_lac683&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">problems</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_distributions_list</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ok_distributions_list</span><span class="p">]</span>
+<span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">problems</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Dist_pr1392&#39;,
+ &#39;Dist_ap5312&#39;,
+ &#39;Dist_fh828&#39;,
+ &#39;Dist_yz4244&#39;,
+ &#39;Dist_mm7253&#39;,
+ &#39;Dist_jnt299&#39;,
+ &#39;Dist_pme240&#39;,
+ &#39;Dist_omr234&#39;,
+ &#39;Dist_cas955&#39;,
+ &#39;Dist_lwp226&#39;,
+ &#39;Dist_fay221&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># how many samples for plots?</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here&#39;s an example of usage</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">distributions</span><span class="o">.</span><span class="n">Dist_kc90</span><span class="p">()</span>
+<span class="n">rvs</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">rvs</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="nb">bin</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="nb">bin</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x103343ba8&gt;]
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_10_1.png" src="../_images/Central-Limit-Theorem_10_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.70710678118654757
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="let-s-inspect-all-the-distributions-we-have">
+<h2>Let’s inspect all the distributions we have<a class="headerlink" href="#let-s-inspect-all-the-distributions-we-have" title="Permalink to this headline">¶</a></h2>
+<p>Here we will loop over the different distributions and make a plot like the one above</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">plt</span><span class="o">.</span><span class="n">figaspect</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">):</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+    <span class="n">rvs</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">rvs</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="c1"># depending on how you code up your pdf() function, numpy might not</span>
+    <span class="c1"># be able to &quot;broadcast&quot; (apply the function for each element of a numpy array)</span>
+    <span class="c1"># but this should always wrok</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">bin</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="nb">bin</span><span class="p">))</span>
+        
+    <span class="c1"># ok, now plot it</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="c1"># and let&#39;s check if the distribution is ok</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: std from samples = </span><span class="si">%.2f</span><span class="s2">, std from dist = </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)),</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span> <span class="o">-</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> <span class="o">/</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;looks like a problem with this distribution: &quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_os852: std from samples = 0.66, std from dist = 0.65
+Dist_pw1091: std from samples = 0.88, std from dist = 0.89
+Dist_kc90: std from samples = 0.71, std from dist = 0.71
+Dist_rdm445: std from samples = 0.71, std from dist = 0.71
+Dist_phh250: std from samples = 0.24, std from dist = 0.24
+Dist_knd286: std from samples = 0.31, std from dist = 0.31
+Dist_lac683: std from samples = 0.58, std from dist = 0.54
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_13_1.png" src="../_images/Central-Limit-Theorem_13_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="demonstration-of-the-central-limit-theorem">
+<h2>Demonstration of the Central Limit Theorem<a class="headerlink" href="#demonstration-of-the-central-limit-theorem" title="Permalink to this headline">¶</a></h2>
+<p>ok, let’s use one of the distributions to demonstrate the central limit theorem. We will use the same distribution <span class="math notranslate nohighlight">\(N\)</span> times.</p>
+<p>First let’s make a little helper function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">do_convolution</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">var_q</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">mean_q</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">var_q</span> <span class="o">=</span> <span class="n">var_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">mean_q</span> <span class="o">=</span> <span class="n">mean_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">std_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="n">var_q</span> <span class="p">)</span>
+
+
+    <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">mean_q</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_q</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s use it for <span class="math notranslate nohighlight">\(N=\{2,4,32\}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span> <span class="o">=</span> <span class="n">distributions</span><span class="o">.</span><span class="n">Dist_kc90</span><span class="p">()</span>
+<span class="n">do_convolution</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Central-Limit-Theorem_17_0.png" src="../_images/Central-Limit-Theorem_17_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_convolution</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Central-Limit-Theorem_18_0.png" src="../_images/Central-Limit-Theorem_18_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_convolution</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Central-Limit-Theorem_19_0.png" src="../_images/Central-Limit-Theorem_19_0.png" />
+</div>
+</div>
+<p><em>Gorgeous!</em></p>
+</div>
+<div class="section" id="now-let-s-do-the-same-thing-randomly-using-different-distributions">
+<h2>Now let’s do the same thing randomly using different distributions<a class="headerlink" href="#now-let-s-do-the-same-thing-randomly-using-different-distributions" title="Permalink to this headline">¶</a></h2>
+<p>To do this we will use <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> to randomly choose from our list. Here’s an example</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;d&#39;, &#39;c&#39;, &#39;d&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39;a&#39;],
+      dtype=&#39;&lt;U1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s make a variation on the helper function above</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">do_random_convolution</span><span class="p">(</span><span class="n">list_of_distributions</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">var_q</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">mean_q</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="k">for</span> <span class="n">dist_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">list_of_distributions</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_class</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">dist_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">var_q</span> <span class="o">=</span> <span class="n">var_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">mean_q</span> <span class="o">=</span> <span class="n">mean_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">std_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="n">var_q</span> <span class="p">)</span>
+
+
+    <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">mean_q</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_q</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_random_convolution</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_kc90 0.707106781187
+Dist_phh250 0.235702260396
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_25_1.png" src="../_images/Central-Limit-Theorem_25_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_random_convolution</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_os852 0.6545248448388085
+Dist_pw1091 0.88669
+Dist_os852 0.6545248448388085
+Dist_rdm445 0.707106781187
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_26_1.png" src="../_images/Central-Limit-Theorem_26_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_random_convolution</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_kc90 0.707106781187
+Dist_os852 0.6545248448388085
+Dist_knd286 0.307054709393
+Dist_os852 0.6545248448388085
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_27_1.png" src="../_images/Central-Limit-Theorem_27_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">do_random_convolution</span><span class="p">(</span><span class="n">ok_distributions_list</span><span class="p">,</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dist_phh250 0.235702260396
+Dist_rdm445 0.707106781187
+Dist_phh250 0.235702260396
+Dist_os852 0.6545248448388085
+Dist_lac683 0.539449062475
+Dist_phh250 0.235702260396
+Dist_os852 0.6545248448388085
+Dist_os852 0.6545248448388085
+Dist_phh250 0.235702260396
+Dist_rdm445 0.707106781187
+Dist_phh250 0.235702260396
+Dist_kc90 0.707106781187
+Dist_os852 0.6545248448388085
+Dist_phh250 0.235702260396
+Dist_lac683 0.539449062475
+Dist_phh250 0.235702260396
+Dist_lac683 0.539449062475
+Dist_kc90 0.707106781187
+Dist_pw1091 0.88669
+Dist_knd286 0.307054709393
+Dist_os852 0.6545248448388085
+Dist_kc90 0.707106781187
+Dist_os852 0.6545248448388085
+Dist_knd286 0.307054709393
+Dist_phh250 0.235702260396
+Dist_rdm445 0.707106781187
+Dist_phh250 0.235702260396
+Dist_pw1091 0.88669
+Dist_pw1091 0.88669
+Dist_rdm445 0.707106781187
+Dist_knd286 0.307054709393
+Dist_pw1091 0.88669
+</pre></div>
+</div>
+<img alt="../_images/Central-Limit-Theorem_28_1.png" src="../_images/Central-Limit-Theorem_28_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="part-2-of-project">
+<h1>Part 2 of project<a class="headerlink" href="#part-2-of-project" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="a-preliminaries">
+<h2>a) preliminaries<a class="headerlink" href="#a-preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>From either master or the branch you used to submit your distribution, update so that you have the current version of <code class="docutils literal notranslate"><span class="pre">cranmer/intro-exp-phys-II</span></code>.</p>
+<p>You can either do this in GitHub desktop by finding the button near the top left or by typing this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">cranmer</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">cranmer</span><span class="o">/</span><span class="n">master</span>
+</pre></div>
+</div>
+<p>Now Create a new branch called “part2”</p>
+</div>
+<div class="section" id="b-execute-the-notebook-above">
+<h2>b) execute the notebook above<a class="headerlink" href="#b-execute-the-notebook-above" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="c-make-a-chi-2-function">
+<h2>c) Make a <span class="math notranslate nohighlight">\(\chi^2\)</span> function<a class="headerlink" href="#c-make-a-chi-2-function" title="Permalink to this headline">¶</a></h2>
+<p>Below is a copy of the <code class="docutils literal notranslate"><span class="pre">do_random_convolution</span></code> function with a new name. Modify it so taht it returns the chi-square quantity that says how closely the observed distribution matches the prediction from the Central Limit theorem.</p>
+<p>YOu might want to check out the <span class="xref myst">chi-square-of-distribution</span> notebook</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">do_random_convolution_with_chi2</span><span class="p">(</span><span class="n">list_of_distributions</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100000</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">var_q</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">mean_q</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="k">for</span> <span class="n">dist_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">list_of_distributions</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_class</span><span class="p">()</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">+</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">var_q</span> <span class="o">=</span> <span class="n">var_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">mean_q</span> <span class="o">=</span> <span class="n">mean_q</span> <span class="o">+</span> <span class="n">dist</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">std_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="n">var_q</span> <span class="p">)</span>
+
+
+    <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">mean_q</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_q</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="d-make-a-plot">
+<h2>d) Make a plot<a class="headerlink" href="#d-make-a-plot" title="Permalink to this headline">¶</a></h2>
+<p>Plot the <span class="math notranslate nohighlight">\(\chi^2\)</span> quantity vs. N for N=2,4,8,16,32</p>
+</div>
+<div class="section" id="e-push-a-new-version-of-this-notebook-to-github">
+<h2>e) push a new version of this notebook to GitHub<a class="headerlink" href="#e-push-a-new-version-of-this-notebook-to-github" title="Permalink to this headline">¶</a></h2>
+<p>Execute the notebook, get your plots, save it, commit the changes to the <code class="docutils literal notranslate"><span class="pre">part2</span></code> branch, and then push (sync) to GitHub.com.  When you are done, make a new pull request.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./central-limit-theorem"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

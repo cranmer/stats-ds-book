@@ -1,0 +1,2129 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Tutorial on Automatic Differentiation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/autodiff-tutorial.html" />
+  <meta property="og:description" content="(by Lukas Heinrich. See: pyhep2020-autodiff-tutorial) Introduction: Welcome to this tutorial on automatic differentiation. Automatic Differentiation is a method to compute exact derivatives of func..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="Tutorial on Automatic Differentiation" />
+  
+    <title>Tutorial on Automatic Differentiation &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Science, what is it?" href="data-science-topics.html" />
+    <link rel="prev" title="Software &amp; Computing Topics" href="computing-topics.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="conditional.html">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correlation.html">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/visualize_marginals.html">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="prml_notebooks/attribution.html">
+   PRML Examples
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch10_Approximate_Inference.html">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/autodiff-tutorial.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fautodiff-tutorial.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/autodiff-tutorial.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/cranmer/stats-ds-book/master?urlpath=tree/book/autodiff-tutorial.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/cranmer/stats-ds-book/blob/master/book/autodiff-tutorial.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-approaches-to-differentiation">
+   Other approaches to differentiation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finite-differences">
+     Finite Differences
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#symbolic-differentiation-in-a-cas">
+   Symbolic Differentiation in a CAS
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chain-rule-in-cas">
+     Chain Rule in CAS
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#problems-with-symbolic-differentiation">
+     Problems with Symbolic Differentiation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-we-need">
+   What we need
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#short-interlude-on-linear-transformations">
+   Short Interlude on Linear Transformations
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recovering-matrix-elements-from-matrix-free-computations">
+     Recovering Matrix Elements from matrix-free computations
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#matrix-vector-products">
+       Matrix-vector products
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#vector-matrix-product-vmp">
+       Vector Matrix product (VMP)
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#short-recap">
+       Short Recap:
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#wide-versus-tall-transformation">
+   Wide versus Tall Transformation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#function-compositions">
+   Function Compositions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-matrices-to-graphs">
+     From Matrices to Graphs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives">
+   Derivatives
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example">
+     Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap">
+   Recap:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#i-don-t-want-to-implement-an-autodiff-system-aren-t-there-libraries-for-this">
+   I don’t want to implement an autodiff system.. Aren’t there libraries for this??
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#control-flow">
+   Control Flow
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom-operations">
+   Custom Operations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-hep">
+   In HEP
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thanks-for-joining-the-tutorial">
+   Thanks for joining the Tutorial!
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="tutorial-on-automatic-differentiation">
+<h1>Tutorial on Automatic Differentiation<a class="headerlink" href="#tutorial-on-automatic-differentiation" title="Permalink to this headline">¶</a></h1>
+<p>(by Lukas Heinrich. See: <a class="reference external" href="https://github.com/lukasheinrich/pyhep2020-autodiff-tutorial">pyhep2020-autodiff-tutorial</a> )</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Welcome to this tutorial on automatic differentiation. Automatic Differentiation is a method to compute exact derivatives of functions implements as <strong>programs</strong>. It’s a widely applicable method and famously is used in
+many Machine learning optimization problems. E.g. neural networks, which are parametrized by weights <span class="math notranslate nohighlight">\(\text{NN}(\text{weights})\)</span> are trained by (stocastic) <strong>gradient</strong> descent to find the minimum of the loss function <span class="math notranslate nohighlight">\(L\)</span> where</p>
+<div class="math notranslate nohighlight">
+\[\text{weights}_\text{opt} = \text{argmin}_\text{weights} L(\text{weights}) \hspace{1cm} \nabla L(\text{weights}) = 0\]</div>
+<p>This means that efficient algorithms to compute derivatives are crucial.</p>
+<p>Aside from ML, many other use-cases require gradients: standard statistical analysis in HEP (fitting, hypothesis testing, …) requires gradients. Uncertainty propagation (e.g. track parameters) uses gradients, etc..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyhf</span>
+<span class="n">pyhf</span><span class="o">.</span><span class="n">set_backend</span><span class="p">(</span><span class="s1">&#39;jax&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jaxlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="other-approaches-to-differentiation">
+<h2>Other approaches to differentiation<a class="headerlink" href="#other-approaches-to-differentiation" title="Permalink to this headline">¶</a></h2>
+<p>Before diving into automatic differentiation, let’s review how my might otherwise compute derivatives</p>
+<div class="section" id="finite-differences">
+<h3>Finite Differences<a class="headerlink" href="#finite-differences" title="Permalink to this headline">¶</a></h3>
+<p>A common appraoch to approximate gradients of a black-box function is to evaluate it
+at close-by points <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(x+Δx\)</span> and</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial f}{\partial x} \approx \frac{f(x) - f(x+\Delta x}{\Delta x}\)</span> if <span class="math notranslate nohighlight">\(\Delta x\)</span> is sufficiently small</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">black_box_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">+</span><span class="mi">30</span>
+
+<span class="k">def</span> <span class="nf">true_gradient_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">plot_gradients</span><span class="p">(</span><span class="n">nsteps</span><span class="p">,</span><span class="n">title</span><span class="p">):</span>
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nsteps</span><span class="p">)</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">black_box_func</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+
+    <span class="n">approx_gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">yi</span><span class="p">,</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">true_gradient</span>   <span class="o">=</span> <span class="n">true_gradient_func</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;black-box func&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">approx_gradient</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;finite diff grad&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">approx_gradient</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">true_gradient</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;true grad&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">true_gradient</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    
+<span class="n">plot_gradients</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;it is pretty bad if Δx is too large&#39;</span><span class="p">)</span>
+<span class="n">plot_gradients</span><span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;it gets better at the cost of many evaluations&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_3_0.png" src="_images/autodiff-tutorial_3_0.png" />
+<img alt="_images/autodiff-tutorial_3_1.png" src="_images/autodiff-tutorial_3_1.png" />
+</div>
+</div>
+<p style="width: 500px">
+while only approximate, finite differences is *simple*. I don't need to know 
+anything about the function beyond having the ability 
+to *evaluate* it
+</p>
+<p style="width: 500px">
+This way I can compute gradients of functions encoded as a computer
+program, and it works in any programming language
+</p>
+<p style="width: 500px">
+For multivariate (possibly vector-valued) functions $\vec{f}(\vec{x}) = f_i(x_1,x_2,\dots,x_n)$ one needs to compute a finite difference
+gradient for each partial derivative $\frac{\partial f}{\partial x}$ in order to get the
+full jacobian / total derivative $df_i = J_{ik} dx_k\; J_{ik} = \frac{\partial f_i}{\partial x_k}$
+<p>In high dimensions, the number of required evaluations explodes!</p>
+<p>
+<p><strong>Finite Differences</strong>:</p>
+<ul class="simple">
+<li><p>Pro: easy to to, works in any language, no “framework needed”</p></li>
+<li><p>Con: inaccurate unless one does a lot of evaluations</p></li>
+<li><p>Con does not scale to large dimensions</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="symbolic-differentiation-in-a-cas">
+<h2>Symbolic Differentiation in a CAS<a class="headerlink" href="#symbolic-differentiation-in-a-cas" title="Permalink to this headline">¶</a></h2>
+<p>Computer Algebra Systems (CAS), such as Mathematica (or sympy)
+can manipulate functional <em>expressions</em> and know about differentiation rules (and many other things)</p>
+<p>If the function / the prograrm which we want to derive is available as such an expression the
+symbolic differentiation can produce <strong>exact gradients</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span>
+
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="k">def</span> <span class="nf">true_deriv</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">symbolic_x</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">symbolic_func</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+<span class="n">symbolic_func</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x^{3}\]</div>
+</div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">lambdify</span></code> we can turn it into a normal python function we can evaluate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">,</span><span class="n">symbolic_func</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f96f85724c0&gt;
+</pre></div>
+</div>
+<img alt="_images/autodiff-tutorial_8_1.png" src="_images/autodiff-tutorial_8_1.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">symbolic_func</span></code> is now an experssion which we can differentiate <em>symbolically</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">symbolic_deriv</span> <span class="o">=</span> <span class="n">symbolic_func</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+<span class="n">symbolic_deriv</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 3 x^{2}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_symbolic</span><span class="p">(</span><span class="n">nsteps</span><span class="p">,</span><span class="n">title</span><span class="p">):</span>
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">nsteps</span><span class="p">)</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">,</span><span class="n">symbolic_func</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span>
+
+
+
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">true_deriv</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;true deriv&#39;</span><span class="p">)</span>
+
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">,</span><span class="n">symbolic_deriv</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;symbolic deriv&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    
+<span class="n">plot_symbolic</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;the symbolid derivative is always exact&#39;</span><span class="p">)</span>
+<span class="n">plot_symbolic</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;it does not matter where/how often you evaluate it&#39;</span><span class="p">)</span>    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_11_0.png" src="_images/autodiff-tutorial_11_0.png" />
+<img alt="_images/autodiff-tutorial_11_1.png" src="_images/autodiff-tutorial_11_1.png" />
+</div>
+</div>
+<div class="section" id="chain-rule-in-cas">
+<h3>Chain Rule in CAS<a class="headerlink" href="#chain-rule-in-cas" title="Permalink to this headline">¶</a></h3>
+<p>We can even handle function compositions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1">#standard operations are overloaded</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1">#note here we use a special cos function from sympy</span>
+    <span class="c1">#instead of e.g. np.cos or math.cos</span>
+    <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+    
+
+<span class="n">composition</span> <span class="o">=</span> <span class="n">f2</span><span class="p">(</span><span class="n">f1</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">))</span>
+
+<span class="n">composition</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \cos{\left(x^{2} \right)}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">composition</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - 2 x \sin{\left(x^{2} \right)}\]</div>
+</div>
+</div>
+<p>Since <code class="docutils literal notranslate"><span class="pre">sympy</span></code> knows about the chain rule it can differentiate accordingly</p>
+</div>
+<div class="section" id="problems-with-symbolic-differentiation">
+<h3>Problems with Symbolic Differentiation<a class="headerlink" href="#problems-with-symbolic-differentiation" title="Permalink to this headline">¶</a></h3>
+<p>This looks great! We get exact derivatives. However,
+there are drawbacks</p>
+<ol class="simple">
+<li><p>Need to implement it in CAS</p></li>
+</ol>
+<p>Most functions we are interested in are not implemented
+e.g. Mathematica. Rather we have loads of C, C++, Python
+code that we are interested in.</p>
+<p>But ok, <code class="docutils literal notranslate"><span class="pre">sympy</span></code> alleviates this to some degree. The functions
+<code class="docutils literal notranslate"><span class="pre">f1</span></code> and <code class="docutils literal notranslate"><span class="pre">f2</span></code> are fairly generic since they use operator
+overloading. So a symbolic program and a “normal” program
+could only differ by a few import statements</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cos</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>versus:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Note the code is almost exactly the same</p>
+<p>But not all our functions are so simple!</p>
+<p><strong>Expression swell</strong></p>
+<p>Let’s look at a quadratic map which is applied a few times</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quadmap</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">4</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">quadmap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">quad_6_times</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+<span class="n">quad_6_times</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 243 x^{2} + 729 x + 81 \left(x^{2} + 3 x + 4\right)^{2} + 27 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 9 \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 3 \left(27 x^{2} + 81 x + 9 \left(x^{2} + 3 x + 4\right)^{2} + 3 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 160\right)^{2} + \left(81 x^{2} + 243 x + 27 \left(x^{2} + 3 x + 4\right)^{2} + 9 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 3 \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + \left(27 x^{2} + 81 x + 9 \left(x^{2} + 3 x + 4\right)^{2} + 3 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 160\right)^{2} + 484\right)^{2} + 1456\]</div>
+</div>
+</div>
+<p>This looks pretty intimidating. What happened?
+Symbolic programs run through the prgram and
+accumulate the full program into a single expression</p>
+<p>If we would just blindly differentiate this it would look like this</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quad_6_times</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 486 x + 81 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 27 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 9 \left(36 x + 6 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 2 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 54\right) \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right) + 3 \left(108 x + 18 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 6 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 2 \left(36 x + 6 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 2 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 54\right) \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right) + 162\right) \left(27 x^{2} + 81 x + 9 \left(x^{2} + 3 x + 4\right)^{2} + 3 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 160\right) + \left(324 x + 54 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 6 \left(36 x + 6 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 2 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 54\right) \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right) + 2 \left(108 x + 18 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 6 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 2 \left(36 x + 6 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 2 \left(12 x + 2 \left(4 x + 6\right) \left(x^{2} + 3 x + 4\right) + 18\right) \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right) + 54\right) \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right) + 162\right) \left(27 x^{2} + 81 x + 9 \left(x^{2} + 3 x + 4\right)^{2} + 3 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 160\right) + 486\right) \left(81 x^{2} + 243 x + 27 \left(x^{2} + 3 x + 4\right)^{2} + 9 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 3 \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + \left(27 x^{2} + 81 x + 9 \left(x^{2} + 3 x + 4\right)^{2} + 3 \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + \left(9 x^{2} + 27 x + 3 \left(x^{2} + 3 x + 4\right)^{2} + \left(3 x^{2} + 9 x + \left(x^{2} + 3 x + 4\right)^{2} + 16\right)^{2} + 52\right)^{2} + 160\right)^{2} + 484\right) + 729\]</div>
+</div>
+</div>
+<p>This looks even worse!</p>
+<p>Also note that that if we just blindly substitute x for some value
+e.g. x=2, we would be computing a lot of the same terms
+manyt times. E.g. in the above expression <span class="math notranslate nohighlight">\(x^2+3x+4\)</span> appears in a
+lot of places due to the “structure’ of the original progrm</p>
+<p>If you knew the structure of the program you likely could precompute
+some of these repeating terms. However once it got all expanded all
+this knowledge about the structure is gone!</p>
+<p>Modern CAS can recover some of this by finding “common subexpressions” (CSE)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sympy</span><span class="o">.</span><span class="n">cse</span><span class="p">(</span><span class="n">quad_6_times</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([(x0, x**2),
+  (x1, (3*x + x0 + 4)**2),
+  (x2, (9*x + 3*x0 + x1 + 16)**2),
+  (x3, (27*x + 9*x0 + 3*x1 + x2 + 52)**2),
+  (x4, (81*x + 27*x0 + 9*x1 + 3*x2 + x3 + 160)**2)],
+ [729*x + 243*x0 + 81*x1 + 27*x2 + 9*x3 + 3*x4 + (243*x + 81*x0 + 27*x1 + 9*x2 + 3*x3 + x4 + 484)**2 + 1456])
+</pre></div>
+</div>
+</div>
+</div>
+<p>But it’s not as automatic and may note find all relevant subexpressions. In any case it’s trying hard to recover some
+of the structure that is already implicitly present in the prograam we want to differentiate</p>
+<p><strong>Control Flow</strong></p>
+<p>In addition to looping constucts like above, a lot of the functions we are interested in have
+control flow structures like if/else statements, while loops, etc..</p>
+<p>If we try to create a symbolic expression with conditionals we fail badly</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+    
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">symbolic_result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">symbolic_x</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cannot determine truth value of Relational
+</pre></div>
+</div>
+</div>
+</div>
+<p>That’s too bad because this is a perfectly respectable function <em>almost everywhere</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1001</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;pretty smooth except at x=2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_26_0.png" src="_images/autodiff-tutorial_26_0.png" />
+</div>
+</div>
+<p>If we could afford finite diffences it would compute gradients <em>just fine</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">yi</span><span class="p">,</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">parabolesque gradient in x^3 region,</span>
+<span class="s1">linear in x^2 region as expected&#39;&#39;&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_28_0.png" src="_images/autodiff-tutorial_28_0.png" />
+</div>
+</div>
+<p>In short: symbolic differentiation is not our saving grace.</p>
+<ul class="simple">
+<li><p>Pro: Gradients are exact, if you can compute them</p></li>
+<li><p>Con: Need to implement in CAS. Full-featured Cas not easily available in all languages</p></li>
+<li><p>Con: lead to expression swell by losing any structure of the program (needs to be recovered separately0</p></li>
+<li><p>Con: Cannot handle common control-flow structures like loops and conditionals easily</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="what-we-need">
+<h2>What we need<a class="headerlink" href="#what-we-need" title="Permalink to this headline">¶</a></h2>
+<p>To recap:</p>
+<p>Finite differences is</p>
+<ul class="simple">
+<li><p>easy to implement in any language</p></li>
+<li><p>handles arbitrary (halting) programs but</p></li>
+<li><p>is inaccurate unless we’re ready to pay a large computational overhead</p></li>
+</ul>
+<p>Symbolic differentiation is:</p>
+<ul class="simple">
+<li><p>exact to machine precision</p></li>
+<li><p>can lead to exccessive / inefficient computation if not careful</p></li>
+<li><p>cannot handle complex programs with control flow structures</p></li>
+</ul>
+<h4> So what we need is a third approach! </h4>
+<p>One, that is</p>
+<ul class="simple">
+<li><p>exact</p></li>
+<li><p>efficient</p></li>
+<li><p>can handle arbitrayr programs</p></li>
+<li><p>that is easy to implement in many languages</p></li>
+</ul>
+<p>This third approach is ‘Automatic’ differentiation.</p>
+</div>
+<div class="section" id="short-interlude-on-linear-transformations">
+<h2>Short Interlude on Linear Transformations<a class="headerlink" href="#short-interlude-on-linear-transformations" title="Permalink to this headline">¶</a></h2>
+<p>Before we start, let’s first look at <em>linear transformations</em>* from ℝᵐ → ℝⁿ:</p>
+<div class="math notranslate nohighlight">
+\[
+y(x) = Ax
+\]</div>
+<p>With a given basis, this is representable as a (rectangular0 matrix:</p>
+<div class="math notranslate nohighlight">
+\[
+y_i(x) = A_{ij}x_j
+\]</div>
+<p>For a given linear problem, there are few ways we can run this computation</p>
+<ol>
+<li><p><strong>full matrix computation</strong></p>
+<p>i.e. we store the full (dense) <span class="math notranslate nohighlight">\(nm\)</span> elements of the rectangular matrix and
+compute an explicit matrix multiplication.</p>
+<p>The computation can be fully generic for any matrix</p>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="n">vector</span><span class="p">)</span>
+</pre></div>
+</div>
+<br/>
+<ol>
+<li><p><strong>sparse matrix computation</strong></p>
+<p>If many <span class="math notranslate nohighlight">\(A_{ij}=0\)</span>, it might be wasteful to expend memory on them. We can just
+create a sparse matrix, by</p>
+<ul class="simple">
+<li><p>storing only the non-zerro elements</p></li>
+<li><p>storing a look-up table, where those elements are in the matrix</p></li>
+</ul>
+<p>The computation can be kept general</p>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sparse_matmul</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">,</span><span class="n">vector</span><span class="p">)</span>
+</pre></div>
+</div>
+<br/>
+<ol>
+<li><p><strong>matrix-free computation</strong></p>
+<p>In many cases a linear program is not explicitly given by a Matrix, but it’s
+given as <em>code</em> / a “black-box” function. As long as the computation in the body of
+keeps to (hard-coded) linear transformation the program is linear. The matrix elements
+are no longer explicitly enumerated and stored in a data structure
+but implicitly defined in the source code.</p>
+<p>This is not anymore a generic computation, but each linear transformation is its own
+program. At the same time this is also the most memory efficient  representation. No
+lookup table is needed since all constants are hard-coded.</p>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">linear_program</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
+        <span class="n">z1</span><span class="p">,</span><span class="n">z2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="n">z1</span> <span class="o">+=</span> <span class="n">A_11</span><span class="o">*</span><span class="n">x1</span>
+        <span class="n">z2</span> <span class="o">+=</span> <span class="n">A_12</span><span class="o">*</span><span class="n">x2</span>
+        <span class="n">z2</span> <span class="o">+=</span> <span class="n">A_22</span><span class="o">*</span><span class="n">x2</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">z1</span><span class="p">,</span><span class="n">z2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="recovering-matrix-elements-from-matrix-free-computations">
+<h3>Recovering Matrix Elements from matrix-free computations<a class="headerlink" href="#recovering-matrix-elements-from-matrix-free-computations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="matrix-vector-products">
+<h4>Matrix-vector products<a class="headerlink" href="#matrix-vector-products" title="Permalink to this headline">¶</a></h4>
+<p>In the matrix-free setting, the program does not give access to the matrix elements,
+but only computes “matrix-vector products” (MVP)</p>
+<p>We can use basis vectors to recover the matrix <strong>one column at a time</strong></p>
+<a class="reference internal image-reference" href="_images/mvp.png"><img alt="A Matrix Vector Product" src="_images/mvp.png" style="width: 600px;" /></a>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">matrix_vector_product</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">z1</span><span class="p">,</span><span class="n">z2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="n">z1</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x1</span>  <span class="c1">#MVP statement 1</span>
+    <span class="n">z2</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">*</span><span class="n">x2</span>  <span class="c1">#MVP statement 2</span>
+    <span class="n">z2</span> <span class="o">+=</span> <span class="mi">3</span><span class="o">*</span><span class="n">x3</span>  <span class="c1">#MVP statement 3</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">z1</span><span class="p">,</span><span class="n">z2</span><span class="p">])</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">matrix_vector_product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">matrix_vector_product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">matrix_vector_product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;M derived from matrix-vector products:</span><span class="se">\n</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M derived from matrix-vector products:
+[[2 0 0]
+ [0 1 3]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="vector-matrix-product-vmp">
+<h4>Vector Matrix product (VMP)<a class="headerlink" href="#vector-matrix-product-vmp" title="Permalink to this headline">¶</a></h4>
+<p>The same matrix induces a “dual” linear map: ℝⁿ → ℝᵐ
+$<span class="math notranslate nohighlight">\( x_k = y_i A_{ik}\)</span>$</p>
+<p>i.e. instead of a Matrix-vector product it’s now a <em>vector-Matrix</em> product (VMP)</p>
+<p>If one has access to a “vector-Matrix” program corresponding to a matrix <span class="math notranslate nohighlight">\(A\)</span> one
+can again – as in the MVP-case – recover the matrix elements, by feeding in basis vectors.</p>
+<p>This time the matrix is built <strong>one row at a time</strong></p>
+<a class="reference internal image-reference" href="_images/vmp.png"><img alt="A Matrix Vector Product" src="_images/vmp.png" style="width: 600px;" /></a>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vector_matrix_product</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="n">z1</span><span class="p">,</span><span class="n">z2</span> <span class="o">=</span> <span class="n">z</span>
+
+    <span class="n">x3</span> <span class="o">+=</span> <span class="n">z2</span><span class="o">*</span><span class="mi">3</span> <span class="c1">#VMP version of statement 3</span>
+    <span class="n">x2</span> <span class="o">+=</span> <span class="n">z2</span><span class="o">*</span><span class="mi">1</span> <span class="c1">#VMP version of statement 2</span>
+    <span class="n">x1</span> <span class="o">+=</span> <span class="n">z1</span><span class="o">*</span><span class="mi">2</span> <span class="c1">#VMP version of statement 1</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span><span class="p">])</span>
+
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">vector_matrix_product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">vector_matrix_product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;M derived from vector-matix products:</span><span class="se">\n</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M derived from vector-matix products:
+[[2 0 0]
+ [0 1 3]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="short-recap">
+<h4>Short Recap:<a class="headerlink" href="#short-recap" title="Permalink to this headline">¶</a></h4>
+<p>For a given linear transformation, characterized by a matrix <span class="math notranslate nohighlight">\(A_{ij}\)</span> we have a forward (matrix-vector) and backward (vector-matrix) map $<span class="math notranslate nohighlight">\(y_i = A_{ij}x_k\)</span><span class="math notranslate nohighlight">\( \)</span><span class="math notranslate nohighlight">\(x_j = y_i A_{ij}\)</span>$</p>
+<p>and we can use either to recover the full matrix <span class="math notranslate nohighlight">\(A_{ij}\)</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="wide-versus-tall-transformation">
+<h2>Wide versus Tall Transformation<a class="headerlink" href="#wide-versus-tall-transformation" title="Permalink to this headline">¶</a></h2>
+<p>If you look at the code above, you’ll notice that the number of calls necessary to the MVP or VMP program
+is related to the dimensions of matrix itself.</p>
+<p>For a <span class="math notranslate nohighlight">\(n\times m\)</span> matrix (for a map: ℝᵐ → ℝⁿ), you need as <span class="math notranslate nohighlight">\(m\)</span> calls to the “Matrix-vector” program to
+built the full matrix one-column-at-a-time. Likewise you need <span class="math notranslate nohighlight">\(n\)</span> calls to the “vector-Matrix” program
+to build the matrix one-row-at-a-time.</p>
+<p>This becomes relevant for very asymmetric maps: e.g. scalar maps from very high-dimensional spaces
+<span class="math notranslate nohighlight">\(\mathbb{R}^{10000} \to \mathbb{R}\)</span> the “vector-Matrix” appraoch is <em>vastly</em> more efficient than the
+“Matrix-vector one. There’s only one row, so only one call too the VMP program is needed to construct the full matrix!</p>
+<p>Similarly, functions mapping few variables into very high dimensional spaces <span class="math notranslate nohighlight">\(\mathbb{R} \to \mathbb{R}^{10000}\)</span>
+it’s the opposite: the “Matrix-vector” approach is much better suited than the “vector-Matrix” one (this time it’s a single column!).</p>
+</div>
+<div class="section" id="function-compositions">
+<h2>Function Compositions<a class="headerlink" href="#function-compositions" title="Permalink to this headline">¶</a></h2>
+<p>Of course copositions <span class="math notranslate nohighlight">\((f\circ g)(x) = f(g(x))\)</span> of linear maps are also linear, so the above applies.</p>
+<a class="reference internal image-reference" href="_images/composition.png"><img alt="A Matrix Vector Product" src="_images/composition.png" style="width: 400px;" /></a>
+<p>Depending on whether the “Matrix-vector” or “vector-Matrix” appraoch is used, the data is propagated <strong>forwards</strong> or <strong>backwards</strong>.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p>Forward</p></th>
+<th class="text-align:center head"><p>Backward</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p><img alt="" src="_images/forward.png" /></p></td>
+<td class="text-align:center"><p><img alt="" src="_images/backward.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="from-matrices-to-graphs">
+<h3>From Matrices to Graphs<a class="headerlink" href="#from-matrices-to-graphs" title="Permalink to this headline">¶</a></h3>
+<p>The “vector-Matrix” or “Matrix-vector” picture can be generalized to arrbitrary directed acyclic graphs.</p>
+<ul class="simple">
+<li><p>In the “Matrix-vector” picture the node value is the edge-weighted sum of the “upstream nodes”.</p></li>
+<li><p>In the “vector-Matrix” picture the node value is the edge-weighted sum of its “downstream nodes”.</p></li>
+</ul>
+<p>(one could in principle always recove a rectangular/matrix-like version of a DAG  by inserting trivial nodes)</p>
+<p>|              |    |
+:———- : | : —— :
+<img alt="" src="_images/graphs.png" /> | <img alt="" src="_images/dag.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">graph_like</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x1</span><span class="o">+</span><span class="n">x2</span>
+    <span class="n">z1</span><span class="p">,</span><span class="n">z2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="n">x3</span><span class="o">-</span><span class="n">y1</span> <span class="c1">#note that we reach &quot;over&quot; the &quot;ys&quot; and diectly touch x_n</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">z1</span><span class="p">,</span><span class="n">z2</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">matrix_like</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x1</span><span class="o">+</span><span class="n">x2</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">x3</span> <span class="c1">#can just introduce a dummy variable to make it matrix-like</span>
+    <span class="n">z1</span><span class="p">,</span><span class="n">z2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="n">y2</span><span class="o">-</span><span class="n">y1</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">z1</span><span class="p">,</span><span class="n">z2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">matrix_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">matrix_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">matrix_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;M derived from matrix like computation:</span><span class="se">\n</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">graph_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">graph_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">graph_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;M derived from graph-like products:</span><span class="se">\n</span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M derived from matrix like computation:
+[[ 2  1  2]
+ [-2 -1  1]]
+M derived from graph-like products:
+[[ 2  1  2]
+ [-2 -1  1]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="derivatives">
+<h2>Derivatives<a class="headerlink" href="#derivatives" title="Permalink to this headline">¶</a></h2>
+<p>Why are we talking about linear transformations? After all lot of the code we write is non-linear! However, derivatives are always linear.</p>
+<p>And derivatives (the jacobian) of a composition <span class="math notranslate nohighlight">\(f\circ g\)</span> is the composition of linear derivatives (the jacobians
+of each map) i.e. the full jacobian Matrix is the  result of multipying all Jacobians of the composition.
+$<span class="math notranslate nohighlight">\(J = J_0 J_1 J_2 J_3 \dots J_n \)</span>$</p>
+<p>(This is just the chain rule)
+$<span class="math notranslate nohighlight">\(z = f(y) = f(g(x))\hspace{1cm} \frac{\partial f_i}{\partial x_j} = \frac{\partial f_i}{\partial z_j}\frac{\partial z_j}{\partial x_k}\)</span>$</p>
+<p>I.e. finding derivatives, means characterizing the jacobian matrix. From the above discussion, we can use the “Jacobian-vector product” (JVP, builds Jacobians column-wise) or “vector-Jacobian product” (builds Jacobians row-wise) approach.</p>
+<p>In the language of automatic differentiation</p>
+<ul class="simple">
+<li><p>Jacobian-vector products (JVP) = forward mode (forward propagation)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ Jv_n =  J_0 J_1 J_3 \dots J_n v_n = J_0 J_1 J_2 J_3 v_3 = J_0 J_1 J_2 v_2 = J_0 J_1 v_1 = J_0 v_0 = \text{col}\]</div>
+<ul class="simple">
+<li><p>vector-Jacobian products (VJP) = reverse mode (reverse propagation)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ v_0 J = v_0 J_0 J_1 J_3 \dots J_n = v_1 J_1 J_2 J_3 \dots J_n = v_2 J_2 J_3 \dots J_n = v_3 J_3 \dots J_n = \dots = v_n J_n = \text{row}\]</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Let’s work this out on a very simple problem</p>
+<a class="reference internal image-reference" href="_images/intro_autodiff.png"><img alt="A Matrix Vector Product" src="_images/intro_autodiff.png" style="width: 700px;" /></a>
+<p>In the forward pass we use “Matrix-vector” products and need to do two evaluation</p>
+<a class="reference internal image-reference" href="_images/intro_fwd.png"><img alt="A Matrix Vector Product" src="_images/intro_fwd.png" style="width: 700px;" /></a>
+<p>In the backward pass we use “vector-Matrix” products and need to do only a single evaluation</p>
+<a class="reference internal image-reference" href="_images/intro_bwd.png"><img alt="A Matrix Vector Product" src="_images/intro_bwd.png" style="width: 700px;" /></a>
+<p>Both approaches give the same result. Since this is a map from <span class="math notranslate nohighlight">\(\mathbb{R}^2 \to \mathbb{R}^1\)</span> the backward pass is more efficient than the forward pass</p>
+<p>Let’s look at a real-life example</p>
+<div class="math notranslate nohighlight">
+\[z(x_1,x_2) = y + x_2 = x_1x_2 + x_2\]</div>
+<p>This is easy python code</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mul_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="o">*</span><span class="n">x2</span>
+
+<span class="k">def</span> <span class="nf">sum_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="o">+</span><span class="n">x2</span>
+
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">mul_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">sum_func</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">function</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the forward pass, an autodiff system needs to create a JVP implementation for each elementary operation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mul_jvp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">dx1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">dx2</span><span class="p">):</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="n">mul_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">x1</span><span class="o">*</span><span class="n">dx2</span> <span class="o">+</span> <span class="n">x2</span><span class="o">*</span><span class="n">dx1</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">dy</span>
+
+<span class="k">def</span> <span class="nf">sum_jvp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">dx1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">dx2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sum_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">),</span> <span class="n">dx1</span> <span class="o">+</span> <span class="n">dx2</span>
+
+<span class="k">def</span> <span class="nf">function_jvp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">dx</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span> <span class="o">=</span> <span class="n">dx</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">mul_jvp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">dx1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">dx2</span><span class="p">)</span>
+    <span class="n">z</span><span class="p">,</span> <span class="n">dz</span> <span class="o">=</span> <span class="n">sum_jvp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">dy</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">dx2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z</span><span class="p">,</span><span class="n">dz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since in the forward pass we build “column-at a time” and our final jacobian is has shape (1x2), i.e. two columns we need two forward passes to get the full Jacobian. Not that for eacch forward pass we also get the fully computed functino value delivered on top!</p>
+<p>Also note that the “JVP” version of the functino has the same <em>structure</em> as the original function. For each call in the original program there is an equivalent call in the JVP program. However the JVP call does always two things at once</p>
+<ol class="simple">
+<li><p>compute the nominal result</p></li>
+<li><p>compute the differentials</p></li>
+</ol>
+<p>So it has roughly 2x the run-time as the original program (depending on the complexity of the derivatives). Said another way: computing the one-pass in the derivative has the same computational complexity as the function itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">function_jvp</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">function_jvp</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(12, 4)
+(12, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the backward pass we build “row-at-a-time’. For each elementary operation we need to build a VJP implementation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mul_vjp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span><span class="p">,</span><span class="n">dout</span><span class="p">):</span>
+    <span class="n">dx2</span> <span class="o">+=</span> <span class="n">dout</span> <span class="o">*</span> <span class="n">x1</span>
+    <span class="n">dx1</span> <span class="o">+=</span> <span class="n">dout</span> <span class="o">*</span> <span class="n">x2</span>
+    <span class="k">return</span> <span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span>
+
+<span class="k">def</span> <span class="nf">sum_vjp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span><span class="p">,</span><span class="n">dout</span><span class="p">):</span>
+    <span class="n">dx1</span> <span class="o">+=</span> <span class="n">dout</span> <span class="o">*</span> <span class="mi">1</span>
+    <span class="n">dx2</span> <span class="o">+=</span> <span class="n">dout</span> <span class="o">*</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span>
+
+<span class="k">def</span> <span class="nf">function_vjp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">dz</span><span class="p">):</span>
+    
+    <span class="c1">#run forward</span>
+    <span class="n">x1</span><span class="p">,</span><span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">mul_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">sum_func</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+
+    <span class="c1">#zero gradients</span>
+    <span class="n">dy</span>  <span class="o">=</span> <span class="mi">0</span>    
+    <span class="n">dx1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dx2</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1">#run backward</span>
+    <span class="n">dy</span><span class="p">,</span><span class="n">dx2</span>  <span class="o">=</span> <span class="n">sum_vjp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dx2</span><span class="p">,</span> <span class="n">dz</span><span class="p">)</span>
+    <span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span> <span class="o">=</span> <span class="n">mul_vjp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span> <span class="n">dx1</span><span class="p">,</span> <span class="n">dx2</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z</span><span class="p">,[</span><span class="n">dx1</span><span class="p">,</span><span class="n">dx2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we see the power of backward propagation (or the reverse mode)  we get all gradients of the single row ine oone go. Since this Jacobian only has one row, we’re done! And we get the function value delivered on top of the gradients as well!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">function_vjp</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="mf">1.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(12, [4.0, 3.0])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again, let’s look at the “VJP” code. The forward pass is <em>exactly</em> the same as the original function. This just records the final result and all intermediate values, which we will need for the backward pass.</p>
+<p>Moving on to the backward pass, we see again, as in JVP, it has the same <em>structure</em> as the forward pass. For each call to a subroutine there is an equivalent call in the backward pass to compute the VJP.</p>
+<p>As in the JVP case, the computational complexity of one backward pass is roughly the same as the forward pass. Now unlike the JVP-case we only needed a single pass for <strong>all the gradients</strong> of this scalar function. So obtaining the <strong>full gradient</strong> of a function is only as expensive as the function itself.</p>
+</div>
+</div>
+<div class="section" id="recap">
+<h2>Recap:<a class="headerlink" href="#recap" title="Permalink to this headline">¶</a></h2>
+<p>Above we have built a <em>manual</em> autodiff system. Let’s recap what we needed to do</p>
+<ul class="simple">
+<li><p>define a set of operations we want to be differentiable</p></li>
+<li><p>define sub-routines for nominal operations, JVP and VJP</p></li>
+</ul>
+<p>Once given a program, we had to do the following</p>
+<p><strong>In the forward mode</strong>:</p>
+<ul class="simple">
+<li><p>just replace the nominal function with the JVP one</p></li>
+<li><p>for each variable in the program allocate a “differential” variable and pass it
+into the JVP whereever we also pass the nominal variable</p></li>
+</ul>
+<p><strong>In the backward mode</strong>:</p>
+<ul class="simple">
+<li><p>Run the program forward, keep track of all values</p></li>
+<li><p>keep track of the order of operations on a “record” of sorts</p></li>
+<li><p>allocate “differential” variables for all values and initialize to zero</p></li>
+<li><p>use the record to replay the order of operations backwards, passing along the
+appropriate differential values, and updating the relevant ones with the result
+of the VJP</p></li>
+</ul>
+<p>All of this is pretty mechanistic and hence “automatable”. And given that it’s a very narrow
+domain of only implementing JVP/JVP operations this is easy to do in any language.</p>
+<p>That’s why it’s <strong>automatic differentiation</strong></p>
+<p>What we gain from this is that we get</p>
+<ul class="simple">
+<li><p>exact derivatives (to machine precision) for arbitrary composed of the operations we define</p></li>
+<li><p>complexity of a derivative-pass through the program is of same order of complexity as the original program</p></li>
+<li><p>often only a single pass is necessary (e.g. scalar multi-variate functions)</p></li>
+<li><p>unlike symbolic differrentiation, the structure of the program is preserved and allows naturally to avoid
+repetitive calculations of the same values</p></li>
+<li><p>(we will see that) arbitrary control flows are handles naturally</p></li>
+<li><p>it’s something that is easy for a comoputer do and for a progarmmer to imlpement</p></li>
+</ul>
+<p>Some notes on pros and cons:</p>
+<p><strong>In the forward mode</strong>:</p>
+<p>the signature of each opeartion basically extends</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span> <span class="n">f</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="kt">float</span> <span class="n">y</span><span class="p">,</span><span class="kt">float</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">f</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="kt">float</span> <span class="n">dx</span><span class="p">,</span><span class="kt">float</span> <span class="n">y</span><span class="p">,</span><span class="kt">float</span> <span class="kt">float</span> <span class="n">dy</span><span class="p">,</span> <span class="kt">float</span> <span class="n">z</span><span class="p">,</span><span class="kt">float</span> <span class="n">dz</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>if you use composite types (“dual numbers”) that hold both x,dx you can basically
+keep the signature unchanged</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">dual</span> <span class="n">x</span><span class="p">,</span> <span class="n">dual</span> <span class="n">x</span><span class="p">,</span> <span class="n">dual</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>together with operator overloading on these dual types e.g. <code class="docutils literal notranslate"><span class="pre">dual</span> <span class="pre">*</span> <span class="pre">dual</span></code> you can
+essentially keep the source code unchanged</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span> <span class="n">f</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span><span class="o">:</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>-&gt;</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">dual</span> <span class="n">f</span><span class="p">(</span><span class="n">dual</span> <span class="n">x</span><span class="p">,</span><span class="n">dual</span> <span class="n">y</span><span class="p">)</span><span class="o">:</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+</pre></div>
+</div>
+</li>
+<li><p>That means it’s very easy implement. And memory efficient, no superfluous values are kept when they run out of scope.</p></li>
+<li><p>But forward more better for vector-value functions of few parameters</p></li>
+</ul>
+<p><strong>In the reverse mode</strong>:</p>
+<ul class="simple">
+<li><p>very efficient, but we need to keep track of order (need a “tape” of sorts)</p></li>
+<li><p>since we need to access all intermediate varriables, we can run into memory bounds</p></li>
+<li><p>the procedurer is a bit more complex than fwd: 1) run fwd, 2) zero grads 3) run bwd</p></li>
+</ul>
+</div>
+<div class="section" id="i-don-t-want-to-implement-an-autodiff-system-aren-t-there-libraries-for-this">
+<h2>I don’t want to implement an autodiff system.. Aren’t there libraries for this??<a class="headerlink" href="#i-don-t-want-to-implement-an-autodiff-system-aren-t-there-libraries-for-this" title="Permalink to this headline">¶</a></h2>
+<p>Yes there are! And a lot of them in many languages. On the othe rhand, try finding CAS systems in each of those</p>
+<a class="reference internal image-reference" href="_images/autodiff_systems.png"><img alt="A Matrix Vector Product" src="_images/autodiff_systems.png" style="width: 700px;" /></a>
+<p>This is PyHEP, so let’s focus on Python. Here, basically what you think of as “Machine Learning frameworks” are at the core autodiff libraries</p>
+<ul class="simple">
+<li><p>Tensorflow</p></li>
+<li><p>PyTorch</p></li>
+<li><p>JAX</p></li>
+</ul>
+<p>Let’s focus on jax</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">jax.numpy</span></code> is almost a drop-in rerplacement for <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. I do <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">jax.numpy</span> <span class="pre">as</span> <span class="pre">jnp</span></code> but if you’re daring you could do <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">jax.numpy</span> <span class="pre">as</span> <span class="pre">np</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cranmer/anaconda3/envs/stats-book-2/lib/python3.8/site-packages/jax/lib/xla_bridge.py:130: UserWarning: No GPU/TPU found, falling back to CPU.
+  warnings.warn(&#39;No GPU/TPU found, falling back to CPU.&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3 5 7]
+[ 2  6 12]
+[0.         0.69314718 1.09861229]
+[ 7.3890561  20.08553692 54.59815003]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mf">4.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="mf">4.0</span><span class="p">))</span> <span class="c1">#boom!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))(</span><span class="mf">4.0</span><span class="p">))</span> <span class="c1">#boom!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)))(</span><span class="mf">4.0</span><span class="p">))</span> <span class="c1">#boom!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))))(</span><span class="mf">4.0</span><span class="p">))</span> <span class="c1">#boom!</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>64.0
+48.0
+24.0
+6.0
+0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f972aeb56a0&gt;]
+</pre></div>
+</div>
+<img alt="_images/autodiff-tutorial_69_1.png" src="_images/autodiff-tutorial_69_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient only defined for scalar-output functions. Output had shape: (50,).
+</pre></div>
+</div>
+</div>
+</div>
+<p>Whoops, jax.grad defaults to reverse mode with a single backward pass, but through broadcasting we get a <code class="docutils literal notranslate"><span class="pre">vector</span> <span class="pre">-&gt;</span> <span class="pre">vector</span></code> map. We can use some jax magic to “unbroadcast” the function, take the gradient and re-broadcast it</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))(</span><span class="n">xi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([7.50000000e+01, 6.90024990e+01, 6.32548938e+01,
+             5.77571845e+01, 5.25093711e+01, 4.75114536e+01,
+             4.27634319e+01, 3.82653061e+01, 3.40170762e+01,
+             3.00187422e+01, 2.62703040e+01, 2.27717618e+01,
+             1.95231154e+01, 1.65243648e+01, 1.37755102e+01,
+             1.12765514e+01, 9.02748855e+00, 7.02832153e+00,
+             5.27905040e+00, 3.77967514e+00, 2.53019575e+00,
+             1.53061224e+00, 7.80924615e-01, 2.81132861e-01,
+             3.12369846e-02, 3.12369846e-02, 2.81132861e-01,
+             7.80924615e-01, 1.53061224e+00, 2.53019575e+00,
+             3.77967514e+00, 5.27905040e+00, 7.02832153e+00,
+             9.02748855e+00, 1.12765514e+01, 1.37755102e+01,
+             1.65243648e+01, 1.95231154e+01, 2.27717618e+01,
+             2.62703040e+01, 3.00187422e+01, 3.40170762e+01,
+             3.82653061e+01, 4.27634319e+01, 4.75114536e+01,
+             5.25093711e+01, 5.77571845e+01, 6.32548938e+01,
+             6.90024990e+01, 7.50000000e+01], dtype=float64)
+</pre></div>
+</div>
+</div>
+</div>
+<p>that looks better!</p>
+<p><code class="docutils literal notranslate"><span class="pre">jax.grad(f)</span></code> just returns another function. Of course we can just
+take the gradient of that as well. And so on…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g1i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))(</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">g2i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)))(</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">g3i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))))(</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">g1i</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;f&#39;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">g2i</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;f&#39;&#39;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">g3i</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;f&#39;&#39;&#39;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f97007d0c40&gt;
+</pre></div>
+</div>
+<img alt="_images/autodiff-tutorial_74_1.png" src="_images/autodiff-tutorial_74_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="control-flow">
+<h2>Control Flow<a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
+<p>Back when discussing symbolic differentiation we hit a snag when adding
+control flow through to our prorgam. In Jax this just passes through
+transparently.</p>
+<p>Let’s compare this to finite differences. So far the only system
+we had to compute derivatives of control-flow-ful programs</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">control_flow_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+    
+
+<span class="n">first_gradient_of_cflow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">control_flow_func</span><span class="p">)</span>
+    
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">first_gradient_of_cflow</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">first_gradient_of_cflow</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;jax autodiff&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">control_flow_func</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">yi</span><span class="p">,</span><span class="n">xi</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;finite differences&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9718b2dee0&gt;
+</pre></div>
+</div>
+<img alt="_images/autodiff-tutorial_76_1.png" src="_images/autodiff-tutorial_76_1.png" />
+</div>
+</div>
+<p>We can start to see the benefits autodiff. Among other things, finite differnces becomes
+quite sensitive to exactly where the evaluation points are (e.g. wrt  to the discontinuity)</p>
+<p>As we compute higher derivatives, this error compounds badly for finite differences. But for
+autodiff, it’s smooth sailing!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">second_gradient_of_cflow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">first_gradient_of_cflow</span><span class="p">)</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">second_gradient_of_cflow</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">second_gradient_of_cflow</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;2nd deriv jax autodiff&#39;</span><span class="p">)</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">control_flow_func</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">yi</span><span class="p">),</span><span class="n">xi</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;2nd deriv finite differences&#39;</span><span class="p">,)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f96f8748f70&gt;
+</pre></div>
+</div>
+<img alt="_images/autodiff-tutorial_78_1.png" src="_images/autodiff-tutorial_78_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="custom-operations">
+<h2>Custom Operations<a class="headerlink" href="#custom-operations" title="Permalink to this headline">¶</a></h2>
+<p>Not all our programs are so simple. Consider this</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y_root</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y_start</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y_root</span>
+    
+</pre></div>
+</div>
+<p>solving this often goes through some iterative algorithm like Brent bracketing
+But, differentiating through the iteration is not the right solution.</p>
+<p>We can add our own custom gradients</p>
+<p>Recall the implicit function theorem
+$<span class="math notranslate nohighlight">\(
+f(x,y) = x^2 + y^2 -1 = 0
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+df = 0 \leftrightarrow 2x dx + 2y dy = 0
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+dy/dx = -x/y
+\]</div>
+<p>How do we teach this an autodiff system:</p>
+<p>Recall:</p>
+<ul class="simple">
+<li><p>we can choose which operations we consider “fundamental”</p></li>
+<li><p>we don’t need to constrain ourselves to the lowest possible representationo</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">jax.interpreters</span> <span class="kn">import</span> <span class="n">ad</span>
+
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">findroot</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> 
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">y_for_x</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">findroot</span><span class="p">(</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">y_for_x</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+
+<span class="n">findrootjax_p</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Primitive</span><span class="p">(</span><span class="s1">&#39;findrootjax&#39;</span><span class="p">)</span>
+<span class="n">findrootjax_p</span><span class="o">.</span><span class="n">def_impl</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">y_for_x</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">ad</span><span class="o">.</span><span class="n">defvjp</span><span class="p">(</span><span class="n">findrootjax_p</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y_for_x</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">findrootjax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">findrootjax_p</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="n">findrootjax</span><span class="p">)(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="p">[</span><span class="n">findrootjax</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">)</span>
+
+
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+<span class="n">vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="n">findrootjax</span><span class="p">)(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">vg</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="n">vg</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">vg</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span><span class="n">vg</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="s1">&#39;uv&#39;</span><span class="p">,</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_80_0.png" src="_images/autodiff-tutorial_80_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="in-hep">
+<h2>In HEP<a class="headerlink" href="#in-hep" title="Permalink to this headline">¶</a></h2>
+<p>Of course  we can use automatic differentiation
+for neural networks. But other things in HEP also
+can make use of gradients. A prime example where this is the
+case is statistical analysis</p>
+<p>For a maximum likelihood fit we want to minimize the log likelihood</p>
+<p><span class="math notranslate nohighlight">\(\theta^* = \mathrm{argmin}_\theta(\log L)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyhf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyhf</span><span class="o">.</span><span class="n">set_backend</span><span class="p">(</span><span class="s1">&#39;jax&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">pyhf</span><span class="o">.</span><span class="n">simplemodels</span><span class="o">.</span><span class="n">hepdata_like</span><span class="p">([</span><span class="mf">5.</span><span class="p">],[</span><span class="mf">10.</span><span class="p">],[</span><span class="mf">3.5</span><span class="p">])</span>
+<span class="n">pars</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">suggested_init</span><span class="p">())</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">15.</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">auxdata</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">pars</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([-4.25748227], dtype=float64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bestfit</span> <span class="o">=</span> <span class="n">pyhf</span><span class="o">.</span><span class="n">infer</span><span class="o">.</span><span class="n">mle</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+<span class="n">bestfit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([1., 1.], dtype=float64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">:</span><span class="mf">1.5</span><span class="p">:</span><span class="mi">101</span><span class="n">j</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">:</span><span class="mf">1.5</span><span class="p">:</span><span class="mi">101</span><span class="n">j</span><span class="p">]</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">logpdf</span><span class="p">,</span> <span class="n">in_axes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">))(</span><span class="n">points</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span><span class="mi">101</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">v</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">v</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">:</span><span class="mf">1.5</span><span class="p">:</span><span class="mi">11</span><span class="n">j</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">:</span><span class="mf">1.5</span><span class="p">:</span><span class="mi">11</span><span class="n">j</span><span class="p">]</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">values</span><span class="p">,</span> <span class="n">gradients</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
+    <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span><span class="n">d</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">),</span> <span class="n">in_axes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+<span class="p">)(</span><span class="n">points</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">gradients</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">gradients</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="s1">&#39;xy&#39;</span><span class="p">,</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mi">75</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bestfit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">bestfit</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/autodiff-tutorial_86_0.png" src="_images/autodiff-tutorial_86_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="thanks-for-joining-the-tutorial">
+<h2>Thanks for joining the Tutorial!<a class="headerlink" href="#thanks-for-joining-the-tutorial" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/schmidhuber.png"><img alt="A Matrix Vector Product" src="_images/schmidhuber.png" style="width: 700px;" /></a>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="computing-topics.html" title="previous page">Software &amp; Computing Topics</a>
+    <a class='right-next' id="next-link" href="data-science-topics.html" title="next page">Data Science, what is it?</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

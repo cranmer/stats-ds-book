@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Covariance and Correlation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cranmer.github.io/stats-ds-book/correlation.html" />
+  <meta property="og:description" content="Variance for a single variable: The expected value or mean of a random variable is the first moment, analogous to a center of mass for a rigid body. The variance of a single random variable is the ..." />
+  <meta property="og:image" content="https://cranmer.github.io/stats-ds-book/_images/Neyman-pearson.006.png" />
+  <meta property="og:image:alt" content="Covariance and Correlation" />
+  
+    <title>Covariance and Correlation &#8212; Statistics and Data Science</title>
+    
+  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_tabs/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pdf_print.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/save_state.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "indep": "{\\perp\\kern-5pt\\perp}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "bered": ["\\color{#DC2830}{#1}", 1], "ecol": ["}}"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Simple data exploration" href="datasaurus-long.html" />
+    <link rel="prev" title="Expectation" href="expectation.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Statistics and Data Science</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Statistics and Data Science
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  About the course
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Draft Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="jupyterhub.html">
+   JupyterHub for class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nbgrader.html">
+   nbgrader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="discussion_forum.html">
+   Discussion Forum
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="preliminaries.html">
+   Preliminaries
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Probability
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="probability-topics.html">
+   Probability Topics
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="random_variables.html">
+     Random Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="conditional.html">
+     Conditonal Probability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayes_theorem.html">
+     Bayes’ Theorem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="independence.html">
+     Independence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="empirical_distribution.html">
+     Empirical Distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="expectation.html">
+     Expectation
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Covariance and Correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasaurus-long.html">
+     Simple data exploration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/visualize_marginals.html">
+     Visualizing joint and marginal distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="measures_of_dependence.html">
+     Quantifying statistical dependence
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/change-of-variables.html">
+     How do distributions transform under a change of variables ?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/one-over-x-flow.html">
+     Change of variables with autodiff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/likelihood-change-obs.html">
+     Transformation of likelihood with change of random variable
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/invariance-of-likelihood-to-reparameterizaton.html">
+     Transformation properties of the likelihood and posterior
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/investigating-propagation-of-errors.html">
+     Investigating propagation of errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="error-propagation/error_propagation_with_jax.html">
+     Revisiting error propagation with automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/accept-reject.html">
+     Accept / Reject Monte Carlo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="distributions/Binomial_histograms-interactive.html">
+     An interactive exploration of statistical fluctuations in histograms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pgm/daft.html">
+     Visualizing Graphical Models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Statistics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="statistics-topics.html">
+   Statistics Topics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/estimators.html">
+     Estimators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/bias-variance.html">
+     Bias-Variance Tradeoff
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/investigation-bessels-correction.html">
+     Investigation of Bessel’s correction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/cramer-rao-bound.html">
+     Cramér-Rao Bound
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/consistency.html">
+     Consistency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/sufficiency.html">
+     Sufficiency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/information-geometry.html">
+     Information Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_pearson.html">
+     Neyman-Pearson lemma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/neyman_construction.html">
+     Neyman construction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/lhc_stats_thumbnail.html">
+     Thumbnail of LHC Statistical Procedures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="statistics/statistical_decision_theory.html">
+     Statistical decision theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="probprog/MarkovPath.html">
+     Universal Probabilistic Programming Example
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Machine Learning
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="prml_notebooks/attribution.html">
+   PRML Examples
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch01_Introduction.html">
+     1. Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch02_Probability_Distributions.html">
+     2. Probability Distributions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch03_Linear_Models_for_Regression.html">
+     3. Linear Models for Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch04_Linear_Models_for_Classfication.html">
+     4. Linear Models for Classification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch05_Neural_Networks.html">
+     5. Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch06_Kernel_Methods.html">
+     6. Kernel Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch07_Sparse_Kernel_Machines.html">
+     7. Sparse Kernel Machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch08_Graphical_Models.html">
+     8. Graphical Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch09_Mixture_Models_and_EM.html">
+     9. Mixture Models and EM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch10_Approximate_Inference.html">
+     10. Approximate Inference
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch11_Sampling_Methods.html">
+     11. Sampling Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch12_Continuous_Latent_Variables.html">
+     12. Continuous Latent Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="prml_notebooks/ch13_Sequential_Data.html">
+     13. Sequential Data
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Software and Computing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="computing-topics.html">
+   Software &amp; Computing Topics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="autodiff-tutorial.html">
+   Tutorial on Automatic Differentiation
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Data Science
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data-science-topics.html">
+   Data Science, what is it?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="other_resources.html">
+   Other Resources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="built-on.html">
+   Built on
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Jupyter Book Reference
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="markdown.html">
+   Markdown Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cheatsheet.html">
+   MyST Cheat Sheet
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks.html">
+   Content with notebooks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="interactive.html">
+   Interactive data visualizations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test_embed_video.html">
+   Test Embed Video
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="color-in-equations.html">
+   Color in equations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test-sphinxext-opengraph.html">
+   Test Sphinxext-opengraph
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/correlation.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/cranmer/stats-ds-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/cranmer/stats-ds-book/issues/new?title=Issue%20on%20page%20%2Fcorrelation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/cranmer/stats-ds-book/edit/master/book/correlation.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variance-for-a-single-variable">
+   Variance for a single variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#covariance">
+   Covariance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-coefficient">
+   Correlation coefficient
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#covariance-matrix">
+   Covariance matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-matrix">
+   Correlation Matrix
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-covariance-as-an-ellipse">
+     Visualizing covariance as an ellipse
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#with-empirical-data">
+   With empirical data
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="covariance-and-correlation">
+<h1>Covariance and Correlation<a class="headerlink" href="#covariance-and-correlation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="variance-for-a-single-variable">
+<h2>Variance for a single variable<a class="headerlink" href="#variance-for-a-single-variable" title="Permalink to this headline">¶</a></h2>
+<p>The expected value or mean of a random variable is the first moment, analogous to a center of mass for a rigid body. The <strong>variance</strong> of a single random variable is the second moment:  it is the expectation of the squared deviation of a random variable from its mean. It is analogous to the moment of inertia about the center of mass.</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Var} (X)=\mathbb{E} \left[(X-\mu )^{2}\right] = \int (x-\mu)^2 p(x) dx,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[X]\)</span></p>
+<p>The units of <span class="math notranslate nohighlight">\(\operatorname{Var} (X)\)</span>  are <span class="math notranslate nohighlight">\([\operatorname{Var} (X)] = [X]^2\)</span>. For that reason, it is often more intuitive to work with the <strong>standard deviation</strong> of <span class="math notranslate nohighlight">\(X\)</span>, usually denoted <span class="math notranslate nohighlight">\(\sigma_X\)</span>, which is the square root of the variance:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_X^2 = \operatorname{Var} (X)
+\]</div>
+<p>In statistical mechanics, you may have seen notation like this: <span class="math notranslate nohighlight">\(\sigma_X = \sqrt{ \left\langle \left( X - \langle X \rangle \right)^2 \right\rangle }\)</span></p>
+</div>
+<div class="section" id="covariance">
+<h2>Covariance<a class="headerlink" href="#covariance" title="Permalink to this headline">¶</a></h2>
+<p>When dealing with multivariate data, the notion of variance must be lifted to the concept of <strong>covariance</strong>. Covariance captures how one variable deviates from its mean as another variable deviates from it’s mean. Say we have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, then the covariance for the two variables is defined as</p>
+<div class="math notranslate nohighlight" id="equation-covariance">
+<span class="eqno">(4)<a class="headerlink" href="#equation-covariance" title="Permalink to this equation">¶</a></span>\[
+\textrm{cov} (X,Y)=\mathbb{E} {{\big [}(X-\mathbb{E} [X])(Y-\mathbb{E} [Y]){\big ]}}
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(X\)</span> is on average greater than its mean when <span class="math notranslate nohighlight">\(Y\)</span> is greater than its mean (and, similarly, if <span class="math notranslate nohighlight">\(X\)</span> is on average less than its mean when <span class="math notranslate nohighlight">\(Y\)</span> is less than its mean), then we say the two variables are <strong>positively correlated</strong>. In the opposit case,  when <span class="math notranslate nohighlight">\(X\)</span> is on average less than its mean when <span class="math notranslate nohighlight">\(Y\)</span> is greater than its mean (and vice versa), then we say the two variables are <strong>negatively correlated</strong>. If <span class="math notranslate nohighlight">\(\operatorname{Cov}(X,Y) = 0\)</span>, then we say the two variables are <strong>uncorrelated</strong>.</p>
+<p>A useful identity</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+{\displaystyle {\begin{aligned}\textrm{cov} (X,Y)&amp;=\mathbb {E} \left[\left(X-\mathbb {E} \left[X\right]\right)\left(Y-\mathbb {E} \left[Y\right]\right)\right]\\&amp;=\mathbb {E} \left[XY-X\mathbb {E} \left[Y\right]-\mathbb {E} \left[X\right]Y+\mathbb {E} \left[X\right]\mathbb {E} \left[Y\right]\right]\\&amp;=\mathbb {E} \left[XY\right]-\mathbb {E} \left[X\right]\mathbb {E} \left[Y\right]-\mathbb {E} \left[X\right]\mathbb {E} \left[Y\right]+\mathbb {E} \left[X\right]\mathbb {E} \left[Y\right]\\&amp;=\mathbb {E} \left[XY\right]-\mathbb {E} \left[X\right]\mathbb {E} \left[Y\right],\end{aligned}}}
+\end{split}\]</div>
+</div>
+<div class="section" id="correlation-coefficient">
+<h2>Correlation coefficient<a class="headerlink" href="#correlation-coefficient" title="Permalink to this headline">¶</a></h2>
+<p>The covariance <span class="math notranslate nohighlight">\(\operatorname{Cov}(X,Y)\)</span> has units <span class="math notranslate nohighlight">\(([X][Y])^{-1}\)</span>, and thus depends on the units for <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. It is desireable to have a unitless measure of how “correlated” the two variables are. One way to do this is through the <a class="reference external" href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient"><strong>Correlation coefficient</strong></a> <span class="math notranslate nohighlight">\(\displaystyle \rho _{X,Y}\)</span>, which simply divides out the standard deviation of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span></p>
+<div class="math notranslate nohighlight" id="equation-correlation-coefficient">
+<span class="eqno">(5)<a class="headerlink" href="#equation-correlation-coefficient" title="Permalink to this equation">¶</a></span>\[
+{\displaystyle \rho _{X,Y}={\frac {\textrm{cov} (X,Y)}{\sigma _{X}\sigma _{Y}}}},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_X^2 = \textrm{cov}(X,X)\)</span> and <span class="math notranslate nohighlight">\(\sigma_Y^2 = \textrm{cov}(Y,Y)\)</span></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is common to mistakenly think that if two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are “uncorrelated” that they are <a class="reference internal" href="independence.html"><span class="doc std std-doc">statistically independent</span></a>, but this is not the case.
+It is true that if two variables  <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are “correlated” (have non-zero covariance), then the two variables are <a class="reference internal" href="independence.html"><span class="doc std std-doc">statistically dependent</span></a>, but the converse is not true in general.
+We will see this in our <a class="reference internal" href="datasaurus-long.html"><span class="doc std std-doc">Simple Data Exploration</span></a>.</p>
+</div>
+</div>
+<div class="section" id="covariance-matrix">
+<h2>Covariance matrix<a class="headerlink" href="#covariance-matrix" title="Permalink to this headline">¶</a></h2>
+<p>When dealing with more than two variables, there is a straightforward generalization of covariance (and correlation) in terms of a <strong>covariance matrix</strong> <a class="footnote-reference brackets" href="#footnote1" id="id1">1</a>. Given random variables <span class="math notranslate nohighlight">\(X_1, \dots, X_N\)</span>, the covariance matrix is an <span class="math notranslate nohighlight">\(N\times N\)</span> matrix whose <span class="math notranslate nohighlight">\((i,j)\)</span> entry is the covariance</p>
+<div class="math notranslate nohighlight">
+\[
+{\displaystyle \operatorname {K} _{X_{i}X_{j}}=\operatorname {cov} [X_{i},X_{j}]=\mathbb{E} [(X_{i}-\mathbb{E} [X_{i}])(X_{j}-\mathbb{E} [X_{j}])]}
+\]</div>
+<p>If the entries are represented as a column vector <span class="math notranslate nohighlight">\({\displaystyle \mathbf {X} =(X_{1},X_{2},...,X_{n})^{\mathrm {T} }}\)</span>,  then the covariance matrix can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+{\displaystyle \operatorname {K} _{\mathbf {X} \mathbf {X} }=\operatorname {cov} [\mathbf {X} ,\mathbf {X} ]=\mathbb{E} [(\mathbf {X} -\mathbf {\mu _{X}} )(\mathbf {X} -\mathbf {\mu _{X}} )^{\rm {T}}]=\mathbb{E} [\mathbf {X} \mathbf {X} ^{T}]-\mathbf {\mu _{X}} \mathbf {\mu _{X}} ^{T}}
+\]</div>
+<p>with <span class="math notranslate nohighlight">\({\displaystyle \mathbf {\mu _{X}} =\mathbb{E} [\mathbf {X} ]}\)</span> also represented as a column vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The inverse of this matrix,
+<span class="math notranslate nohighlight">\({\displaystyle \operatorname {K} _{\mathbf {X} \mathbf {X} }^{-1}}\)</span>, if it exists, is also known as the <strong>concentration matrix</strong> or <strong>precision matrix</strong>.</p>
+</div>
+</div>
+<div class="section" id="correlation-matrix">
+<h2>Correlation Matrix<a class="headerlink" href="#correlation-matrix" title="Permalink to this headline">¶</a></h2>
+<p>An entity closely related to the covariance matrix is the <strong>correlation matrix</strong> <a class="footnote-reference brackets" href="#footnote1" id="id2">1</a>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+{\displaystyle \operatorname {corr} (\mathbf {X} )={\begin{bmatrix}1&amp;{\frac {\mathbb{E} [(X_{1}-\mu _{1})(X_{2}-\mu _{2})]}{\sigma (X_{1})\sigma (X_{2})}}&amp;\cdots &amp;{\frac {\mathbb{E} [(X_{1}-\mu _{1})(X_{n}-\mu _{n})]}{\sigma (X_{1})\sigma (X_{n})}}\\\\{\frac {\mathbb{E} [(X_{2}-\mu _{2})(X_{1}-\mu _{1})]}{\sigma (X_{2})\sigma (X_{1})}}&amp;1&amp;\cdots &amp;{\frac {\mathbb{E} [(X_{2}-\mu _{2})(X_{n}-\mu _{n})]}{\sigma (X_{2})\sigma (X_{n})}}\\\\\vdots &amp;\vdots &amp;\ddots &amp;\vdots \\\\{\frac {\mathbb{E} [(X_{n}-\mu _{n})(X_{1}-\mu _{1})]}{\sigma (X_{n})\sigma (X_{1})}}&amp;{\frac {\mathbb{E} [(X_{n}-\mu _{n})(X_{2}-\mu _{2})]}{\sigma (X_{n})\sigma (X_{2})}}&amp;\cdots &amp;1\end{bmatrix}}.}
+\end{split}\]</div>
+<p>Each element on the principal diagonal of a correlation matrix is the correlation of a random variable with itself, which always equals 1.</p>
+<p>Equivalently, the correlation matrix can be written in vector-matrix form as</p>
+<div class="math notranslate nohighlight">
+\[
+{\displaystyle \operatorname {corr} (\mathbf {X} )={\big (}\operatorname {diag} (\operatorname {K} _{\mathbf {X} \mathbf {X} }){\big )}^{-{\frac {1}{2}}}\,\operatorname {K} _{\mathbf {X} \mathbf {X} }\,{\big (}\operatorname {diag} (\operatorname {K} _{\mathbf {X} \mathbf {X} }){\big )}^{-{\frac {1}{2}}},}
+\]</div>
+<p>where
+<span class="math notranslate nohighlight">\({\displaystyle \operatorname {diag} (\operatorname {K} _{\mathbf {X} \mathbf {X} })}\)</span> is the matrix of the diagonal elements of
+<span class="math notranslate nohighlight">\({\displaystyle \operatorname {K} _{\mathbf {X} \mathbf {X} }}\)</span> (i.e., a diagonal matrix of the variances of
+<span class="math notranslate nohighlight">\(X_{i}\)</span> for <span class="math notranslate nohighlight">\(i=1,\dots ,n)\)</span>.</p>
+<div class="section" id="visualizing-covariance-as-an-ellipse">
+<h3>Visualizing covariance as an ellipse<a class="headerlink" href="#visualizing-covariance-as-an-ellipse" title="Permalink to this headline">¶</a></h3>
+<p>Often an ellipse is used to visualize a covariance matrix, but why? This is only well-motivated if one expects the data to be normally distributed (aka Gaussian distributed). This is because the contours of a 2-d normal are ellipses, and in higher dimensions the contours are ellipsoids.</p>
+<div class="figure align-default" id="id3">
+<img alt="_images/001_vanilla_ellipse.png" src="_images/001_vanilla_ellipse.png" />
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">width: 30%</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>A scatter plot of two correlated, normally-distributed variables and the error ellipse from <a class="reference external" href="https://carstenschelp.github.io/2018/09/14/Plot_Confidence_Ellipse_001.html"><em>An Alternative Way to Plot the Covariance Ellipse</em> by Carsten Schelp</a>.</p>
+</div>
+</div>
+<p>Consider a random variable <span class="math notranslate nohighlight">\(X\)</span> that is distributed as a multivariate normal (aka multivariate Gaussian) distribution, e.g.  <span class="math notranslate nohighlight">\({\displaystyle \mathbf {X} \ \sim \ {\mathcal {N}}({\boldsymbol {\mu }},\,{\boldsymbol {\Sigma }}})\)</span>, where <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> is the multivariate mean and <span class="math notranslate nohighlight">\(\Sigma\)</span> is the covariane matrix. The probability density for the multivariate normal is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\displaystyle p_{\mathbf {X} }(x_{1},\ldots ,x_{k} | \boldsymbol {\mu }, {\boldsymbol {\Sigma })=
+{\frac {\exp \left(-{\frac {1}{2}}({\mathbf {x} }-{\boldsymbol {\mu }})^{\mathrm {T} }{\boldsymbol {\Sigma }}^{-1}({\mathbf {x} }-{\boldsymbol {\mu }})\right)}{\sqrt {(2\pi )^{k}|{\boldsymbol {\Sigma }}|}}}}
+\]</div>
+<p>The contours correspond to values of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> where <span class="math notranslate nohighlight">\(({\mathbf {x} }-{\boldsymbol {\mu }})^{\mathrm {T} }{\boldsymbol {\Sigma }}^{-1}({\mathbf {x} }-{\boldsymbol {\mu }}) = \textrm{Constant}\)</span>.</p>
+<p>Understanding the geometry of this ellipse requires the linear algebra of the covariance matrix, and it’s a useful excercise to go through:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="covariance_ellipse.html"><span class="doc std std-doc">This notebook</span></a> is duplicated from the repository linked to in this article: <a class="reference external" href="https://carstenschelp.github.io/2018/09/14/Plot_Confidence_Ellipse_001.html"><em>An Alternative Way to Plot the Covariance Ellipse</em> by Carsten Schelp</a>, which has a GPL-3.0 License.</p></li>
+<li><p>This is also a nice <a class="reference external" href="https://cookierobotics.com/007/">page</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="with-empirical-data">
+<h2>With empirical data<a class="headerlink" href="#with-empirical-data" title="Permalink to this headline">¶</a></h2>
+<p>We can estimate the covariance of the parent distribution <span class="math notranslate nohighlight">\(p_{XY}\)</span> with the sample covariance, using the sample mean in place of the  expectation <span class="math notranslate nohighlight">\(\mathbb{E}_{p_X}\)</span>.</p>
+<p>As we will see in our <a class="reference internal" href="datasaurus-long.html"><span class="doc std std-doc">Simple Data Exploration</span></a> and <a class="reference internal" href="distributions/visualize_marginals.html"><span class="doc std std-doc">Visualizing joint and marginal distributions</span></a>, the sample covariance and correlation matrices can be conveniently computed for a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe with <code class="docutils literal notranslate"><span class="pre">dataframe.cov()</span></code> and <code class="docutils literal notranslate"><span class="pre">dataframe.corr()</span></code></p>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="footnote1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>Adapted from <a class="reference external" href="https://en.wikipedia.org/wiki/Covariance_matrix">Wikipedia article on Covariance Matrix</a></p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="expectation.html" title="previous page">Expectation</a>
+    <a class='right-next' id="next-link" href="datasaurus-long.html" title="next page">Simple data exploration</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kyle Cranmer<br/>
+        
+            &copy; Copyright .<br/>
+          <div class="extra_footer">
+            <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+    All content on this site (unless otherwise specified) is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-178330963-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
