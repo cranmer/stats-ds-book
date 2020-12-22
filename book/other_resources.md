@@ -52,6 +52,8 @@ Laura Dietz](https://github.com/jluttine/tikz-bayesnet/blob/master/dietz-techrep
  1. [NeurIPS astro tutorial with datasets etc.](https://dwh.gg/NeurIPSastro)
  1. [Paper about statistical combinations from phys/astro authors](https://arxiv.org/abs/2012.09874)
  1. [Gentle Introduction to Automatic Differentiation on Kaggle](https://www.kaggle.com/borisettinger/gentle-introduction-to-automatic-differentiation)
+ 1. [Short notes on divergence measures by Danilo Rezende](https://danilorezende.com/wp-content/uploads/2018/07/divergences.pdf)
+ 1. [Lecture notes on: Information-theoretic methods for high-dimensional statistics, by Yihong Wu](http://www.stat.yale.edu/~yw562/teaching/it-stats.pdf)
 
 
 
