@@ -88,7 +88,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
             1. Note: [Revisiting the Neyman-Scott model: an Inconsistent MLE or an Ill-defined Model?](https://arxiv.org/abs/1301.6278)
         1. walk through of nbgrader and home work assignment
 6. Week 6
-    1. 10/5: Lecture 9: Propagaion of Errors
+    1. 10/5: Lecture 9: Propagation of Errors
         1. a simple example from physics 1: estimating $g$
         1. Change of variables vs. Error propagation
         1. Demo Error propagation fails
