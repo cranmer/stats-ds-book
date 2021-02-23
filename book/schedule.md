@@ -6,7 +6,7 @@ Recording of lectures are accessible [here](https://applications.zoom.us/lti/ric
 1. Week 1
     1. 9/2: Intro [Recording](https://nyu.zoom.us/rec/play/uA6Jy6FEsbZpQRfmeQ6jJV7ISs37lvdKMnwsJhuql9O445ANIB0TbmflpCqFPjqczKuhAr3k9voEv8Tc.K2AoCHSjTknMuoAA)
         1. syllabus
-        1. juypter book
+        1. jupyter book
         1. review survey 
         1. about me and my research and a preview for the course
 2. Week 2 
